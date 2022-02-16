@@ -1,0 +1,1000 @@
+{
+	"info": {
+		"_postman_id": "46d981f6-19b8-4d49-b6b8-085c45ad5dce",
+		"name": "Design Confection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "clients",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\":\"shu@gmail.com\",\"password\":\"1234567890\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"shuja Naqvi\",\"dob\":\"2000/01/01\",\"address\":{\"city\":\"Gujrat\",\"country\":\"Pakistan\",\"lat\":34.21,\"lng\":\"12.2\",\"postal_code\":\"57300\"}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/clients/620b3398920fcc2fff4ee1ed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"clients",
+								"620b3398920fcc2fff4ee1ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verifyotp",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"otp\":\"hnz0pb\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/clients/verifyOTP/620c8b763c7b755618800de4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"clients",
+								"verifyOTP",
+								"620c8b763c7b755618800de4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET USER BY ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/clients/620b3398920fcc2fff4ee1ed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"clients",
+								"620b3398920fcc2fff4ee1ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/clients/620c8b763c7b755618800de4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"clients",
+								"620c8b763c7b755618800de4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tailors",
+			"item": [
+				{
+					"name": "Create Tailor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\":\"wahaj58@gmail.com\",\"password\":\"1234567890\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/tailors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"tailors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update tailor",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"wahaj haider\",\"dob\":\"1997/07/07\",\"diploma\":\"textile design\",\"speciality\":\"Design\",\"area_of_expertise\":\"Design\",\"physical_store\":\"no i dont have any store\",\"address\":{\"city\":\"Gujrat\",\"country\":\"Pakistan\",\"lat\":34.21,\"lng\":\"12.2\",\"postal_code\":\"57300\"}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/tailors/620b35a0c79d7f309c860ecf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"tailors",
+								"620b35a0c79d7f309c860ecf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verifyotp",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"otp\":\"rezbgq\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/tailors/verifyOTP/620c8c1b91b05d564c7d2836",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"tailors",
+								"verifyOTP",
+								"620c8c1b91b05d564c7d2836"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Tailor BY ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/tailors/620b35a0c79d7f309c860ecf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"tailors",
+								"620b35a0c79d7f309c860ecf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Tailor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/tailors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"tailors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tailor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/tailors/620c8c1b91b05d564c7d2836",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"tailors",
+								"620c8c1b91b05d564c7d2836"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\":\"wahaj58@gmail.com\",\"password\":\"1234567890\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"oldPassword\":\"12345678901\",\"newPassword\":\"12345678901\",\"confirmPassword\":\"12345678901\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/auth/password/620b35a0c79d7f309c860ecf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"auth",
+								"password",
+								"620b35a0c79d7f309c860ecf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fabrics",
+			"item": [
+				{
+					"name": "Add Fabrics",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Tulle\",\"detail\":\"Tulle fabric for making clothes, costumes and accessories or decoration.Tulle is a very light and transparent fabric with openings in the shape of regular hexaghoneycombsobtained by twisting the threads on themselves.\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/fabrics/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"fabrics",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all fabrics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/fabrics/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"fabrics",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/fabrics/620b53c9b46327383eeacaf4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"fabrics",
+								"620b53c9b46327383eeacaf4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete fabrics",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/fabrics/620b54ee3e0706389a7db39f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"fabrics",
+								"620b54ee3e0706389a7db39f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Fabric",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"TULLE\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/fabrics/620b53c9b46327383eeacaf4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"fabrics",
+								"620b53c9b46327383eeacaf4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Colors",
+			"item": [
+				{
+					"name": "Add color",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/falconitconsulting/Desktop/Screenshot 2022-01-31 at 6.00.48 PM.png"
+								},
+								{
+									"key": "color",
+									"value": "Black",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/colors/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"colors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all colors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/colors/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"colors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/colors/620b59df2472353a4fd13b07",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"colors",
+								"620b59df2472353a4fd13b07"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Color",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/colors/620b5a3a7d04f63a89309a27",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"colors",
+								"620b5a3a7d04f63a89309a27"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Fabric",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/falconitconsulting/Desktop/Screenshot 2022-01-31 at 6.00.48 PM.png"
+								},
+								{
+									"key": "color",
+									"value": "multi",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/colors/620b5b2a1423c73aee345653",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"colors",
+								"620b5b2a1423c73aee345653"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "Place an order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Shuja's Attire\",\"client\":\"620b3398920fcc2fff4ee1ed\",\"gender\":\"male\",\"category\":\"lorum\",\"measurments\":\"lorum ispum because its dummy\",\"cut\":\"34\",\"color\":\"620b5b2a1423c73aee345653\",\"fabric\":\"620b5392b46327383eeacaf2\",\"budget\":{\"max_amount\":\"20\",\"min_amount\":\"10\"},\"address\":{\"city\":\"Gujrat\",\"country\":\"Pakistan\",\"lat\":34.21,\"lng\":\"12.2\",\"postal_code\":\"57300\"},\"delivery\":{\"name\":\"lorum\",\"date\":\"2022/02/25\",\"type\":\"urgent\"}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/orders/620b7722c8ab973f90428cbd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders",
+								"620b7722c8ab973f90428cbd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Order",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/orders/620b7722c8ab973f90428cbd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders",
+								"620b7722c8ab973f90428cbd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get client Pending Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/orders/ClientPendingOrder/620b3398920fcc2fff4ee1ed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders",
+								"ClientPendingOrder",
+								"620b3398920fcc2fff4ee1ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Client inProgress Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/orders//ClientInProgressOrder/620b3398920fcc2fff4ee1ed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders",
+								"",
+								"ClientInProgressOrder",
+								"620b3398920fcc2fff4ee1ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Clients Completed orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/orders/ClientCompletedOrder/620b3398920fcc2fff4ee1ed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders",
+								"ClientCompletedOrder",
+								"620b3398920fcc2fff4ee1ed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tailor's in progress orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/orders/TailorInProgressOrder/620b35a0c79d7f309c860ecf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders",
+								"TailorInProgressOrder",
+								"620b35a0c79d7f309c860ecf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tailor's completed order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/orders/TailorCompletedOrder/620b35a0c79d7f309c860ecf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders",
+								"TailorCompletedOrder",
+								"620b35a0c79d7f309c860ecf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "quotes",
+			"item": [
+				{
+					"name": "create qoute",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"tailor\":\"620b35a0c79d7f309c860ecf\",\"order\":\"620b90a38dd21045cdbf2fd8\",\"budget\":{\"max_amount\":\"20\",\"min_amount\":\"10\"},\"offer\":\"Hy i hope you are doing well.i am a a software engineer\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/qoutes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"qoutes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all qoutes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/qoutes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"qoutes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get byId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/qoutes/620c8f2cd71cb6579a740683",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"qoutes",
+								"620c8f2cd71cb6579a740683"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Qoute",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"view\":\"public\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/qoutes/620c8f2cd71cb6579a740683",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"qoutes",
+								"620c8f2cd71cb6579a740683"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Qoute",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/qoutes/620b35a0c79d7f309c860ecf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"qoutes",
+								"620b35a0c79d7f309c860ecf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
