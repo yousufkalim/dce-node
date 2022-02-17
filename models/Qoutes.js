@@ -21,8 +21,8 @@ const qouteSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["accepted", "not_accepted"],
-      default: "not_accepted",
+      enum: ["accepted", "pending", "rejected"],
+      default: "pending",
     },
     offer: String,
     view: {

@@ -5,6 +5,7 @@
 const Qoutes = require("../models/Qoutes");
 const Orders = require("../models/Orders");
 const Chats = require("../models/Chats");
+const Tailors = require("../models/Tailors");
 
 /**
  * Create Qoutes
@@ -112,6 +113,53 @@ exports.delete = async (req, res) => {
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Set Qoute Status
+ * @param {object} req
+ * @param {object} res
+ */
+exports.qouteResponse = async (req, res) => {
+  try {
+    const qouteId = req.params.qouteId; // Getting Qoutes id from URL parameter
+    const status = req.body.status;
+    let qoute = await Qoutes.findById(qouteId); //finding qoute from db
+    if (!qoute) {
+      //if qouteId is invalid
+      return res.json({ success: false, message: "Invalid Qoute Id" });
+    }
+    //if qoute is accepted
+    if (status === "accepted") {
+      qoute.status = status;
+      await qoute.save();
+      // Updating the order
+      await Orders.findByIdAndUpdate(
+        qoute.order,
+        { tailor: qoute.tailor, status: "inprogress" },
+        {
+          new: true,
+        }
+      );
+      // Assign tailor order too
+      await Tailors.findByIdAndUpdate(
+        qoute.tailor,
+        { $push: { orders: qoute.order } },
+        {
+          new: true,
+        }
+      );
+      return res.json({ success: true, qoute }); // Success
+    }
+    //If client reject the qoute then simple update
+    qoute.status = status;
+    await qoute.save();
+    res.json({ success: true, qoute }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err.message);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

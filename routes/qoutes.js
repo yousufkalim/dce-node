@@ -21,6 +21,8 @@ router.get("/", qoutes.getAll);
 router.get("/:qouteId", qoutes.getById);
 //update qoutes
 router.put("/:qouteId", qoutes.update);
+//accept/rejectqoute
+router.put("/qouteResponse/:qouteId", qoutes.qouteResponse);
 //Delete qoutes
 router.delete("/:qouteId", qoutes.delete);
 // Export
