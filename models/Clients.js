@@ -7,9 +7,6 @@ const mongoose = require("mongoose");
 // Schema
 const clientSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-    },
     email: {
       type: String,
       required: true,
@@ -18,31 +15,40 @@ const clientSchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      required: true,
       minlength: 8,
     },
-    otp: {
+    name: {
       type: String,
-      minlength: 6,
+      required: true,
     },
-    verification: {
-      type: Boolean,
-      default: false,
+    dob: {
+      type: Date,
+      required: true,
     },
-    dob: Date,
+    address: {
+      type: String,
+      required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ["client"],
+      default: "client",
+    },
     orders: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "orders",
       },
     ],
-    address: {
-      lat: String,
-      lng: String,
-      label: String,
-      label2: String,
-      city: String,
-      postal_code: String,
-    },
   },
   {
     timestamps: true,

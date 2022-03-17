@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"name\":\"shuja Naqvi\",\"dob\":\"2000/01/01\",\"address\":{\"city\":\"Gujrat\",\"country\":\"Pakistan\",\"lat\":34.21,\"lng\":\"12.2\",\"postal_code\":\"57300\"}}",
+							"raw": "{\"name\":\"Shuja Naqvi\",\"dob\":\"2000/01/01\",\"address\":{\"city\":\"Gujrat\",\"country\":\"Pakistan\",\"lat\":34.21,\"lng\":\"12.2\",\"postal_code\":\"57300\"}}",
 							"options": {
 								"raw": {
 									"language": "json"

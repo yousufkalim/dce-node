@@ -6,7 +6,6 @@ const Clients = require("../models/Clients");
 const Tailors = require("../models/Tailors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { sendEmail } = require("../utils/sendEmail");
 const bcryptSalt = process.env.BCRYPT_SALT || 10;
 const tokenSecret = process.env.JWT_SECRET;
 
@@ -21,26 +20,19 @@ exports.login = async (req, res) => {
     // Getting email and password
     const { email, password } = req.body;
     // Getting user from db
-    const user = await Clients.findOne({ email }); //finding if request by client
+    const client = await Clients.findOne({ email }); //finding if request by client
     const tailor = await Tailors.findOne({ email }); //finding if request by tailor
-    if (!user && !tailor) {
+    if (!client && !tailor) {
       //if both empty
       // If user not found
-      console.log(user);
+      console.log(client);
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     } else {
       //if request by a client
-      if (user) {
-        // Comparing password
-        if (user.verification == false) {
-          return res.status(404).json({
-            success: false,
-            message: "Please verify Your Account First",
-          });
-        }
-        const isMatched = bcrypt.compareSync(password, user.password);
+      if (client) {
+        const isMatched = bcrypt.compareSync(password, client.password);
         if (!isMatched) {
           // If password not matched
           return res
@@ -49,22 +41,15 @@ exports.login = async (req, res) => {
         }
 
         // Creating payload with user object
-        const payload = { user };
+        const payload = { user: client };
 
         // Generating token
         jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
           if (err) throw err;
           // done
-          return res.json({ success: true, user, token });
+          return res.json({ success: true, user: client, token });
         });
       } else {
-        // Comparing password
-        if (tailor.verification == false) {
-          return res.status(404).json({
-            success: false,
-            message: "Please verify Your Account First",
-          });
-        }
         const isMatched = bcrypt.compareSync(password, tailor.password);
         if (!isMatched) {
           // If password not matched
@@ -80,7 +65,7 @@ exports.login = async (req, res) => {
           if (err) throw err;
 
           // done
-          return res.json({ success: true, tailor, token });
+          return res.json({ success: true, user: tailor, token });
         });
       }
     }

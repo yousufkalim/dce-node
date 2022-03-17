@@ -3,9 +3,11 @@
  * @author Shuja Naqvi
  */
 const Clients = require("../models/Clients");
+const OTPs = require("../models/OTPs");
 const bcrypt = require("bcryptjs");
-const { sendOTP } = require("../utils/sendEmail");
+const jwt = require("jsonwebtoken");
 const bcryptSalt = process.env.BCRYPT_SALT || 10;
+const tokenSecret = process.env.JWT_SECRET;
 
 /**
  * Create User - Signup
@@ -23,19 +25,29 @@ exports.create = async (req, res) => {
         .status(409)
         .json({ success: false, message: "User already exists." });
     }
+
+    const userOTP = await OTPs.findOne({ email });
+    if(!userOTP?.is_verified){
+      // If this email has not been verified yet.
+      return res
+        .status(409)
+        .json({ success: false, message: "Email not verified." });
+    }
+
     req.body.password = bcrypt.hashSync(password, parseInt(bcryptSalt)); // Hashing the password with salt 8
-    let otp = Math.random().toString(36).slice(-6); //generate otp of client
-    sendOTP(email, otp).then(async () => {
-      // If email is sent then we have to update the otp n password in db
-      req.body.otp = otp; //create a new field for opt
-      const user = await Clients.create(req.body); // Adding user in db
-      // Done
-      return res.json({
-        success: true,
-        message: "Otp successfully sent",
-        user,
-      });
+
+    const user = await Clients.create(req.body);
+
+    // Creating payload with user object
+    const payload = { user };
+
+    // Generating token
+    jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
+      if (err) throw err;
+      // done
+      return res.json({ success: true, user, token });
     });
+    
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);
@@ -88,17 +100,9 @@ exports.assignPswd = async (req, res) => {
     }
     req.body.password = bcrypt.hashSync(password, parseInt(bcryptSalt)); // Hashing the password with salt 8
     let otp = Math.random().toString(36).slice(-6); //generate otp of client
-    sendOTP(user.email, otp).then(async () => {
-      // If email is sent then we have to update the otp n password in db
-      user.password = req.body.password;
-      user.otp = otp;
-      await user.save(); //save user
-      // Done
-      return res.json({
-        success: true,
-        message: "Otp successfully sent",
-        user,
-      });
+    return res.json({
+      success: true,
+      message: "Otp successfully sent",
     });
   } catch (err) {
     // Error handling
