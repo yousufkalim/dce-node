@@ -4,10 +4,8 @@
  */
 const router = require("express").Router();
 const tailors = require("../controllers/tailors");
-const { upload } = require("../middleware/multer");
 const {
-  validateUser,
-  validatePassword,
+  validateClient,
   validateTailorUpdate,
   isValidated,
 } = require("../middleware/validators");
@@ -22,7 +20,7 @@ const {
  */
 
 // Create - tailor Signup
-router.post("/", validateUser, isValidated, tailors.create);
+router.post("/", validateClient, isValidated, tailors.create);
 // Read
 router.get("/", tailors.getAll); // Get all tailor at once
 router.get("/:userId", tailors.getById); // Get one tailor by it's id

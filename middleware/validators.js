@@ -12,7 +12,7 @@ Validations
 
 // You can create multiple validations strategies (Read express-validator documentation for more details)
 // User Signup Validation
-exports.validateUser = [
+exports.validateClient = [
   check("email", "Email is required.").notEmpty().isEmail().trim(),
   check("password", "Password is required.").notEmpty().trim(),
 ];
@@ -23,31 +23,25 @@ exports.validatePassword = [
     .isLength({ min: 8 }),
 ];
 // User Signup Validation
-exports.validateUserUpdate = [
+exports.validateClientUpdate = [
   check("name", "Name is required.").notEmpty().trim(),
   check("dob", "Date of Birth is required").notEmpty().isDate().trim(),
-  check("address.city", "city  is required").notEmpty().trim(),
-  check("address.country", "country is required").notEmpty().trim(),
-  check("address.lat", "latitude is required").notEmpty().trim(),
-  check("address.lng", "longitude is required").notEmpty().trim(),
-  check("address.postal_code", "postal_code is required").notEmpty().trim(),
+  check("address", "Address  is required").notEmpty().trim(),
+  check("city", "city  is required").notEmpty().trim(),
+  check("country", "country is required").notEmpty().trim(),
 ];
 
 // Tailor Signup Validation
 exports.validateTailorUpdate = [
   check("name", "Name is required.").notEmpty().trim(),
   check("dob", "Date of Birth is required").notEmpty().isDate().trim(),
-  check("diploma", "diploma  is required").notEmpty().trim(),
+  check("address", "Address  is required").notEmpty().trim(),
+  check("city", "city  is required").notEmpty().trim(),
+  check("country", "country is required").notEmpty().trim(),
+  check("experience", "Experience  is required").notEmpty().trim(),
+  check("area_of_experience", "Area of experience  is required").notEmpty().trim(),
+  check("diploma", "Diploma  is required").notEmpty().trim(),
   check("speciality", "Speciality  is required").notEmpty().trim(),
-  check("area_of_expertise", "area_of_expertise  is required")
-    .notEmpty()
-    .trim(),
-  check("physical_store", "Store_info   is required").notEmpty().trim(),
-  check("address.city", "city  is required").notEmpty().trim(),
-  check("address.country", "country is required").notEmpty().trim(),
-  check("address.lat", "latitude is required").notEmpty().trim(),
-  check("address.lng", "longitude is required").notEmpty().trim(),
-  check("address.postal_code", "postal_code is required").notEmpty().trim(),
 ];
 
 // Login validation
@@ -107,6 +101,13 @@ exports.validateAd = [
   check("delivery.name", "delivery name  is required").notEmpty().trim(),
   check("delivery.date", "delivery date is required").notEmpty().trim(),
   check("delivery.type", "delivery type is required").notEmpty().trim(),
+];
+exports.validateOTPCreate = [
+  check("email", "Email is required.").notEmpty().isEmail().trim(),
+];
+exports.validateOTPVerify = [
+  check("email", "Email is required.").notEmpty().isEmail().trim(),
+  check("code", "Code is required.").notEmpty().trim(),
 ];
 /*
 ======================

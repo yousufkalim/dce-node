@@ -7,9 +7,6 @@ const mongoose = require("mongoose");
 // Schema
 const tailorSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-    },
     email: {
       type: String,
       required: true,
@@ -20,34 +17,46 @@ const tailorSchema = new mongoose.Schema(
       type: String,
       minlength: 8,
     },
-    otp: {
+    name: {
       type: String,
-      minlength: 6,
     },
-    verification: {
-      type: Boolean,
-      default: false,
+    dob: {
+      type: Date,
+      required: true,
     },
-    dob: Date,
-    orders: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "orders",
-      },
-    ],
     address: {
-      lat: String,
-      lng: String,
-      label: String,
-      label2: String,
-      city: String,
-      postal_code: String,
+      type: String,
+      required: true,
     },
-    area_of_expertise: String,
-    diploma: String,
-    physical_store: String,
-    rating: Number,
-    experience: String,
+    country: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    experience: {
+      type: String,
+      required: true,
+    },
+    area_of_experience: {
+      type: String,
+      required: true,
+    },
+    diploma: {
+      type: String,
+      required: true,
+    },
+    speciality: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ["tailor"],
+      default: "tailor",
+    },
   },
   {
     timestamps: true,

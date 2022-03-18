@@ -62,17 +62,22 @@ exports.sendOTP = (email, otp) => {
       from: `${sender_name} <${sender_email}>`,
       to: email,
       subject: "Your one time password is:",
-      text: OTP,
+      text: `${OTP}`,
     };
 
     // Sending email
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         // Error
+        console.log( `THIS IS THE error: ${error}`);
         reject(error);
       } else {
         // Success
-        resolve({ success: true, message: "Email sent successfully" });
+        console.log( `THIS WILL BE RESOLVED`);
+        resolve({
+          success: true,
+          message: "Email sent successfully"
+        });
       }
     });
   });

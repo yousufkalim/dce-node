@@ -4,11 +4,9 @@
  */
 const router = require("express").Router();
 const clients = require("../controllers/clients");
-const { upload } = require("../middleware/multer");
 const {
-  validateUser,
-  validatePassword,
-  validateUserUpdate,
+  validateClient,
+  validateClientUpdate,
   isValidated,
 } = require("../middleware/validators");
 
@@ -22,14 +20,14 @@ const {
  */
 
 // Create - User Signup
-router.post("/", validateUser, isValidated, clients.create);
+router.post("/", validateClient, isValidated, clients.create);
 
 // Read
 router.get("/", clients.getAll); // Get all users at once
 router.get("/:userId", clients.getById); // Get one user by it's id
 router.put("/verifyOTP/:userId", clients.verifyOTP); //verify otp
 // Update
-router.put("/:userId", validateUserUpdate, isValidated, clients.update); // Update a specific user by it's id
+router.put("/:userId", validateClientUpdate, isValidated, clients.update); // Update a specific user by it's id
 
 // Delete
 router.delete("/:userId", clients.delete); // delete a specific user by it's id
