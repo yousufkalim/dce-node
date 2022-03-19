@@ -25,7 +25,6 @@ exports.login = async (req, res) => {
     if (!client && !tailor) {
       //if both empty
       // If user not found
-      console.log(client);
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
@@ -58,7 +57,7 @@ exports.login = async (req, res) => {
             .json({ success: false, message: "Invalid Password" });
         }
         // Creating payload with user object
-        const payload = { tailor };
+        const payload = { user: tailor };
 
         // Generating token
         jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {

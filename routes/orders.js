@@ -4,7 +4,8 @@
  */
 const router = require("express").Router();
 const orders = require("../controllers/orders");
-const { validateAd, isValidated } = require("../middleware/validators");
+const { checkAuth }  = require("../middleware/checkAuth");
+const { validateOrder, isValidated } = require("../middleware/validators");
 /**
  * ////////////////////////// Routes /////////////////////////
  * @method post  place order
@@ -13,34 +14,17 @@ const { validateAd, isValidated } = require("../middleware/validators");
  * @method delete delete order
  */
 // Create - New order
-router.post("/", validateAd, isValidated, orders.create);
+router.post("/", checkAuth, validateOrder, isValidated, orders.create);
 
 //Find-All order
-router.get("/", orders.getAll);
+router.get("/", checkAuth, orders.getAll);
 //Get-order by Id
-router.get("/:orderId", orders.getById);
-//update order
-router.put("/:orderId", orders.update);
-//Delete order
-router.delete("/:orderId", orders.delete);
-/**
- * ////////////////////////// Routes /////////////////////////
- * Tailor side Routes
- */
-//Get order of tailor(in_progress)
-router.get("/TailorInProgressOrder/:tailorId", orders.TailorInProgressOrder);
-//Get order of tailor(completed)
-router.get("/TailorCompletedOrder/:tailorId", orders.TailorCompletedOrder);
+router.get("/:orderId", checkAuth, orders.getById);
+//Get-orders by query
+router.post("/byQuery", checkAuth, orders.getAllByQuery);
 
-/**
- * ////////////////////////// Routes /////////////////////////
- * Client side Routes
- */
-//Get order of client(pending)
-router.get("/ClientPendingOrder/:clientId", orders.ClientPendingOrder);
-//Get order of client(in_progress)
-router.get("/ClientInProgressOrder/:clientId", orders.ClientInProgressOrder);
-//Get order of client(completed)
-router.get("/ClientCompletedOrder/:clientId", orders.ClientCompletedOrder);
+//update order
+router.put("/:orderId", checkAuth, orders.update);
+
 // Export
 module.exports = router;

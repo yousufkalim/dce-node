@@ -68,39 +68,28 @@ exports.changePasswordValidate = [
     .trim()
     .isLength({ min: 8 }),
 ];
-//create qoute validation
-exports.validateQoute = [
-  check("tailor", "TailorId is required").notEmpty().trim(),
+//create quote validation
+exports.validateQuote = [
   check("order", "Order Id is required").notEmpty().trim(),
-  check("budget.max_amount", "Max Amount is required").notEmpty().trim(),
-  check("offer", "Offer  is required").notEmpty().trim(),
-  check("budget.min_amount", "Minimum Amount is required").notEmpty().trim(),
-];
-//create fabric validation
-exports.validateFabric = [
-  check("name", "Fabric_name is required").notEmpty().trim(),
-  check("detail", "Fabric detail is required").notEmpty().trim(),
+  check("price", "Price is required").notEmpty().trim(),
+  check("description", "Description is required").notEmpty().trim(),
 ];
 //create order validation
-exports.validateAd = [
-  check("name", "Name of order is required").notEmpty().trim(),
-  check("client", "Client Id is required").notEmpty().trim(),
-  check("gender", "Gender required").notEmpty().trim(),
-  check("category", "order category required").notEmpty().trim(),
-  check("measurments", "measurments  required").notEmpty().trim(),
-  check("cut", "cut  required").notEmpty().trim(),
-  check("color", "color is required").notEmpty().trim(),
-  check("fabric", "color is required").notEmpty().trim(),
-  check("budget.max_amount", "Max Amount is required").notEmpty().trim(),
-  check("budget.min_amount", "Minimum Amount is required").notEmpty().trim(),
-  check("address.city", "city  is required").notEmpty().trim(),
-  check("address.country", "country is required").notEmpty().trim(),
-  check("address.lat", "latitude is required").notEmpty().trim(),
-  check("address.lng", "longitude is required").notEmpty().trim(),
-  check("address.postal_code", "postal_code is required").notEmpty().trim(),
-  check("delivery.name", "delivery name  is required").notEmpty().trim(),
-  check("delivery.date", "delivery date is required").notEmpty().trim(),
+exports.validateOrder = [
+  check("gender", "Gender is required").notEmpty().trim(),
+  check("category", "Category is required").notEmpty().trim(),
+  check("name", "Name is required").notEmpty().trim(),
+  check("cut", "Cut is required").notEmpty().trim(),
+  check("measurments", "Measurments is required").notEmpty().trim(),
+  check("color", "Color is required").notEmpty().trim(),
+  check("fabric", "Color is required").notEmpty().trim(),
+  check("delivery.address", "Delivery address is required").notEmpty().trim(),
+  check("delivery.country", "Delivery country is required").notEmpty().trim(),
+  check("delivery.city", "Delivery city is required").notEmpty().trim(),
   check("delivery.type", "delivery type is required").notEmpty().trim(),
+  check("delivery.date", "delivery date is required").notEmpty().isDate().trim(),
+  check("budget.min_price", "Minimum Price is required").notEmpty().trim(),
+  check("budget.max_price", "Max Price is required").notEmpty().trim(),
 ];
 exports.validateOTPCreate = [
   check("email", "Email is required.").notEmpty().isEmail().trim(),

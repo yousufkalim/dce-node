@@ -31,10 +31,10 @@ const chatsSchema = new Schema(
         },
       },
     ],
-    qoutes: [
+    quotes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "qoutes",
+        ref: "quotes",
       },
     ],
   },
