@@ -7,21 +7,84 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema(
   {
-    name: String,
-    gender: { type: String, enum: ["male", "female"] },
-    note: String,
-    creation: String,
-    measurments: String,
-    qoute_requests: [
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+      required: true,
+    },
+    category: {
+      type: String,
+      enum: ["category_1", "category_1"],
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    cut: {
+      type: Number,
+      enum: [5, 10],
+      required: true,
+    },
+    measurments: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String,
+      enum: ["colour_1", "colour_2"],
+      required: true,
+    },
+    fabric: {
+      type: String,
+      enum: ["fabric_1", "fabric_2"],
+      required: true,
+    },
+    delivery: {
+      address: {
+        type: String,
+        required: true,
+      },
+      country: {
+        type: String,
+        required: true,
+      },
+      city: {
+        type: String,
+        required: true,
+      },
+      note: {
+        type: String,
+      },
+      type: {
+        type: String,
+        enum: ["urgent", "normal"],
+        required: true,
+      },
+      date: {
+        type: Date,
+        required: true,
+      },
+    },
+    note: {
+      type: String
+    },
+    budget: {
+      min_price: {
+        type: Number,
+        required: true,
+      },
+      max_price: {
+        type: Number,
+        required: true,
+      },
+    },
+    quotes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "qoutes",
+        ref: "quotes",
       },
     ],
-    fabric: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "fabrics",
-    },
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "clients",
@@ -30,46 +93,20 @@ const orderSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "tailors",
     },
-    color: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "colors",
-    },
-    budget: {
-      max_amount: Number,
-      min_amount: Number,
-    },
     rating: {
-      review: String,
-      rating: Number,
+      review: {
+        type: String,
+      },
+      rating: {
+        type: Number,
+        required: true,
+        default: 0
+      },
     },
     status: {
       type: String,
-      enum: ["pending", "inprogress", "completed"],
+      enum: ["pending", "in_progress", "completed"],
       default: "pending",
-    },
-    cut: {
-      type: String,
-    },
-    address: {
-      lat: String,
-      lng: String,
-      label: String,
-      label2: String,
-      city: String,
-      postal_code: String,
-    },
-    delivery: {
-      name: String,
-      date: Date,
-      status: {
-        type: String,
-        enum: ["pending", "in_progress", "delivered"],
-        default: "pending",
-      },
-      type: {
-        type: String,
-        enum: ["urgent", "normal"],
-      },
     },
   },
   {

@@ -874,7 +874,7 @@
 			"name": "quotes",
 			"item": [
 				{
-					"name": "create qoute",
+					"name": "create quote",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -888,7 +888,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/qoutes",
+							"raw": "http://localhost:5000/api/quotes",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -896,19 +896,19 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"qoutes"
+								"quotes"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get all qoutes",
+					"name": "Get all quotes",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/qoutes",
+							"raw": "http://localhost:5000/api/quotes",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -916,7 +916,7 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"qoutes"
+								"quotes"
 							]
 						}
 					},
@@ -928,7 +928,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/qoutes/620c8f2cd71cb6579a740683",
+							"raw": "http://localhost:5000/api/quotes/620c8f2cd71cb6579a740683",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -936,7 +936,7 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"qoutes",
+								"quotes",
 								"620c8f2cd71cb6579a740683"
 							]
 						}
@@ -944,7 +944,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Qoute",
+					"name": "Update quote",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -958,7 +958,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/qoutes/620c8f2cd71cb6579a740683",
+							"raw": "http://localhost:5000/api/quotes/620c8f2cd71cb6579a740683",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -966,7 +966,7 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"qoutes",
+								"quotes",
 								"620c8f2cd71cb6579a740683"
 							]
 						}
@@ -974,12 +974,12 @@
 					"response": []
 				},
 				{
-					"name": "Delete Qoute",
+					"name": "Delete quote",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/qoutes/620b35a0c79d7f309c860ecf",
+							"raw": "http://localhost:5000/api/quotes/620b35a0c79d7f309c860ecf",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -987,7 +987,7 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"qoutes",
+								"quotes",
 								"620b35a0c79d7f309c860ecf"
 							]
 						}
