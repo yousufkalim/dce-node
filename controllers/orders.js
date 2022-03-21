@@ -12,10 +12,8 @@ const Clients = require("../models/Clients");
  */
 exports.create = async (req, res) => {
   try {
-
     const clientID = req.user._id;
     req.body.client = clientID;
-
     const client = await Clients.findById(clientID); //get client
     if (!client) {
       return res
@@ -34,17 +32,43 @@ exports.create = async (req, res) => {
 };
 
 /**
- * Get all Orders
+ * Get all Client Orders
  * @param {object} req
  * @param {object} res
  */
-exports.getAll = async (req, res) => {
+exports.getAllClientOrders = async (req, res) => {
   try {
-
     const clientID = req.user._id;
-
     const orders = await Orders.find({
       client: clientID
+    })
+      .populate(
+        {
+          path: "quotes",
+          populate: {
+            path: "tailor",
+          }
+        }
+      )
+      .populate("client")
+      .populate("tailor"); // Finding all the orders from db
+    res.json({ success: true, orders }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Get all Tailor Orders
+ * @param {object} req
+ * @param {object} res
+ */
+ exports.getAllQuotes = async (req, res) => {
+  try {
+    const orders = await Orders.find({
+      status: "pending"
     })
       .populate(
         {
