@@ -22,11 +22,11 @@ const orderSchema = new Schema(
       required: true,
     },
     cut: {
-      type: Number,
-      enum: [5, 10],
+      type: String,
+      enum: ["5", "10"],
       required: true,
     },
-    measurments: {
+    measurements: {
       type: String,
       required: true,
     },
