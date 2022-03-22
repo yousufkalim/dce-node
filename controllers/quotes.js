@@ -60,7 +60,7 @@ exports.create = async (req, res) => {
     if (!existingQuote)
       return res.json({ success: false, message: "QuoteId is invalid" });
     const quotes = await Quotes.findByIdAndUpdate(
-      quote._id,
+      existingQuote._id,
       {
         $set: {
           status: "accepted",

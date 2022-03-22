@@ -14,7 +14,7 @@ const orderSchema = new Schema(
     },
     category: {
       type: String,
-      enum: ["category_1", "category_1"],
+      enum: ["category_1", "category_2"],
       required: true,
     },
     name: {

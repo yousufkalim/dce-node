@@ -84,7 +84,7 @@ exports.validateOrder = [
   check("category", "Category is required").notEmpty().trim(),
   check("name", "Name is required").notEmpty().trim(),
   check("cut", "Cut is required").notEmpty().trim(),
-  check("measurments", "Measurments is required").notEmpty().trim(),
+  check("measurements", "Measurements is required").notEmpty().trim(),
   check("color", "Color is required").notEmpty().trim(),
   check("fabric", "Color is required").notEmpty().trim(),
   check("delivery.address", "Delivery address is required").notEmpty().trim(),
