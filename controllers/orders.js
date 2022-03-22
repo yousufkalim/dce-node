@@ -31,45 +31,15 @@ exports.create = async (req, res) => {
   }
 };
 
-/**
- * Get all Client Orders
- * @param {object} req
- * @param {object} res
- */
-exports.getAllClientOrders = async (req, res) => {
-  try {
-    const clientID = req.user._id;
-    const orders = await Orders.find({
-      client: clientID
-    })
-      .populate(
-        {
-          path: "quotes",
-          populate: {
-            path: "tailor",
-          }
-        }
-      )
-      .populate("client")
-      .populate("tailor"); // Finding all the orders from db
-    res.json({ success: true, orders }); // Success
-  } catch (err) {
-    // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
 
 /**
- * Get all Tailor Orders
+ * Get all Orders
  * @param {object} req
  * @param {object} res
  */
- exports.getAllQuotes = async (req, res) => {
+ exports.getAllByQuery = async (req, res) => {
   try {
-    const orders = await Orders.find({
-      status: "pending"
-    })
+    const orders = await Orders.find(req.body)
       .populate(
         {
           path: "quotes",
@@ -78,8 +48,8 @@ exports.getAllClientOrders = async (req, res) => {
           }
         }
       )
-      .populate("client")
-      .populate("tailor"); // Finding all the orders from db
+      .populate("client"); // Finding all the orders from db
+    console.log(orders.length);
     res.json({ success: true, orders }); // Success
   } catch (err) {
     // Error handling
@@ -105,35 +75,8 @@ exports.getById = async (req, res) => {
           }
         }
       )
-      .populate("client")
-      .populate("tailor"); // Finding all the orders from db
+      .populate("client"); // Finding all the orders from db
     res.json({ success: true, order }); // Success
-  } catch (err) {
-    // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
-
-/**
- * Get all Orders
- * @param {object} req
- * @param {object} res
- */
- exports.getAllByQuery = async (req, res) => {
-  try {
-    const orders = await Orders.find(req.body)
-      .populate(
-        {
-          path: "quotes",
-          populate: {
-            path: "tailor",
-          }
-        }
-      )
-      .populate("client")
-      .populate("tailor"); // Finding all the orders from db
-    res.json({ success: true, orders }); // Success
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);

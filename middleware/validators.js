@@ -74,6 +74,10 @@ exports.validateQuote = [
   check("price", "Price is required").notEmpty().trim(),
   check("description", "Description is required").notEmpty().trim(),
 ];
+//create quote validation
+exports.validateAcceptQuote = [
+  check("quote", "Quote Id is required").notEmpty().trim(),
+];
 //create order validation
 exports.validateOrder = [
   check("gender", "Gender is required").notEmpty().trim(),
