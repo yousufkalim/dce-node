@@ -12,10 +12,8 @@ const Clients = require("../models/Clients");
  */
 exports.create = async (req, res) => {
   try {
-
     const clientID = req.user._id;
     req.body.client = clientID;
-
     const client = await Clients.findById(clientID); //get client
     if (!client) {
       return res
@@ -33,19 +31,15 @@ exports.create = async (req, res) => {
   }
 };
 
+
 /**
  * Get all Orders
  * @param {object} req
  * @param {object} res
  */
-exports.getAll = async (req, res) => {
+ exports.getAllByQuery = async (req, res) => {
   try {
-
-    const clientID = req.user._id;
-
-    const orders = await Orders.find({
-      client: clientID
-    })
+    const orders = await Orders.find(req.body)
       .populate(
         {
           path: "quotes",
@@ -54,8 +48,8 @@ exports.getAll = async (req, res) => {
           }
         }
       )
-      .populate("client")
-      .populate("tailor"); // Finding all the orders from db
+      .populate("client"); // Finding all the orders from db
+    console.log(orders.length);
     res.json({ success: true, orders }); // Success
   } catch (err) {
     // Error handling
@@ -81,35 +75,8 @@ exports.getById = async (req, res) => {
           }
         }
       )
-      .populate("client")
-      .populate("tailor"); // Finding all the orders from db
+      .populate("client"); // Finding all the orders from db
     res.json({ success: true, order }); // Success
-  } catch (err) {
-    // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
-
-/**
- * Get all Orders
- * @param {object} req
- * @param {object} res
- */
- exports.getAllByQuery = async (req, res) => {
-  try {
-    const orders = await Orders.find(req.body)
-      .populate(
-        {
-          path: "quotes",
-          populate: {
-            path: "tailor",
-          }
-        }
-      )
-      .populate("client")
-      .populate("tailor"); // Finding all the orders from db
-    res.json({ success: true, orders }); // Success
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);

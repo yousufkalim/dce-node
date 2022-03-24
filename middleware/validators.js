@@ -74,13 +74,17 @@ exports.validateQuote = [
   check("price", "Price is required").notEmpty().trim(),
   check("description", "Description is required").notEmpty().trim(),
 ];
+//create quote validation
+exports.validateAcceptQuote = [
+  check("quote", "Quote Id is required").notEmpty().trim(),
+];
 //create order validation
 exports.validateOrder = [
   check("gender", "Gender is required").notEmpty().trim(),
   check("category", "Category is required").notEmpty().trim(),
   check("name", "Name is required").notEmpty().trim(),
   check("cut", "Cut is required").notEmpty().trim(),
-  check("measurments", "Measurments is required").notEmpty().trim(),
+  check("measurements", "Measurements is required").notEmpty().trim(),
   check("color", "Color is required").notEmpty().trim(),
   check("fabric", "Color is required").notEmpty().trim(),
   check("delivery.address", "Delivery address is required").notEmpty().trim(),
