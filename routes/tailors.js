@@ -4,6 +4,7 @@
  */
 const router = require("express").Router();
 const tailors = require("../controllers/tailors");
+const { checkAuth }  = require("../middleware/checkAuth");
 const {
   validateClient,
   validateTailorUpdate,
@@ -21,16 +22,13 @@ const {
 
 // Create - tailor Signup
 router.post("/", validateClient, isValidated, tailors.create);
+
 // Read
-router.get("/", tailors.getAll); // Get all tailor at once
-router.get("/:userId", tailors.getById); // Get one tailor by it's id
+router.get("/", checkAuth, tailors.getAll); // Get all tailor at once
+router.get("/:userId", checkAuth, tailors.getById); // Get one tailor by it's id
 
-router.put("/verifyOTP/:userId", tailors.verifyOTP); //OTP verification
 // Update
-router.put("/:userId", validateTailorUpdate, isValidated, tailors.update); // Update a specific tailor by it's id
-
-// Delete
-router.delete("/:userId", tailors.delete); // delete a specific tailor by it's id
+router.put("/", checkAuth, validateTailorUpdate, isValidated, tailors.update); // Update a specific tailor by it's id
 
 // Export
 module.exports = router;

@@ -86,32 +86,7 @@ exports.getById = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
-//To verify opt
-exports.verifyOTP = async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const otp = req.body.otp;
-    const user = await Tailors.findById(userId); //find user by its id
-    if (!user)
-      //if user not found
-      return res.json({ success: false, message: "Invalid Tailor Id" });
-    //if otp is invalid
-    if (user.otp !== otp) {
-      return res.json({ success: false, message: "Invalid Otp" });
-    }
-    //verifying user
-    user.verification = true;
-    await user.save();
-    return res.json({
-      success: true,
-      message: "You have been verified",
-      user,
-    });
-  } catch (err) {
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
+
 /**
  * Update user
  * @param {object} req
@@ -119,7 +94,7 @@ exports.verifyOTP = async (req, res) => {
  */
 exports.update = async (req, res) => {
   try {
-    const userId = req.params.userId; // Getting user id from URL parameter
+    const userId = req.user._id
     const user = await Tailors.findByIdAndUpdate(userId, req.body, {
       new: true,
     }); // Updating the user
@@ -131,19 +106,3 @@ exports.update = async (req, res) => {
   }
 };
 
-/**
- * Delete user
- * @param {object} req
- * @param {object} res
- */
-exports.delete = async (req, res) => {
-  try {
-    const userId = req.params.userId; // Getting user id from URL parameter
-    const user = await Tailors.findByIdAndDelete(userId); // Deleting the user
-    res.json({ success: true, user }); // Success
-  } catch (err) {
-    // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};

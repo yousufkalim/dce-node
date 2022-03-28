@@ -57,6 +57,14 @@ const tailorSchema = new mongoose.Schema(
       enum: ["tailor"],
       default: "tailor",
     },
+    phone: {
+      type: String,
+      required: false
+    },
+    shop_name: {
+      type: String,
+      required: false
+    },
   },
   {
     timestamps: true,

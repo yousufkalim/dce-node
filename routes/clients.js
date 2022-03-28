@@ -4,6 +4,7 @@
  */
 const router = require("express").Router();
 const clients = require("../controllers/clients");
+const { checkAuth }  = require("../middleware/checkAuth");
 const {
   validateClient,
   validateClientUpdate,
@@ -23,14 +24,11 @@ const {
 router.post("/", validateClient, isValidated, clients.create);
 
 // Read
-router.get("/", clients.getAll); // Get all users at once
-router.get("/:userId", clients.getById); // Get one user by it's id
-router.put("/verifyOTP/:userId", clients.verifyOTP); //verify otp
-// Update
-router.put("/:userId", validateClientUpdate, isValidated, clients.update); // Update a specific user by it's id
+router.get("/", checkAuth, clients.getAll); // Get all users at once
+router.get("/:userId", checkAuth, clients.getById); // Get one user by it's id
 
-// Delete
-router.delete("/:userId", clients.delete); // delete a specific user by it's id
+// Update
+router.put("/", checkAuth, validateClientUpdate, isValidated, clients.update); // Update a specific user by it's id
 
 // Export
 module.exports = router;
