@@ -95,6 +95,14 @@ exports.validateOrder = [
   check("budget.min_price", "Minimum Price is required").notEmpty().trim(),
   check("budget.max_price", "Max Price is required").notEmpty().trim(),
 ];
+//create order validation
+exports.validateCatalog = [
+  check("name", "Name is required").notEmpty().trim(),
+  check("gender", "Gender is required").notEmpty().trim(),
+  check("category", "Category is required").notEmpty().trim(),
+  check("price", "Price is required").notEmpty().trim(),
+  check("description", "Description is required").notEmpty().trim(),
+];
 exports.validateOTPCreate = [
   check("email", "Email is required.").notEmpty().isEmail().trim(),
 ];
