@@ -150,6 +150,16 @@ exports.changePassword = async (req, res) => {
  * @param {object} res
  */
 exports.confirmAuth = async (req, res) => {
-  // If user authenticated
-  res.json({ success: true, user: req.user });
+
+  const userID = req.user._id;
+
+  const client = await Clients.findById(userID); //finding if request by client
+  const tailor = await Tailors.findById(userID); //finding if request by tailor
+
+  if(client){
+    res.json({ success: true, user: client });
+  } else {
+    res.json({ success: true, user: tailor });
+  }
+  
 };
