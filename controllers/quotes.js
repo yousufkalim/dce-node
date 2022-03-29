@@ -3,7 +3,7 @@
  * @author Shuja Naqvi
  */
 
-const Quotes = require("../models/quotes");
+const Quotes = require("../models/Quotes");
 const Orders = require("../models/Orders");
 const Chats = require("../models/Chats");
 
@@ -52,34 +52,36 @@ exports.create = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
- exports.acceptQuote = async (req, res) => {
+exports.acceptQuote = async (req, res) => {
   try {
     const clientId = req.user._id;
     const { quote } = req.body;
     const existingQuote = await Quotes.findById(quote);
     if (!existingQuote)
       return res.json({ success: false, message: "QuoteId is invalid" });
-    const quotes = await Quotes.findByIdAndUpdate(
-      existingQuote._id,
-      {
-        $set: {
-          status: "accepted",
-        }
+    const quotes = await Quotes.findByIdAndUpdate(existingQuote._id, {
+      $set: {
+        status: "accepted",
       },
-    );
-    const orders = await Orders.findByIdAndUpdate(
-      existingQuote.order,
-      {
-        $set: {
-          status: "in_progress",
-          tailor: existingQuote.tailor,
-        }
+    });
+    const orders = await Orders.findByIdAndUpdate(existingQuote.order, {
+      $set: {
+        status: "in_progress",
+        tailor: existingQuote.tailor,
       },
-    );
-    if(quotes && orders){
-      return res.json({ success: true, message: "Quote accepted successfully." });
+    });
+    if (quotes && orders) {
+      return res.json({
+        success: true,
+        message: "Quote accepted successfully.",
+      });
     } else {
-      return res.status(400).json({ success: false, message: "Could not accept quote successfully." });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Could not accept quote successfully.",
+        });
     }
   } catch (err) {
     // Error handling
@@ -104,4 +106,3 @@ exports.getById = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
-
