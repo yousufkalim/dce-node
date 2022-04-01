@@ -24,11 +24,7 @@ exports.validatePassword = [
 ];
 // User Signup Validation
 exports.validateClientUpdate = [
-  check("name", "Name is required.").notEmpty().trim(),
-  check("dob", "Date of Birth is required").notEmpty().isDate().trim(),
-  check("address", "Address  is required").notEmpty().trim(),
-  check("city", "city  is required").notEmpty().trim(),
-  check("country", "country is required").notEmpty().trim(),
+  check("phone", "Phone is required.").notEmpty().trim(),
 ];
 
 // Tailor Signup Validation
