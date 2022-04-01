@@ -65,6 +65,14 @@ const tailorSchema = new mongoose.Schema(
       type: String,
       required: false
     },
+    hourly_rate: {
+      type: Number,
+      required: false
+    },
+    free_shipping_rate: {
+      type: String,
+      required: false
+    },
   },
   {
     timestamps: true,

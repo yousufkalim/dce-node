@@ -4,6 +4,7 @@
  */
 const Orders = require("../models/Orders");
 const Clients = require("../models/Clients");
+const Quotes = require("../models/Quotes");
 
 /**
  * Create order
@@ -15,11 +16,6 @@ exports.create = async (req, res) => {
     const clientID = req.user._id;
     req.body.client = clientID;
     const client = await Clients.findById(clientID); //get client
-    if (!client) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Client do not exists" }); //if client not found
-    }
     const orders = await Orders.create(req.body); //create order of client
     client.orders.push(orders.id); //assign order to client too
     await client.save(); //save client
@@ -31,6 +27,42 @@ exports.create = async (req, res) => {
   }
 };
 
+/**
+ * Accept order request
+ * @param {object} req
+ * @param {object} res
+ */
+ exports.acceptRequest = async (req, res) => {
+  try {
+    const orderID = req.body.id;
+    const order = await Orders.findById(orderID);
+    if(!order){
+      return res
+         .status(404)
+         .json({ success: false, message: "Order does not exists." }); //if tailor not found
+    }
+    const quote = await Quotes.create({
+      "order": order._id,
+      "price": order.budget.min_price,
+      "description": "*** System generated description ***",
+      "status": "accepted"
+    }); // Create quote and accept it
+    await Orders.findByIdAndUpdate(
+      orderID,
+      {
+        "status": "in_progress",
+        "$push": {
+          quotes: quote._id
+        }
+      }
+    ); //update order
+    res.json({ success: true, message: "Order accepted." }); //Done ...:)
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
 
 /**
  * Get all Orders
@@ -48,7 +80,8 @@ exports.create = async (req, res) => {
           }
         }
       )
-      .populate("client"); // Finding all the orders from db
+      .populate("client")
+      .populate("tailor"); // Finding all the orders from db
     console.log(orders.length);
     res.json({ success: true, orders }); // Success
   } catch (err) {
@@ -75,7 +108,8 @@ exports.getById = async (req, res) => {
           }
         }
       )
-      .populate("client"); // Finding all the orders from db
+      .populate("client")
+      .populate("tailor"); // Finding all the orders from db
     res.json({ success: true, order }); // Success
   } catch (err) {
     // Error handling

@@ -3,7 +3,7 @@
  * @author Shuja Naqvi
  */
 
-const Quotes = require("../models/quotes");
+const Quotes = require("../models/Quotes");
 const Orders = require("../models/Orders");
 const Chats = require("../models/Chats");
 
