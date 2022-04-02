@@ -49,6 +49,10 @@ const clientSchema = new mongoose.Schema(
         ref: "orders",
       },
     ],
+    phone: {
+      type: String,
+      required: false
+    },
   },
   {
     timestamps: true,

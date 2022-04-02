@@ -7,6 +7,12 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema(
   {
+    type: {
+      type: String,
+      enum: ["ad", "direct"],
+      default: "ad",
+      required: true,
+    },
     gender: {
       type: String,
       enum: ["male", "female"],

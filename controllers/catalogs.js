@@ -29,7 +29,6 @@
    }
  };
  
- 
  /**
   * Get all Catalogs
   * @param {object} req

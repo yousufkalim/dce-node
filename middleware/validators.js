@@ -24,11 +24,7 @@ exports.validatePassword = [
 ];
 // User Signup Validation
 exports.validateClientUpdate = [
-  check("name", "Name is required.").notEmpty().trim(),
-  check("dob", "Date of Birth is required").notEmpty().isDate().trim(),
-  check("address", "Address  is required").notEmpty().trim(),
-  check("city", "city  is required").notEmpty().trim(),
-  check("country", "country is required").notEmpty().trim(),
+  check("phone", "Phone is required.").notEmpty().trim(),
 ];
 
 // Tailor Signup Validation
@@ -37,6 +33,8 @@ exports.validateTailorUpdate = [
   check("experience", "Experience is required.").notEmpty().trim(),
   check("diploma", "Experience is required.").notEmpty().trim(),
   check("shop_name", "Shop Name is required").notEmpty().trim(),
+  check("hourly_rate", "Hourly Rate is required").notEmpty().trim(),
+  check("free_shipping_rate", "Free Shipping Rate is required").notEmpty().trim(),
 ];
 
 // Login validation
