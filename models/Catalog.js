@@ -29,6 +29,18 @@
        type: String,
        required: true,
      },
+     rating: {
+      count: {
+        type: Number,
+        required: true,
+        default: 10
+      },
+      value: {
+        type: Number,
+        required: true,
+        default: 5
+      },
+    },
      tailor: {
        type: mongoose.Schema.Types.ObjectId,
        ref: "tailors",
