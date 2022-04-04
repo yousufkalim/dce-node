@@ -84,7 +84,7 @@ exports.validateOrder = [
   check("delivery.country", "Delivery country is required").notEmpty().trim(),
   check("delivery.city", "Delivery city is required").notEmpty().trim(),
   check("delivery.type", "delivery type is required").notEmpty().trim(),
-  check("delivery.date", "delivery date is required").notEmpty().isDate().trim(),
+  check("delivery.date", "delivery date is required").notEmpty().trim(),
   check("budget.min_price", "Minimum Price is required").notEmpty().trim(),
   check("budget.max_price", "Max Price is required").notEmpty().trim(),
 ];

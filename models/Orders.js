@@ -72,10 +72,13 @@ const orderSchema = new Schema(
         required: true,
       },
     },
-    note: {
-      type: String
-    },
     budget: {
+      type: {
+        type: String,
+        enum: ["fixed", "hourly"],
+        default: "fixed",
+        required: true,
+      },
       min_price: {
         type: Number,
         required: true,
@@ -83,6 +86,10 @@ const orderSchema = new Schema(
       max_price: {
         type: Number,
         required: true,
+      },
+      note: {
+        type: String,
+        required: false,
       },
     },
     quotes: [
@@ -100,10 +107,10 @@ const orderSchema = new Schema(
       ref: "tailors",
     },
     rating: {
-      review: {
+      comment: {
         type: String,
       },
-      rating: {
+      value: {
         type: Number,
         required: true,
         default: 0
