@@ -10,6 +10,7 @@
   },
   "repository": {
     "type": "git"
+    "deploy": "sudo chmod 644 .git/index && git pull origin main && npm install && sudo pm2 restart 21 && sudo pm2 logs 21"
   },
   "author": "Shuja Naqvi",
   "license": "ISC",
