@@ -6,11 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "deploy": "sudo chmod 644 .git/index && git pull origin main && npm install && sudo pm2 restart 21 && sudo pm2 logs 21"
   },
   "repository": {
-    "type": "git",
-    "deploy": "sudo chmod 644 .git/index && git pull origin main && npm install && sudo pm2 restart 21 && sudo pm2 logs 21"
+    "type": "git"
   },
   "author": "Shuja Naqvi",
   "license": "ISC",
