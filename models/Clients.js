@@ -49,6 +49,14 @@ const clientSchema = new mongoose.Schema(
         ref: "orders",
       },
     ],
+    phone: {
+      type: String,
+      required: false
+    },
+    last_password_changed: {
+      type: Date,
+      required: false
+    }
   },
   {
     timestamps: true,

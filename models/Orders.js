@@ -7,6 +7,12 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema(
   {
+    type: {
+      type: String,
+      enum: ["ad", "direct"],
+      default: "ad",
+      required: true,
+    },
     gender: {
       type: String,
       enum: ["male", "female"],
@@ -66,10 +72,13 @@ const orderSchema = new Schema(
         required: true,
       },
     },
-    note: {
-      type: String
-    },
     budget: {
+      type: {
+        type: String,
+        enum: ["fixed", "hourly"],
+        default: "fixed",
+        required: true,
+      },
       min_price: {
         type: Number,
         required: true,
@@ -77,6 +86,10 @@ const orderSchema = new Schema(
       max_price: {
         type: Number,
         required: true,
+      },
+      note: {
+        type: String,
+        required: false,
       },
     },
     quotes: [
@@ -94,18 +107,20 @@ const orderSchema = new Schema(
       ref: "tailors",
     },
     rating: {
-      review: {
-        type: String,
-      },
-      rating: {
+      count: {
         type: Number,
         required: true,
-        default: 0
+        default: 10
+      },
+      value: {
+        type: Number,
+        required: true,
+        default: 5
       },
     },
     status: {
       type: String,
-      enum: ["pending", "in_progress", "completed"],
+      enum: ["pending", "in_progress", "completed", "discarded"],
       default: "pending",
     },
   },

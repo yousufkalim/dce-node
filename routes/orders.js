@@ -15,6 +15,10 @@ const { validateOrder, isValidated } = require("../middleware/validators");
  */
 // Create - New order
 router.post("/", checkAuth, validateOrder, isValidated, orders.create);
+// Acceppt - order
+router.post("/acceptRequest", checkAuth, orders.acceptRequest);
+// Discard - order
+router.post("/discard", checkAuth, orders.discard);
 //Get-orders by query
 router.post("/byQuery", checkAuth, orders.getAllByQuery);
 //Get-order by Id

@@ -15,7 +15,7 @@ const chatsSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "clients",
     },
-    chat_info: [
+    messages: [
       {
         Text: {
           type: String,
