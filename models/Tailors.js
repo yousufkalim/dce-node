@@ -76,6 +76,10 @@ const tailorSchema = new mongoose.Schema(
     last_password_changed: {
       type: Date,
       required: false
+    },
+    avatar: {
+      type: String,
+      required: false
     }
   },
   {

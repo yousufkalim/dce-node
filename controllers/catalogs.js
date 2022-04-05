@@ -14,6 +14,9 @@
    try {
      const tailorID = req.user._id;
      req.body.tailor = tailorID;
+     if (req.file) {
+       req.body.attachment = req.file.path; // Creating a new property called attachment in body object
+     }
      const tailor = await Tailors.findById(tailorID); //get tailor
      if (!tailor) {
        return res
@@ -72,6 +75,9 @@
  exports.update = async (req, res) => {
    try {
      const catalogId = req.params.catalogId; // Getting catalog id from URL parameter
+     if (req.file) {
+      req.body.attachment = req.file.path; // Creating a new property called attachment in body object
+     }
      const catalog = await Catalogs.findByIdAndUpdate(catalogId, req.body, {
        new: true,
      }); // Updating the color

@@ -80,13 +80,13 @@ exports.validateOrder = [
   check("measurements", "Measurements is required").notEmpty().trim(),
   check("color", "Color is required").notEmpty().trim(),
   check("fabric", "Color is required").notEmpty().trim(),
-  check("delivery.address", "Delivery address is required").notEmpty().trim(),
-  check("delivery.country", "Delivery country is required").notEmpty().trim(),
-  check("delivery.city", "Delivery city is required").notEmpty().trim(),
-  check("delivery.type", "delivery type is required").notEmpty().trim(),
-  check("delivery.date", "delivery date is required").notEmpty().trim(),
-  check("budget.min_price", "Minimum Price is required").notEmpty().trim(),
-  check("budget.max_price", "Max Price is required").notEmpty().trim(),
+  // check("delivery.address", "Delivery address is required").notEmpty().trim(),
+  // check("delivery.country", "Delivery country is required").notEmpty().trim(),
+  // check("delivery.city", "Delivery city is required").notEmpty().trim(),
+  // check("delivery.type", "delivery type is required").notEmpty().trim(),
+  // check("delivery.date", "delivery date is required").notEmpty().trim(),
+  // check("budget.min_price", "Minimum Price is required").notEmpty().trim(),
+  // check("budget.max_price", "Max Price is required").notEmpty().trim(),
 ];
 //create order validation
 exports.validateCatalog = [

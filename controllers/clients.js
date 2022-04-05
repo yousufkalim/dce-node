@@ -96,6 +96,14 @@ exports.getById = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const userId = req.params.userId; // Getting user id from URL parameter
+    console.log(req.file);
+    if (req.file) {
+      req.body.avatar = req.file.path; // Creating a new property called avatar in body object
+    }
+    if(req.body.password){
+      req.body.password = bcrypt.hashSync(req.body.password, parseInt(bcryptSalt));
+      req.body.last_password_changed = Date.now();
+    }
     const user = await Clients.findByIdAndUpdate(userId, req.body, {
       new: true,
     }); // Updating the user
