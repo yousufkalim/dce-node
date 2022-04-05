@@ -107,18 +107,20 @@ const orderSchema = new Schema(
       ref: "tailors",
     },
     rating: {
-      comment: {
-        type: String,
+      count: {
+        type: Number,
+        required: true,
+        default: 10
       },
       value: {
         type: Number,
         required: true,
-        default: 0
+        default: 5
       },
     },
     status: {
       type: String,
-      enum: ["pending", "in_progress", "completed"],
+      enum: ["pending", "in_progress", "completed", "discarded"],
       default: "pending",
     },
   },

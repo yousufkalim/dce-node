@@ -65,6 +65,34 @@ exports.create = async (req, res) => {
 };
 
 /**
+ * Discard order
+ * @param {object} req
+ * @param {object} res
+ */
+ exports.discard = async (req, res) => {
+  try {
+    const orderID = req.body.id;
+    const order = await Orders.findById(orderID);
+    if(!order){
+      return res
+         .status(404)
+         .json({ success: false, message: "Order does not exists." }); //if tailor not found
+    }
+    await Orders.findByIdAndUpdate(
+      orderID,
+      {
+        "status": "discarded",
+      }
+    ); //update order
+    res.json({ success: true, message: "Order discarded." }); //Done ...:)
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
  * Get all Orders
  * @param {object} req
  * @param {object} res

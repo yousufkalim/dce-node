@@ -53,6 +53,10 @@ const clientSchema = new mongoose.Schema(
       type: String,
       required: false
     },
+    last_password_changed: {
+      type: Date,
+      required: false
+    }
   },
   {
     timestamps: true,
