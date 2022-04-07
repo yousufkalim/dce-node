@@ -5,6 +5,7 @@
 const router = require("express").Router();
 const clients = require("../controllers/clients");
 const { checkAuth }  = require("../middleware/checkAuth");
+const { upload } = require("../middleware/multer");
 const {
   validateClient,
   validateClientUpdate,
@@ -28,7 +29,7 @@ router.get("/", checkAuth, clients.getAll); // Get all users at once
 router.get("/:userId", checkAuth, clients.getById); // Get one user by it's id
 
 // Update
-router.put("/", checkAuth, validateClientUpdate, isValidated, clients.update); // Update a specific user by it's id
+router.put("/", upload.single("image"), checkAuth, validateClientUpdate, isValidated, clients.update); // Update a specific user by it's id
 
 // Export
 module.exports = router;

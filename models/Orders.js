@@ -15,12 +15,10 @@ const orderSchema = new Schema(
     },
     gender: {
       type: String,
-      enum: ["male", "female"],
       required: true,
     },
     category: {
       type: String,
-      enum: ["category_1", "category_2"],
       required: true,
     },
     name: {
@@ -29,7 +27,6 @@ const orderSchema = new Schema(
     },
     cut: {
       type: String,
-      enum: ["5", "10"],
       required: true,
     },
     measurements: {
@@ -38,12 +35,10 @@ const orderSchema = new Schema(
     },
     color: {
       type: String,
-      enum: ["colour_1", "colour_2"],
       required: true,
     },
     fabric: {
       type: String,
-      enum: ["fabric_1", "fabric_2"],
       required: true,
     },
     delivery: {
@@ -122,6 +117,10 @@ const orderSchema = new Schema(
       type: String,
       enum: ["pending", "in_progress", "completed", "discarded"],
       default: "pending",
+    },
+    attachment: {
+      type: String,
+      required: true,
     },
   },
   {

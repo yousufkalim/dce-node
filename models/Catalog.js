@@ -18,7 +18,6 @@
      },
      category: {
        type: String,
-       enum: ["category_1", "category_2"],
        required: true,
      },
      price: {
@@ -41,10 +40,14 @@
         default: 5
       },
     },
-     tailor: {
-       type: mongoose.Schema.Types.ObjectId,
-       ref: "tailors",
-     },
+    tailor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "tailors",
+    },
+    attachment: {
+      type: String,
+      required: true,
+    },
    },
    {
      timestamps: true,
