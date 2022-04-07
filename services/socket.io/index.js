@@ -1,11 +1,11 @@
-const Chats = require("../models/Chats");
+const Chats = require("../../models/Chats");
 
 module.exports = (io) => {
   // Socket init
   io.on("connection", (socket) => {
-    console.log("User connected successfully", socket.handshake.query.userId);
+    console.log("User connected successfully", socket.handshake.query.token);
 
-    socket.join(socket.handshake.query.userId);
+    socket.join(socket.handshake.query.token);
 
     socket.emit("welcome", "Hello World");
 

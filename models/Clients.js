@@ -51,16 +51,16 @@ const clientSchema = new mongoose.Schema(
     ],
     phone: {
       type: String,
-      required: false
+      required: false,
     },
     last_password_changed: {
       type: Date,
-      required: false
+      required: false,
     },
     avatar: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   {
     timestamps: true,

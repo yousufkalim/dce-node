@@ -26,7 +26,6 @@ exports.create = async (req, res) => {
       client: exisitingOrder.client,
     });
     if (chat) {
-      chat.quotes.push(quote._id);
       exisitingOrder.quotes.push(quote._id);
       await chat.save();
       await exisitingOrder.save();
@@ -35,7 +34,6 @@ exports.create = async (req, res) => {
     chat = await Chats.create({
       tailor: tailorId,
       client: exisitingOrder.client,
-      quotes: quote._id,
     });
     exisitingOrder.quotes.push(quote._id);
     await exisitingOrder.save();
@@ -76,12 +74,10 @@ exports.acceptQuote = async (req, res) => {
         message: "Quote accepted successfully.",
       });
     } else {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Could not accept quote successfully.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Could not accept quote successfully.",
+      });
     }
   } catch (err) {
     // Error handling

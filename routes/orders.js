@@ -4,7 +4,7 @@
  */
 const router = require("express").Router();
 const orders = require("../controllers/orders");
-const { checkAuth }  = require("../middleware/checkAuth");
+const { checkAuth } = require("../middleware/checkAuth");
 const { upload } = require("../middleware/multer");
 const { validateOrder, isValidated } = require("../middleware/validators");
 /**
@@ -15,7 +15,14 @@ const { validateOrder, isValidated } = require("../middleware/validators");
  * @method delete delete order
  */
 // Create - New order
-router.post("/", upload.single("image"), checkAuth, validateOrder, isValidated, orders.create);
+router.post(
+  "/",
+  upload.single("image"),
+  checkAuth,
+  validateOrder,
+  isValidated,
+  orders.create
+);
 // Acceppt - order
 router.post("/acceptRequest", checkAuth, orders.acceptRequest);
 // Discard - order

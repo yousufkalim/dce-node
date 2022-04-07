@@ -59,28 +59,28 @@ const tailorSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: false
+      required: false,
     },
     shop_name: {
       type: String,
-      required: false
+      required: false,
     },
     hourly_rate: {
       type: Number,
-      required: false
+      required: false,
     },
     free_shipping_rate: {
       type: String,
-      required: false
+      required: false,
     },
     last_password_changed: {
       type: Date,
-      required: false
+      required: false,
     },
     avatar: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   {
     timestamps: true,
