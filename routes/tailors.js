@@ -25,8 +25,9 @@ const {
 router.post("/", validateClient, isValidated, tailors.create);
 
 // Read
-router.get("/", checkAuth, tailors.getAll); // Get all tailor at once
+router.get("/", checkAuth, tailors.getAll); // Get all tailors by query
 router.get("/:userId", checkAuth, tailors.getById); // Get one tailor by it's id
+router.get("/byQuery/:query", checkAuth, tailors.getAllByQuery); // Get all tailors by query
 
 // Update
 router.put(

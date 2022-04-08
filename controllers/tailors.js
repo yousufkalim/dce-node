@@ -70,6 +70,24 @@ exports.getAll = async (req, res) => {
   }
 };
 /**
+ * Get all Tailors
+ * @param {object} req
+ * @param {object} res
+ */
+exports.getAllByQuery = async (req, res) => {
+  try {
+    const query = req.params.query; // Getting query from URL parameter
+    const users = await Tailors.find({
+      name: { $regex: new RegExp("^" + query, "i") },
+    }).populate("orders"); // Finding all the tailors from db
+    res.json({ success: true, users }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+/**
  * Get user by id
  * @param {object} req
  * @param {object} res

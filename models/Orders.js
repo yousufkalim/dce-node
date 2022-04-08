@@ -41,6 +41,11 @@ const orderSchema = new Schema(
       type: String,
       required: true,
     },
+    includes_alteration_services: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     delivery: {
       address: {
         type: String,

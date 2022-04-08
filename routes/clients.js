@@ -25,8 +25,9 @@ const {
 router.post("/", validateClient, isValidated, clients.create);
 
 // Read
-router.get("/", checkAuth, clients.getAll); // Get all users at once
+router.get("/", checkAuth, clients.getAll); // Get all users by query
 router.get("/:userId", checkAuth, clients.getById); // Get one user by it's id
+router.get("/byQuery/:query", checkAuth, clients.getAll); // Get all users by query
 
 // Update
 router.put(

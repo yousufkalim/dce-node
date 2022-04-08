@@ -87,6 +87,41 @@ exports.acceptQuote = async (req, res) => {
 };
 
 /**
+ * Create quotes
+ * @param {object} req
+ * @param {object} res
+ */
+exports.rejectQuote = async (req, res) => {
+  try {
+    const clientId = req.user._id;
+    const { quote } = req.body;
+    const existingQuote = await Quotes.findById(quote);
+    if (!existingQuote)
+      return res.json({ success: false, message: "QuoteId is invalid" });
+    const quotes = await Quotes.findByIdAndUpdate(existingQuote._id, {
+      $set: {
+        status: "rejected",
+      },
+    });
+    if (quotes) {
+      return res.json({
+        success: true,
+        message: "Quote discarded successfully.",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Could not discard quote successfully.",
+      });
+    }
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
  * Get quotes by id
  * @param {object} req
  * @param {object} res

@@ -28,6 +28,14 @@ router.post(
   isValidated,
   quotes.acceptQuote
 );
+// Reject - quotes
+router.post(
+  "/reject",
+  checkAuth,
+  validateAcceptQuote,
+  isValidated,
+  quotes.rejectQuote
+);
 //Get-quote by Id
 router.get("/:quoteId", checkAuth, quotes.getById);
 // Export

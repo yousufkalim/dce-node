@@ -108,7 +108,43 @@ exports.getAllByQuery = async (req, res) => {
       })
       .populate("client")
       .populate("tailor"); // Finding all the orders from db
-    console.log(orders.length);
+    // TODO: Optimize it.
+    for (let i = 0; i < orders.length; i++) {
+      const quotes = orders[i].quotes.filter((_) => _.status == "pending");
+      orders[i].quotes = quotes;
+    }
+    res.json({ success: true, orders }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Get all Orders
+ * @param {object} req
+ * @param {object} res
+ */
+exports.getAllByName = async (req, res) => {
+  try {
+    const name = req.params.name; // Getting order id from URL parameter
+    const orders = await Orders.find({
+      name: { $regex: new RegExp("^" + name, "i") },
+    })
+      .populate({
+        path: "quotes",
+        populate: {
+          path: "tailor",
+        },
+      })
+      .populate("client")
+      .populate("tailor"); // Finding all the orders from db
+    // TODO: Optimize it.
+    for (let i = 0; i < orders.length; i++) {
+      const quotes = orders[i].quotes.filter((_) => _.status == "pending");
+      orders[i].quotes = quotes;
+    }
     res.json({ success: true, orders }); // Success
   } catch (err) {
     // Error handling
@@ -134,6 +170,9 @@ exports.getById = async (req, res) => {
       })
       .populate("client")
       .populate("tailor"); // Finding all the orders from db
+    // TODO: Optimize it.
+    const quotes = order.quotes.filter((_) => _.status == "pending");
+    order.quotes = quotes;
     res.json({ success: true, order }); // Success
   } catch (err) {
     // Error handling

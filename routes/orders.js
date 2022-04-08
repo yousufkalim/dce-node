@@ -27,8 +27,10 @@ router.post(
 router.post("/acceptRequest", checkAuth, orders.acceptRequest);
 // Discard - order
 router.post("/discard", checkAuth, orders.discard);
-//mGet-orders by query
+// Get-orders by query
 router.post("/byQuery", checkAuth, orders.getAllByQuery);
+// Get-orders by name
+router.get("/byName/:name", checkAuth, orders.getAllByName);
 // Get-order by Id
 router.get("/:orderId", checkAuth, orders.getById);
 // Update order
