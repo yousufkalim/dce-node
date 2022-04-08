@@ -34,7 +34,9 @@ exports.validateTailorUpdate = [
   check("diploma", "Experience is required.").notEmpty().trim(),
   check("shop_name", "Shop Name is required").notEmpty().trim(),
   check("hourly_rate", "Hourly Rate is required").notEmpty().trim(),
-  check("free_shipping_rate", "Free Shipping Rate is required").notEmpty().trim(),
+  check("free_shipping_rate", "Free Shipping Rate is required")
+    .notEmpty()
+    .trim(),
 ];
 
 // Login validation

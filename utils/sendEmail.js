@@ -69,14 +69,14 @@ exports.sendOTP = (email, otp) => {
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         // Error
-        console.log( `THIS IS THE error: ${error}`);
+        console.log(`THIS IS THE error: ${error}`);
         reject(error);
       } else {
         // Success
-        console.log( `THIS WILL BE RESOLVED`);
+        console.log(`THIS WILL BE RESOLVED`);
         resolve({
           success: true,
-          message: "Email sent successfully"
+          message: "Email sent successfully",
         });
       }
     });

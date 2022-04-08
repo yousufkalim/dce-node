@@ -38,30 +38,27 @@ exports.create = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
- exports.acceptRequest = async (req, res) => {
+exports.acceptRequest = async (req, res) => {
   try {
     const orderID = req.body.id;
     const order = await Orders.findById(orderID);
-    if(!order){
+    if (!order) {
       return res
-         .status(404)
-         .json({ success: false, message: "Order does not exists." }); //if tailor not found
+        .status(404)
+        .json({ success: false, message: "Order does not exists." }); //if tailor not found
     }
     const quote = await Quotes.create({
-      "order": order._id,
-      "price": order.budget.min_price,
-      "description": "*** System generated description ***",
-      "status": "accepted"
+      order: order._id,
+      price: order.budget.min_price,
+      description: "*** System generated description ***",
+      status: "accepted",
     }); // Create quote and accept it
-    await Orders.findByIdAndUpdate(
-      orderID,
-      {
-        "status": "in_progress",
-        "$push": {
-          quotes: quote._id
-        }
-      }
-    ); //update order
+    await Orders.findByIdAndUpdate(orderID, {
+      status: "in_progress",
+      $push: {
+        quotes: quote._id,
+      },
+    }); //update order
     res.json({ success: true, message: "Order accepted." }); //Done ...:)
   } catch (err) {
     // Error handling
@@ -75,21 +72,18 @@ exports.create = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
- exports.discard = async (req, res) => {
+exports.discard = async (req, res) => {
   try {
     const orderID = req.body.id;
     const order = await Orders.findById(orderID);
-    if(!order){
+    if (!order) {
       return res
-         .status(404)
-         .json({ success: false, message: "Order does not exists." }); //if tailor not found
+        .status(404)
+        .json({ success: false, message: "Order does not exists." }); //if tailor not found
     }
-    await Orders.findByIdAndUpdate(
-      orderID,
-      {
-        "status": "discarded",
-      }
-    ); //update order
+    await Orders.findByIdAndUpdate(orderID, {
+      status: "discarded",
+    }); //update order
     res.json({ success: true, message: "Order discarded." }); //Done ...:)
   } catch (err) {
     // Error handling
@@ -103,17 +97,15 @@ exports.create = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
- exports.getAllByQuery = async (req, res) => {
+exports.getAllByQuery = async (req, res) => {
   try {
     const orders = await Orders.find(req.body)
-      .populate(
-        {
-          path: "quotes",
-          populate: {
-            path: "tailor",
-          }
-        }
-      )
+      .populate({
+        path: "quotes",
+        populate: {
+          path: "tailor",
+        },
+      })
       .populate("client")
       .populate("tailor"); // Finding all the orders from db
     console.log(orders.length);
@@ -134,14 +126,12 @@ exports.getById = async (req, res) => {
   try {
     const orderId = req.params.orderId; // Getting order id from URL parameter
     const order = await Orders.findById(orderId)
-      .populate(
-        {
-          path: "quotes",
-          populate: {
-            path: "tailor",
-          }
-        }
-      )
+      .populate({
+        path: "quotes",
+        populate: {
+          path: "tailor",
+        },
+      })
       .populate("client")
       .populate("tailor"); // Finding all the orders from db
     res.json({ success: true, order }); // Success
@@ -176,4 +166,3 @@ exports.update = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
-

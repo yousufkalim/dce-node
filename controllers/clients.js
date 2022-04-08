@@ -27,7 +27,7 @@ exports.create = async (req, res) => {
     }
 
     const userOTP = await OTPs.findOne({ email });
-    if(!userOTP?.is_verified){
+    if (!userOTP?.is_verified) {
       // If this email has not been verified yet.
       return res
         .status(409)
@@ -47,7 +47,6 @@ exports.create = async (req, res) => {
       // done
       return res.json({ success: true, user, token });
     });
-    
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);
@@ -100,8 +99,11 @@ exports.update = async (req, res) => {
     if (req.file) {
       req.body.avatar = req.file.path; // Creating a new property called avatar in body object
     }
-    if(req.body.password){
-      req.body.password = bcrypt.hashSync(req.body.password, parseInt(bcryptSalt));
+    if (req.body.password) {
+      req.body.password = bcrypt.hashSync(
+        req.body.password,
+        parseInt(bcryptSalt)
+      );
       req.body.last_password_changed = Date.now();
     }
     const user = await Clients.findByIdAndUpdate(userId, req.body, {
@@ -114,4 +116,3 @@ exports.update = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
-
