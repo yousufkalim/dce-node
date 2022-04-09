@@ -5,6 +5,7 @@
 const router = require("express").Router();
 
 // Parent Routes
+router.use("/admins", require("./admins")); // All the user routes
 router.use("/clients", require("./clients")); // All the clients routes
 router.use("/tailors", require("./tailors")); // All the Tailors routes
 router.use("/orders", require("./orders")); //All the orders routes
