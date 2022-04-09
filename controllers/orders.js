@@ -34,6 +34,22 @@ exports.create = async (req, res) => {
 };
 
 /**
+ * Get all Tailors
+ * @param {object} req
+ * @param {object} res
+ */
+exports.getAll = async (req, res) => {
+  try {
+    const orders = await Orders.find().populate("quotes").populate("client").populate("tailor"); // Finding all the tailors from db
+    res.json({ success: true, orders }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
  * Accept order request
  * @param {object} req
  * @param {object} res
@@ -43,9 +59,7 @@ exports.acceptRequest = async (req, res) => {
     const orderID = req.body.id;
     const order = await Orders.findById(orderID);
     if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order does not exists." }); //if tailor not found
+      return res.status(404).json({ success: false, message: "Order does not exists." }); //if tailor not found
     }
     const quote = await Quotes.create({
       order: order._id,
@@ -77,9 +91,7 @@ exports.discard = async (req, res) => {
     const orderID = req.body.id;
     const order = await Orders.findById(orderID);
     if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order does not exists." }); //if tailor not found
+      return res.status(404).json({ success: false, message: "Order does not exists." }); //if tailor not found
     }
     await Orders.findByIdAndUpdate(orderID, {
       status: "discarded",
