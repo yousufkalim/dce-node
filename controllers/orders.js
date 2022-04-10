@@ -34,7 +34,7 @@ exports.create = async (req, res) => {
 };
 
 /**
- * Get all Tailors
+ * Get all orders
  * @param {object} req
  * @param {object} res
  */
