@@ -18,8 +18,7 @@ exports.create = async (req, res) => {
     const { order } = req.body;
     req.body.tailor = tailorId;
     const exisitingOrder = await Orders.findById(order);
-    if (!exisitingOrder)
-      return res.json({ success: false, message: "OrderId is invalid" });
+    if (!exisitingOrder) return res.json({ success: false, message: "OrderId is invalid" });
     const quote = await Quotes.create(req.body);
     let chat = await Chats.findOne({
       tailor: tailorId,
@@ -55,8 +54,7 @@ exports.acceptQuote = async (req, res) => {
     const clientId = req.user._id;
     const { quote } = req.body;
     const existingQuote = await Quotes.findById(quote);
-    if (!existingQuote)
-      return res.json({ success: false, message: "QuoteId is invalid" });
+    if (!existingQuote) return res.json({ success: false, message: "QuoteId is invalid" });
     const quotes = await Quotes.findByIdAndUpdate(existingQuote._id, {
       $set: {
         status: "accepted",
@@ -79,6 +77,22 @@ exports.acceptQuote = async (req, res) => {
         message: "Could not accept quote successfully.",
       });
     }
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Get all quotes
+ * @param {object} req
+ * @param {object} res
+ */
+exports.getAll = async (req, res) => {
+  try {
+    const quotes = await Quotes.find().populate("order").populate("tailor"); // Finding all the tailors from db
+    res.json({ success: true, quotes }); // Success
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);
