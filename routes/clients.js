@@ -5,12 +5,9 @@
 const router = require("express").Router();
 const clients = require("../controllers/clients");
 const { checkAuth } = require("../middleware/checkAuth");
+const { checkAdminAuth } = require("../middleware/adminAuth");
 const { upload } = require("../middleware/multer");
-const {
-  validateClient,
-  validateClientUpdate,
-  isValidated,
-} = require("../middleware/validators");
+const { validateClient, validateClientUpdate, isValidated } = require("../middleware/validators");
 
 /**
  * ////////////////////////// Routes /////////////////////////
@@ -23,20 +20,18 @@ const {
 
 // Create - User Signup
 router.post("/", validateClient, isValidated, clients.create);
+router.post("/createByAdmin", checkAdminAuth, validateClient, isValidated, clients.createByAdmin);
 
 // Read
 router.get("/", checkAuth, clients.getAll); // Get all users at once
 router.get("/:userId", checkAuth, clients.getById); // Get one user by it's id
 
 // Update
-router.put(
-  "/",
-  upload.single("image"),
-  checkAuth,
-  validateClientUpdate,
-  isValidated,
-  clients.update
-); // Update a specific user by it's id
+router.put("/", upload.single("image"), checkAuth, validateClientUpdate, isValidated, clients.update); // Update a specific user by it's id
+router.put("/updateByAdmin/:userId", checkAdminAuth, clients.updateByAdmin);
+
+// Delete
+router.delete("/:userId", checkAdminAuth, clients.delete);
 
 // Export
 module.exports = router;
