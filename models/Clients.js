@@ -24,19 +24,19 @@ const clientSchema = new mongoose.Schema(
     },
     dob: {
       type: Date,
-      required: true,
+      required: false,
     },
     address: {
       type: String,
-      required: true,
+      required: false,
     },
     country: {
       type: String,
-      required: true,
+      required: false,
     },
     city: {
       type: String,
-      required: true,
+      required: false,
     },
     role: {
       type: String,

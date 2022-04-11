@@ -5,6 +5,7 @@
 const router = require("express").Router();
 const catalogs = require("../controllers/catalogs");
 const { checkAuth } = require("../middleware/checkAuth");
+const { checkAdminAuth } = require("../middleware/adminAuth");
 const { upload } = require("../middleware/multer");
 const { validateCatalog, isValidated } = require("../middleware/validators");
 /**
@@ -15,17 +16,11 @@ const { validateCatalog, isValidated } = require("../middleware/validators");
  * @method delete delete catalog
  */
 // Create - New catalog
-router.post(
-  "/",
-  upload.single("image"),
-  checkAuth,
-  validateCatalog,
-  isValidated,
-  catalogs.create
-);
+router.post("/", upload.single("image"), checkAuth, validateCatalog, isValidated, catalogs.create);
 // Get-catalogs by query
 router.post("/byQuery", checkAuth, catalogs.getAllByQuery);
 // Get-catalog by Id
+router.get("/", checkAdminAuth, catalogs.getAll);
 router.get("/:catalogId", checkAuth, catalogs.getById);
 // Update catalog
 router.put("/:catalogId", upload.single("image"), checkAuth, catalogs.update);

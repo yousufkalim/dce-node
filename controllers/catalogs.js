@@ -19,12 +19,26 @@ exports.create = async (req, res) => {
     }
     const tailor = await Tailors.findById(tailorID); //get tailor
     if (!tailor) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Client do not exists" }); //if tailor not found
+      return res.status(404).json({ success: false, message: "Client do not exists" }); //if tailor not found
     }
     const catalog = await Catalogs.create(req.body); //create catalog of tailor
     res.json({ success: true, catalog }); //Done ...:)
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Get all catalogs
+ * @param {object} req
+ * @param {object} res
+ */
+exports.getAll = async (req, res) => {
+  try {
+    const catalogs = await Catalogs.find().populate("tailor"); // Finding all the tailors from db
+    res.json({ success: true, catalogs }); // Success
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);

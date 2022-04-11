@@ -22,35 +22,27 @@ const tailorSchema = new mongoose.Schema(
     },
     dob: {
       type: Date,
-      required: true,
     },
     address: {
       type: String,
-      required: true,
     },
     country: {
       type: String,
-      required: true,
     },
     city: {
       type: String,
-      required: true,
     },
     experience: {
       type: String,
-      required: true,
     },
     area_of_experience: {
       type: String,
-      required: true,
     },
     diploma: {
       type: String,
-      required: true,
     },
     speciality: {
       type: String,
-      required: true,
     },
     role: {
       type: String,
