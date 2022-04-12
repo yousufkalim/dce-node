@@ -12,7 +12,10 @@ router.use("/orders", require("./orders")); //All the orders routes
 router.use("/catalogs", require("./catalogs")); //All the catalogs routes
 router.use("/otps", require("./OTPs")); //All the otps routes
 router.use("/quotes", require("./quotes")); //All the quotes routes
+router.use("/complaints", require("./complaints")); //All the complaints routes
+
 router.use("/auth", require("./auth")); // All the auth routes
+
 router.use("/blogs", require("./blogs"));
 router.use("/images", require("./images"));
 
