@@ -5,10 +5,9 @@
 
 const Quotes = require("../models/Quotes");
 const Orders = require("../models/Orders");
-const Chats = require("../models/Chats");
 
 /**
- * Create quotes
+ * Create quote
  * @param {object} req
  * @param {object} res
  */
@@ -21,20 +20,6 @@ exports.create = async (req, res) => {
     if (!exisitingOrder)
       return res.json({ success: false, message: "OrderId is invalid" });
     const quote = await Quotes.create(req.body);
-    let chat = await Chats.findOne({
-      tailor: tailorId,
-      client: exisitingOrder.client,
-    });
-    if (chat) {
-      exisitingOrder.quotes.push(quote._id);
-      await chat.save();
-      await exisitingOrder.save();
-      return res.json({ success: true, exisitingOrder });
-    }
-    chat = await Chats.create({
-      tailor: tailorId,
-      client: exisitingOrder.client,
-    });
     exisitingOrder.quotes.push(quote._id);
     await exisitingOrder.save();
     return res.json({ success: true, message: "Quote sent successfully." });
