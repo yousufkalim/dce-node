@@ -1,5 +1,5 @@
 /**
- * Conversations schema
+ * Messages schema
  * @author Shuja Naqvi
  */
 const mongoose = require("mongoose");

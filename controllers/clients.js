@@ -115,6 +115,7 @@ exports.getById = async (req, res) => {
  */
 exports.update = async (req, res) => {
   try {
+    console.log(req.body);
     const userId = req.params.userId; // Getting user id from URL parameter
     console.log(req.file);
     if (req.file) {

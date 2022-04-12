@@ -2,7 +2,7 @@
 
 const users = [];
 
-async function addUser({ socketID, user }) {
+function addUser({ socketID, user }) {
   const obj = {
     socketID,
     user,
@@ -13,7 +13,7 @@ async function addUser({ socketID, user }) {
   return;
 }
 
-async function removeUser(socketID) {
+function removeUser(socketID) {
   for (let i = 0; i < users.length; i++) {
     let obj = users[i];
     if (obj.socketID == socketID) {
@@ -24,18 +24,18 @@ async function removeUser(socketID) {
   return;
 }
 
-async function findUser({ userID, socketID }) {
-  for (let i = 0; i < user.length; i++) {
+function findUser({ userID, socketID }) {
+  for (let i = 0; i < users.length; i++) {
     let obj = users[i];
     if (obj.id == userID || obj.socketID == socketID) {
-      return obj;
+      return obj.user;
     }
   }
 
   return;
 }
 
-async function printUsers() {
+function printUsers() {
   console.log("----------------------------");
   console.log(`THIS IS THE users.length: ${users.length}`);
   console.log();
