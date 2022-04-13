@@ -1,36 +1,16 @@
-const Chats = require("../../models/Chats");
+// Author: Umar Bin Ayaz
+
+const connectHandler = require("./event_handlers");
+const State = require("./utils/state");
 
 module.exports = (io) => {
-  // Socket init
-  io.on("connection", (socket) => {
-    console.log("User connected successfully", socket.handshake.query.token);
+  io.on("connection", (socket) => connectHandler(io, socket));
 
-    socket.join(socket.handshake.query.token);
-
-    socket.emit("welcome", "Hello World");
-
-    socket.on("chatInit", async ({ tailor, client, message }) => {
-      const chat = await Chats.create({
-        tailor,
-        client,
-        $push: {
-          messages: message,
-        },
-      });
-
-      socket.emit(`chatInit-${message.receiver}`, chat);
-    });
-
-    socket.on("sendMessage", async ({ chatId, message }) => {
-      const chat = await Chats.findByIdAndUpdate(chatId, {
-        $push: {
-          messages: message,
-        },
-      });
-
-      socket.emit(`message-${chatId}-${message.receiver}`, message);
-    });
-
-    exports.socket = socket;
+  const stdin = process.openStdin();
+  stdin.addListener("data", function (d) {
+    console.log(`COMMAND RECEIVED: ${d}`);
+    if (d.toString().trim() == "q") {
+      State.printUsers();
+    }
   });
 };
