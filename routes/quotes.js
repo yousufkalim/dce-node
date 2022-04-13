@@ -5,6 +5,7 @@
 const router = require("express").Router();
 const quotes = require("../controllers/quotes");
 const { checkAuth } = require("../middleware/checkAuth");
+const { checkAdminAuth } = require("../middleware/adminAuth");
 const {
   validateQuote,
   validateAcceptQuote,
@@ -37,6 +38,7 @@ router.post(
   quotes.rejectQuote
 );
 //Get-quote by Id
+router.get("/", checkAdminAuth, quotes.getAll);
 router.get("/:quoteId", checkAuth, quotes.getById);
 // Export
 module.exports = router;
