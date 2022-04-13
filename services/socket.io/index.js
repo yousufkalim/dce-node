@@ -1,10 +1,10 @@
 // Author: Umar Bin Ayaz
 
-const connect = require("./event_handlers");
+const connectHandler = require("./event_handlers");
 const State = require("./utils/state");
 
 module.exports = (io) => {
-  io.on("connection", (socket) => connect(socket));
+  io.on("connection", (socket) => connectHandler(io, socket));
 
   const stdin = process.openStdin();
   stdin.addListener("data", function (d) {

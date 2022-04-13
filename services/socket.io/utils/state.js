@@ -27,12 +27,12 @@ function removeUser(socketID) {
 function findUser({ userID, socketID }) {
   for (let i = 0; i < users.length; i++) {
     let obj = users[i];
-    if (obj.id == userID || obj.socketID == socketID) {
-      return obj.user;
+    if (obj.user._id == userID || obj.socketID == socketID) {
+      return obj;
     }
   }
 
-  return;
+  return null;
 }
 
 function printUsers() {

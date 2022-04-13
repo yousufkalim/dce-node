@@ -2,6 +2,7 @@
  * Messages controllers
  * @author Shuja Naqvi
  */
+const Chats = require("../models/Chats");
 const Messages = require("../models/Messages");
 
 /**
@@ -11,6 +12,19 @@ const Messages = require("../models/Messages");
  */
 exports.getAllByQuery = async (req, res) => {
   try {
+    if (req.body.chat) {
+      const body = {};
+      if (req.user.role == "client") {
+        Object.assign(body, {
+          client_unread_messages: 0,
+        });
+      } else {
+        Object.assign(body, {
+          tailor_unread_messages: 0,
+        });
+      }
+      await Chats.findByIdAndUpdate(req.body.chat, body);
+    }
     const messages = await Messages.find(req.body); // Finding all the messages from db
     res.json({ success: true, messages }); // Success
   } catch (err) {
