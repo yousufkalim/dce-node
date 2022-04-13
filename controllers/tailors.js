@@ -21,17 +21,13 @@ exports.create = async (req, res) => {
     // Extra Validations
     if (existingUser) {
       // If we found existing user in db
-      return res
-        .status(409)
-        .json({ success: false, message: "User already exists." });
+      return res.status(409).json({ success: false, message: "User already exists." });
     }
 
     const userOTP = await OTPs.findOne({ email });
     if (!userOTP?.is_verified) {
       // If this email has not been verified yet.
-      return res
-        .status(409)
-        .json({ success: false, message: "Email not verified." });
+      return res.status(409).json({ success: false, message: "Email not verified." });
     }
 
     req.body.password = bcrypt.hashSync(password, parseInt(bcryptSalt)); // Hashing the password with salt 8
@@ -55,6 +51,35 @@ exports.create = async (req, res) => {
 };
 
 /**
+ * Create tailor - Signup
+ * @param {object} req
+ * @param {object} res
+ */
+exports.createByAdmin = async (req, res) => {
+  try {
+    let { email, password } = req.body; // Getting required fields from body
+    const existingUser = await Tailors.findOne({ email }); // Finding already existing user
+
+    // Extra Validations
+    if (existingUser) {
+      // If we found existing user in db
+      return res.status(409).json({ success: false, message: "Tailor already exists." });
+    }
+
+    // Creating User
+    req.body.password = bcrypt.hashSync(password, parseInt(bcryptSalt)); // Hashing the password with salt 8
+    const tailor = await Tailors.create(req.body); // Adding tailor in db
+
+    // Done
+    res.json({ success: true, tailor }); //Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
  * Get all Tailors
  * @param {object} req
  * @param {object} res
@@ -69,6 +94,7 @@ exports.getAll = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
 /**
  * Get all Tailors
  * @param {object} req
@@ -116,16 +142,53 @@ exports.update = async (req, res) => {
       req.body.avatar = req.file.path; // Creating a new property called avatar in body object
     }
     if (req.body.password) {
-      req.body.password = bcrypt.hashSync(
-        req.body.password,
-        parseInt(bcryptSalt)
-      );
+      req.body.password = bcrypt.hashSync(req.body.password, parseInt(bcryptSalt));
       req.body.last_password_changed = Date.now();
     }
     const user = await Tailors.findByIdAndUpdate(userId, req.body, {
       new: true,
     }); // Updating the user
     res.json({ success: true, user }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Update tailor by admin
+ * @param {object} req
+ * @param {object} res
+ */
+exports.updateByAdmin = async (req, res) => {
+  try {
+    const userId = req.params.userId; // Getting user id from URL parameter
+
+    // If user want to update it's password
+    if (req.body.password) {
+      req.body.password = bcrypt.hashSync(req.body.password, parseInt(bcryptSalt));
+    }
+
+    const tailor = await Tailors.findByIdAndUpdate(userId, req.body, { new: true }); // Updating the user
+    res.json({ success: true, tailor }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Delete tailor
+ * @param {object} req
+ * @param {object} res
+ */
+exports.delete = async (req, res) => {
+  try {
+    const userId = req.params.userId; // Getting user id from URL parameter
+    const tailor = await Tailors.findByIdAndDelete(userId); // Deleting the user
+    res.json({ success: true, tailor }); // Success
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);
