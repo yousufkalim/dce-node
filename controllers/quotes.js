@@ -111,6 +111,22 @@ exports.rejectQuote = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
+exports.getAll = async (req, res) => {
+  try {
+    const quote = await Quotes.find().populate("tailor"); // Finding quotes by id
+    res.json({ success: true, quote }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Get quotes by id
+ * @param {object} req
+ * @param {object} res
+ */
 exports.getById = async (req, res) => {
   try {
     const quoteId = req.params.quoteId; // Getting quotes id from URL parameter
