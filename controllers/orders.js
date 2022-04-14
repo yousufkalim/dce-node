@@ -2,9 +2,11 @@
  * Orders controllers
  * @author Shuja Naqvi
  */
-const Orders = require("../models/Orders");
 const Clients = require("../models/Clients");
+const Tailors = require("../models/Tailors");
+const Orders = require("../models/Orders");
 const Quotes = require("../models/Quotes");
+const Catalogs = require("../models/Catalogs");
 
 /**
  * Create order
@@ -40,7 +42,10 @@ exports.create = async (req, res) => {
  */
 exports.getAll = async (req, res) => {
   try {
-    const orders = await Orders.find().populate("quotes").populate("client").populate("tailor"); // Finding all the tailors from db
+    const orders = await Orders.find()
+      .populate("quotes")
+      .populate("client")
+      .populate("tailor"); // Finding all the tailors from db
     res.json({ success: true, orders }); // Success
   } catch (err) {
     // Error handling
@@ -59,7 +64,9 @@ exports.acceptRequest = async (req, res) => {
     const orderID = req.body.id;
     const order = await Orders.findById(orderID);
     if (!order) {
-      return res.status(404).json({ success: false, message: "Order does not exists." }); //if tailor not found
+      return res
+        .status(404)
+        .json({ success: false, message: "Order does not exists." }); //if tailor not found
     }
     const quote = await Quotes.create({
       order: order._id,
@@ -86,17 +93,145 @@ exports.acceptRequest = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
-exports.discard = async (req, res) => {
+exports.discardRequest = async (req, res) => {
   try {
     const orderID = req.body.id;
     const order = await Orders.findById(orderID);
     if (!order) {
-      return res.status(404).json({ success: false, message: "Order does not exists." }); //if tailor not found
+      return res
+        .status(404)
+        .json({ success: false, message: "Order does not exists." }); //if tailor not found
     }
     await Orders.findByIdAndUpdate(orderID, {
       status: "discarded",
     }); //update order
     res.json({ success: true, message: "Order discarded." }); //Done ...:)
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Accept order request
+ * @param {object} req
+ * @param {object} res
+ */
+exports.complete = async (req, res) => {
+  try {
+    const orderID = req.body.id;
+    const order = await Orders.findById(orderID);
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order does not exists." }); //if order not found
+    }
+    await Orders.findByIdAndUpdate(orderID, {
+      status: "completed",
+      tailor_submission: {
+        details: req.body.details,
+        attachment: req.file.path,
+      },
+    }); //update order
+
+    const _rating = req.body.rating;
+
+    await Clients.findByIdAndUpdate(order.client, {
+      $push: {
+        ratings: _rating,
+      },
+    });
+
+    if (order.catalog) {
+      await Catalogs.findByIdAndUpdate(order.catalog, {
+        $push: {
+          ratings: _rating,
+        },
+      });
+    }
+    res.json({ success: true, message: "Order completed." }); //Done ...:)
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Complete order
+ * @param {object} req
+ * @param {object} res
+ */
+exports.complete = async (req, res) => {
+  try {
+    const orderID = req.body.id;
+    const order = await Orders.findById(orderID);
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order does not exists." }); //if order not found
+    }
+    await Orders.findByIdAndUpdate(orderID, {
+      status: "completed",
+      tailor_submission: {
+        details: req.body.details,
+        attachment: req.file.path,
+      },
+    }); //update order
+
+    const _rating = req.body.rating;
+
+    await Clients.findByIdAndUpdate(order.client, {
+      $push: {
+        ratings: _rating,
+      },
+    });
+
+    if (order.catalog) {
+      await Catalogs.findByIdAndUpdate(order.catalog, {
+        $push: {
+          ratings: _rating,
+        },
+      });
+    }
+    res.json({ success: true, message: "Order completed." }); //Done ...:)
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Feedback to order
+ * @param {object} req
+ * @param {object} res
+ */
+exports.feedback = async (req, res) => {
+  try {
+    const orderID = req.body.id;
+    const order = await Orders.findById(orderID);
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order does not exists." }); //if order not found
+    }
+    await Orders.findByIdAndUpdate(orderID, {
+      client_submission: {
+        details: req.body.details,
+      },
+    }); //update order
+
+    const _rating = req.body.rating;
+
+    await Tailors.findByIdAndUpdate(order.tailor, {
+      $push: {
+        ratings: _rating,
+      },
+    });
+
+    res.json({ success: true, message: "Feedback saved." }); //Done ...:)
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);

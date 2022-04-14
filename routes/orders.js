@@ -16,11 +16,27 @@ const { validateOrder, isValidated } = require("../middleware/validators");
  * @method delete delete order
  */
 // Create - New order
-router.post("/", upload.single("image"), checkAuth, validateOrder, isValidated, orders.create);
+router.post(
+  "/",
+  upload.single("image"),
+  checkAuth,
+  validateOrder,
+  isValidated,
+  orders.create
+);
 // Acceppt - order
 router.post("/acceptRequest", checkAuth, orders.acceptRequest);
 // Discard - order
-router.post("/discard", checkAuth, orders.discard);
+router.post("/discard", checkAuth, orders.discardRequest);
+// Complete - order
+router.post(
+  "/complete",
+  upload.single("attachment"),
+  checkAuth,
+  orders.complete
+);
+// Feedback - order
+router.post("/feedback", checkAuth, orders.feedback);
 // Get-orders by query
 router.post("/byQuery", checkAuth, orders.getAllByQuery);
 // Get-orders by name
