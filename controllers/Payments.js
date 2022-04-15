@@ -38,7 +38,7 @@ exports.Webhook = async (req, res) => {
     event = stripe.webhooks.constructEvent(
       req.rawBody,
       sig,
-      process.env.WEBHOOK_URI //////webhook scret key
+      process.env.WEB_HOOK_KEY //////webhook scret key
     );
   } catch (error) {
     res.status(400).send(`Webhook Error: ${error.message}`);
@@ -49,7 +49,7 @@ exports.Webhook = async (req, res) => {
       {
         const session = event.data.object;
         const metaData = session.metadata;
-        const { quote } = metaData.id;
+        const quote = metaData.id;
         const existingQuote = await Quotes.findById(quote);
         if (!existingQuote)
           return res.json({ success: false, message: "QuoteId is invalid" });
@@ -58,7 +58,7 @@ exports.Webhook = async (req, res) => {
             status: "accepted",
           },
         });
-        const orders = await Orders.findByIdAndUpdate(existingQuote.order, {
+        await Orders.findByIdAndUpdate(existingQuote.order, {
           $set: {
             status: "in_progress",
             tailor: existingQuote.tailor,
