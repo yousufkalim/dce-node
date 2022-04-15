@@ -19,9 +19,11 @@ const chatsSchema = new Schema(
     },
     tailor_unread_messages: {
       type: Number,
+      default: 0,
     },
     client_unread_messages: {
       type: Number,
+      default: 0,
     },
     last_message: {
       type: mongoose.Schema.Types.ObjectId,

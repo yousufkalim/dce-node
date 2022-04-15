@@ -6,7 +6,11 @@ const router = require("express").Router();
 const quotes = require("../controllers/quotes");
 const { checkAuth } = require("../middleware/checkAuth");
 const { checkAdminAuth } = require("../middleware/adminAuth");
-const { validateQuote, validateAcceptQuote, isValidated } = require("../middleware/validators");
+const {
+  validateQuote,
+  validateAcceptQuote,
+  isValidated,
+} = require("../middleware/validators");
 
 /**
  * ////////////////////////// Routes /////////////////////////
@@ -18,7 +22,21 @@ const { validateQuote, validateAcceptQuote, isValidated } = require("../middlewa
 // Create - New quotes
 router.post("/", checkAuth, validateQuote, isValidated, quotes.create);
 // Accept - quotes
-router.post("/accept", checkAuth, validateAcceptQuote, isValidated, quotes.acceptQuote);
+router.post(
+  "/accept",
+  checkAuth,
+  validateAcceptQuote,
+  isValidated,
+  quotes.acceptQuote
+);
+// Reject - quotes
+router.post(
+  "/reject",
+  checkAuth,
+  validateAcceptQuote,
+  isValidated,
+  quotes.rejectQuote
+);
 //Get-quote by Id
 router.get("/", checkAdminAuth, quotes.getAll);
 router.get("/:quoteId", checkAuth, quotes.getById);

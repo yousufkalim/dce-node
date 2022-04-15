@@ -1,5 +1,5 @@
 /**
- * Conversations schema
+ * Messages schema
  * @author Shuja Naqvi
  */
 const mongoose = require("mongoose");
@@ -9,7 +9,7 @@ const messagesSchema = new Schema(
   {
     type: {
       type: String,
-      enum: ["text", "image", "video", "attachment"],
+      enum: ["text", "video", "image", "attachment"],
       required: true,
     },
     chat: {

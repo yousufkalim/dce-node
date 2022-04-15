@@ -96,6 +96,27 @@ exports.getAll = async (req, res) => {
 };
 
 /**
+ * Get all Clients
+ * @param {object} req
+ * @param {object} res
+ */
+exports.getAllByQuery = async (req, res) => {
+  try {
+    const tailorID = req.user._id;
+    const query = req.params.query; // Getting query from URL parameter
+    const users = await Clients.find({
+      name: { $regex: new RegExp("^" + query, "i") },
+      tailor: tailorID,
+    }).populate("orders"); // Finding all the users from db
+    res.json({ success: true, users }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
  * Get user by id
  * @param {object} req
  * @param {object} res
@@ -120,7 +141,6 @@ exports.getById = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const userId = req.params.userId; // Getting user id from URL parameter
-    console.log(req.file);
     if (req.file) {
       req.body.avatar = req.file.path; // Creating a new property called avatar in body object
     }
