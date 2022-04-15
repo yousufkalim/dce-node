@@ -51,6 +51,7 @@ exports.acceptQuote = async (req, res) => {
       $set: {
         status: "in_progress",
         tailor: existingQuote.tailor,
+        measurements: req.body.measurements,
       },
     });
     if (quotes && orders) {
