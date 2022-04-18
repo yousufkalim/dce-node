@@ -18,6 +18,7 @@ router.use("/messages", require("./messages")); // All the messages routes
 router.use("/assets", require("./assets")); // All the messages routes
 router.use("/blogs", require("./blogs"));
 router.use("/images", require("./images"));
+router.use("/notifications", require("./notifications"));
 
 // Export
 module.exports = router;
