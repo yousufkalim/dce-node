@@ -30,8 +30,16 @@ const orderSchema = new Schema(
       required: true,
     },
     measurements: {
-      type: String,
-      required: true,
+      type: {
+        type: String,
+        enum: ["static", "tape", "call"],
+        default: "static",
+        required: true,
+      },
+      value: {
+        type: String,
+        default: "",
+      },
     },
     color: {
       type: String,
