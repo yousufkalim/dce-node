@@ -14,7 +14,7 @@ router.use("/otps", require("./OTPs")); //All the otps routes
 router.use("/quotes", require("./quotes")); //All the quotes routes
 router.use("/auth", require("./auth")); // All the auth routes
 router.use("/chats", require("./chats")); // All the chat routes
-router.use("payments", require("./payments")); //All payments routes
+router.use("/payments", require("./payments")); //All payments routes
 router.use("/messages", require("./messages")); // All the messages routes
 router.use("/assets", require("./assets")); // All the messages routes
 router.use("/blogs", require("./blogs"));
