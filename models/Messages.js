@@ -11,6 +11,7 @@ const messagesSchema = new Schema(
       type: String,
       enum: ["text", "video", "image", "attachment"],
       required: true,
+      default: "text",
     },
     chat: {
       type: mongoose.Schema.Types.ObjectId,
