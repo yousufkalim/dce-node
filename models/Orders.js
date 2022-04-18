@@ -30,8 +30,16 @@ const orderSchema = new Schema(
       required: true,
     },
     measurements: {
-      type: String,
-      required: true,
+      type: {
+        type: String,
+        enum: ["static", "tape", "call"],
+        default: "static",
+        required: true,
+      },
+      value: {
+        type: String,
+        default: "",
+      },
     },
     color: {
       type: String,
@@ -40,6 +48,11 @@ const orderSchema = new Schema(
     fabric: {
       type: String,
       required: true,
+    },
+    includes_alteration_services: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
     delivery: {
       address: {
@@ -93,6 +106,11 @@ const orderSchema = new Schema(
         ref: "quotes",
       },
     ],
+    catalog: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "catalogs",
+      required: false, // It is optional and is used to sync ratings only.
+    },
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "clients",
@@ -100,18 +118,6 @@ const orderSchema = new Schema(
     tailor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "tailors",
-    },
-    rating: {
-      count: {
-        type: Number,
-        required: true,
-        default: 10,
-      },
-      value: {
-        type: Number,
-        required: true,
-        default: 5,
-      },
     },
     status: {
       type: String,
@@ -121,6 +127,22 @@ const orderSchema = new Schema(
     attachment: {
       type: String,
       required: true,
+    },
+    tailor_submission: {
+      details: {
+        type: String,
+        required: false,
+      },
+      attachment: {
+        type: String,
+        required: false,
+      },
+    },
+    client_submission: {
+      details: {
+        type: String,
+        required: false,
+      },
     },
   },
   {

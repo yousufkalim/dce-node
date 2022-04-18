@@ -49,6 +49,12 @@ const tailorSchema = new mongoose.Schema(
       enum: ["tailor"],
       default: "tailor",
     },
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "orders",
+      },
+    ], // TODO: Populate it properly and then use at search
     phone: {
       type: String,
       required: false,
@@ -65,12 +71,26 @@ const tailorSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    ratings: [
+      {
+        type: Number,
+        required: true,
+      },
+    ],
     last_password_changed: {
       type: Date,
       required: false,
     },
     avatar: {
       type: String,
+      required: false,
+    },
+    check_in: {
+      type: Date,
+      required: false,
+    },
+    check_out: {
+      type: Date,
       required: false,
     },
   },

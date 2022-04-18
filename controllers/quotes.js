@@ -6,9 +6,13 @@
 const Quotes = require("../models/Quotes");
 const Orders = require("../models/Orders");
 const Chats = require("../models/Chats");
+const Messages = require("../models/Messages");
+const Notifications = require("../models/Notifications");
+const Tailors = require("../models/Tailors");
+const Clients = require("../models/Clients");
 
 /**
- * Create quotes
+ * Create quote
  * @param {object} req
  * @param {object} res
  */
@@ -18,24 +22,18 @@ exports.create = async (req, res) => {
     const { order } = req.body;
     req.body.tailor = tailorId;
     const exisitingOrder = await Orders.findById(order);
-    if (!exisitingOrder) return res.json({ success: false, message: "OrderId is invalid" });
+    if (!exisitingOrder)
+      return res.json({ success: false, message: "OrderId is invalid" });
     const quote = await Quotes.create(req.body);
-    let chat = await Chats.findOne({
-      tailor: tailorId,
-      client: exisitingOrder.client,
-    });
-    if (chat) {
-      exisitingOrder.quotes.push(quote._id);
-      await chat.save();
-      await exisitingOrder.save();
-      return res.json({ success: true, exisitingOrder });
-    }
-    chat = await Chats.create({
-      tailor: tailorId,
-      client: exisitingOrder.client,
-    });
     exisitingOrder.quotes.push(quote._id);
     await exisitingOrder.save();
+    const tailor = await Tailors.findById(tailorId);
+    await Notifications.create({
+      sender: tailor,
+      receiver: exisitingOrder.client,
+      text: "Sent quote on your order.",
+      link: "orders",
+    });
     return res.json({ success: true, message: "Quote sent successfully." });
   } catch (err) {
     // Error handling
@@ -54,7 +52,8 @@ exports.acceptQuote = async (req, res) => {
     const clientId = req.user._id;
     const { quote } = req.body;
     const existingQuote = await Quotes.findById(quote);
-    if (!existingQuote) return res.json({ success: false, message: "QuoteId is invalid" });
+    if (!existingQuote)
+      return res.json({ success: false, message: "QuoteId is invalid" });
     const quotes = await Quotes.findByIdAndUpdate(existingQuote._id, {
       $set: {
         status: "accepted",
@@ -64,7 +63,55 @@ exports.acceptQuote = async (req, res) => {
       $set: {
         status: "in_progress",
         tailor: existingQuote.tailor,
+        measurements: req.body.measurements,
       },
+    });
+    if (req.body.call_at) {
+      const _content = `
+      Hey! Your call schedule has been booked 
+      At: ${req.body.call_at}
+      `;
+
+      let chats = await Chats.findOne({
+        client: clientId,
+        tailor: quotes.tailor,
+      });
+
+      if (chats) {
+        const messages = await Messages.create({
+          type: "text",
+          chat: chats._id,
+          sender: clientId,
+          receiver: quotes.tailor,
+          content: _content,
+        });
+
+        await Chats.findOneAndUpdate({
+          client: clientId,
+          tailor: quotes.tailor,
+          last_message: messages._id,
+        });
+      } else {
+        chats = await Chats.create({
+          client: clientId,
+          tailor: quotes.tailor,
+        });
+
+        await Messages.create({
+          type: "text",
+          chat: chats._id,
+          sender: clientId,
+          receiver: quotes.tailor,
+          content: _content,
+        });
+      }
+    }
+    const client = await Clients.findById(clientId);
+    await Notifications.create({
+      sender: client,
+      receiver: existingQuote.tailor,
+      text: "Accepted your quote.",
+      link: "orders",
     });
     if (quotes && orders) {
       return res.json({
@@ -85,14 +132,49 @@ exports.acceptQuote = async (req, res) => {
 };
 
 /**
- * Get all quotes
+ * Create quotes
+ * @param {object} req
+ * @param {object} res
+ */
+exports.rejectQuote = async (req, res) => {
+  try {
+    const clientId = req.user._id;
+    const { quote } = req.body;
+    const existingQuote = await Quotes.findById(quote);
+    if (!existingQuote)
+      return res.json({ success: false, message: "QuoteId is invalid" });
+    const quotes = await Quotes.findByIdAndUpdate(existingQuote._id, {
+      $set: {
+        status: "rejected",
+      },
+    });
+    if (quotes) {
+      return res.json({
+        success: true,
+        message: "Quote discarded successfully.",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Could not discard quote successfully.",
+      });
+    }
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Get quotes by id
  * @param {object} req
  * @param {object} res
  */
 exports.getAll = async (req, res) => {
   try {
-    const quotes = await Quotes.find().populate("order").populate("tailor"); // Finding all the tailors from db
-    res.json({ success: true, quotes }); // Success
+    const quote = await Quotes.find().populate("tailor"); // Finding quotes by id
+    res.json({ success: true, quote }); // Success
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);
