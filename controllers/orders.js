@@ -22,6 +22,7 @@ exports.create = async (req, res) => {
       req.body.attachment = req.file.path; // Creating a new property called attachment in body object
     }
     // Parse stringified Objects
+    req.body.measurements = JSON.parse(req.body.measurements);
     req.body.delivery = JSON.parse(req.body.delivery);
     req.body.budget = JSON.parse(req.body.budget);
     const orders = await Orders.create(req.body); //create order of client
@@ -295,6 +296,7 @@ exports.update = async (req, res) => {
       req.body.attachment = req.file.path; // Creating a new property called attachment in body object
     }
     // Parse stringified Objects
+    req.body.measurements = JSON.parse(req.body.measurements);
     req.body.delivery = JSON.parse(req.body.delivery);
     req.body.budget = JSON.parse(req.body.budget);
     const order = await Orders.findByIdAndUpdate(orderId, req.body, {
