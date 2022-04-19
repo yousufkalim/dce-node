@@ -49,6 +49,12 @@ const tailorSchema = new mongoose.Schema(
       enum: ["tailor"],
       default: "tailor",
     },
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "orders",
+      },
+    ], // TODO: Populate it properly and then use at search
     phone: {
       type: String,
       required: false,

@@ -22,6 +22,7 @@ exports.create = async (req, res) => {
       req.body.attachment = req.file.path; // Creating a new property called attachment in body object
     }
     // Parse stringified Objects
+    req.body.measurements = JSON.parse(req.body.measurements);
     req.body.delivery = JSON.parse(req.body.delivery);
     req.body.budget = JSON.parse(req.body.budget);
     const orders = await Orders.create(req.body); //create order of client
@@ -115,51 +116,6 @@ exports.discardRequest = async (req, res) => {
 
 /**
  * Accept order request
- * @param {object} req
- * @param {object} res
- */
-exports.complete = async (req, res) => {
-  try {
-    const orderID = req.body.id;
-    const order = await Orders.findById(orderID);
-    if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order does not exists." }); //if order not found
-    }
-    await Orders.findByIdAndUpdate(orderID, {
-      status: "completed",
-      tailor_submission: {
-        details: req.body.details,
-        attachment: req.file.path,
-      },
-    }); //update order
-
-    const _rating = req.body.rating;
-
-    await Clients.findByIdAndUpdate(order.client, {
-      $push: {
-        ratings: _rating,
-      },
-    });
-
-    if (order.catalog) {
-      await Catalogs.findByIdAndUpdate(order.catalog, {
-        $push: {
-          ratings: _rating,
-        },
-      });
-    }
-    res.json({ success: true, message: "Order completed." }); //Done ...:)
-  } catch (err) {
-    // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
-
-/**
- * Complete order
  * @param {object} req
  * @param {object} res
  */
@@ -340,6 +296,7 @@ exports.update = async (req, res) => {
       req.body.attachment = req.file.path; // Creating a new property called attachment in body object
     }
     // Parse stringified Objects
+    req.body.measurements = JSON.parse(req.body.measurements);
     req.body.delivery = JSON.parse(req.body.delivery);
     req.body.budget = JSON.parse(req.body.budget);
     const order = await Orders.findByIdAndUpdate(orderId, req.body, {

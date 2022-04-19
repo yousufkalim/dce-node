@@ -5,6 +5,11 @@
 
 const Quotes = require("../models/Quotes");
 const Orders = require("../models/Orders");
+const Chats = require("../models/Chats");
+const Messages = require("../models/Messages");
+const Notifications = require("../models/Notifications");
+const Tailors = require("../models/Tailors");
+const Clients = require("../models/Clients");
 
 /**
  * Create quote
@@ -22,6 +27,13 @@ exports.create = async (req, res) => {
     const quote = await Quotes.create(req.body);
     exisitingOrder.quotes.push(quote._id);
     await exisitingOrder.save();
+    const tailor = await Tailors.findById(tailorId);
+    await Notifications.create({
+      sender: tailor,
+      receiver: exisitingOrder.client,
+      text: "Sent quote on your order.",
+      link: "orders",
+    });
     return res.json({ success: true, message: "Quote sent successfully." });
   } catch (err) {
     // Error handling
@@ -51,7 +63,55 @@ exports.acceptQuote = async (req, res) => {
       $set: {
         status: "in_progress",
         tailor: existingQuote.tailor,
+        measurements: req.body.measurements,
       },
+    });
+    if (req.body.call_at) {
+      const _content = `
+      Hey! Your call schedule has been booked 
+      At: ${req.body.call_at}
+      `;
+
+      let chats = await Chats.findOne({
+        client: clientId,
+        tailor: quotes.tailor,
+      });
+
+      if (chats) {
+        const messages = await Messages.create({
+          type: "text",
+          chat: chats._id,
+          sender: clientId,
+          receiver: quotes.tailor,
+          content: _content,
+        });
+
+        await Chats.findOneAndUpdate({
+          client: clientId,
+          tailor: quotes.tailor,
+          last_message: messages._id,
+        });
+      } else {
+        chats = await Chats.create({
+          client: clientId,
+          tailor: quotes.tailor,
+        });
+
+        await Messages.create({
+          type: "text",
+          chat: chats._id,
+          sender: clientId,
+          receiver: quotes.tailor,
+          content: _content,
+        });
+      }
+    }
+    const client = await Clients.findById(clientId);
+    await Notifications.create({
+      sender: client,
+      receiver: existingQuote.tailor,
+      text: "Accepted your quote.",
+      link: "orders",
     });
     if (quotes && orders) {
       return res.json({
