@@ -12,6 +12,8 @@ router.use("/orders", require("./orders")); //All the orders routes
 router.use("/catalogs", require("./catalogs")); //All the catalogs routes
 router.use("/otps", require("./OTPs")); //All the otps routes
 router.use("/quotes", require("./quotes")); //All the quotes routes
+router.use("/complaints", require("./complaints")); //All the complaints routes
+
 router.use("/auth", require("./auth")); // All the auth routes
 router.use("/chats", require("./chats")); // All the chat routes
 router.use("payments", require("./payments")); //All payments routes
