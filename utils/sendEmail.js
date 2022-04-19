@@ -68,12 +68,9 @@ exports.sendOTP = (email, otp) => {
     // Sending email
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        // Error
-        console.log(`THIS IS THE error: ${error}`);
+        console.trace(error);
         reject(error);
       } else {
-        // Success
-        console.log(`THIS WILL BE RESOLVED`);
         resolve({
           success: true,
           message: "Email sent successfully",
