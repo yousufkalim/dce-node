@@ -7,6 +7,7 @@ const Tailors = require("../models/Tailors");
 const Orders = require("../models/Orders");
 const Quotes = require("../models/Quotes");
 const Catalogs = require("../models/Catalogs");
+const Notifications = require("../models/Notifications");
 
 /**
  * Create order
@@ -28,6 +29,17 @@ exports.create = async (req, res) => {
     const orders = await Orders.create(req.body); //create order of client
     client.orders.push(orders.id); //assign order to client too
     await client.save(); //save client
+
+    if (req.body.type == "direct") {
+      // Send notification to tailor
+      await Notifications.create({
+        sender: client,
+        receiver: req.body.tailor,
+        text: "Sent you an order request.",
+        link: "orders",
+      });
+    }
+
     res.json({ success: true, orders }); //Done ...:)
   } catch (err) {
     // Error handling
@@ -60,10 +72,10 @@ exports.getAll = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
-exports.acceptRequest = async (req, res) => {
+exports.accept = async (req, res) => {
   try {
     const orderID = req.body.id;
-    const order = await Orders.findById(orderID);
+    const order = await Orders.findById(orderID).populate("tailor");
     if (!order) {
       return res
         .status(404)
@@ -81,6 +93,15 @@ exports.acceptRequest = async (req, res) => {
         quotes: quote._id,
       },
     }); //update order
+
+    // Send notification to client
+    await Notifications.create({
+      sender: order.tailor,
+      receiver: order.client,
+      text: "Order request accepted.",
+      link: "orders",
+    });
+
     res.json({ success: true, message: "Order accepted." }); //Done ...:)
   } catch (err) {
     // Error handling
@@ -94,10 +115,10 @@ exports.acceptRequest = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
-exports.discardRequest = async (req, res) => {
+exports.discard = async (req, res) => {
   try {
     const orderID = req.body.id;
-    const order = await Orders.findById(orderID);
+    const order = await Orders.findById(orderID).populate("tailor");
     if (!order) {
       return res
         .status(404)
@@ -106,6 +127,15 @@ exports.discardRequest = async (req, res) => {
     await Orders.findByIdAndUpdate(orderID, {
       status: "discarded",
     }); //update order
+
+    // Send notification to client
+    await Notifications.create({
+      sender: order.tailor,
+      receiver: order.client,
+      text: "Order discarded.",
+      link: "orders",
+    });
+
     res.json({ success: true, message: "Order discarded." }); //Done ...:)
   } catch (err) {
     // Error handling
@@ -122,7 +152,7 @@ exports.discardRequest = async (req, res) => {
 exports.complete = async (req, res) => {
   try {
     const orderID = req.body.id;
-    const order = await Orders.findById(orderID);
+    const order = await Orders.findById(orderID).populate("tailor");
     if (!order) {
       return res
         .status(404)
@@ -136,14 +166,13 @@ exports.complete = async (req, res) => {
       },
     }); //update order
 
+    // Update ratings.
     const _rating = req.body.rating;
-
     await Clients.findByIdAndUpdate(order.client, {
       $push: {
         ratings: _rating,
       },
     });
-
     if (order.catalog) {
       await Catalogs.findByIdAndUpdate(order.catalog, {
         $push: {
@@ -151,6 +180,15 @@ exports.complete = async (req, res) => {
         },
       });
     }
+
+    // Send notification to client
+    await Notifications.create({
+      sender: order.tailor,
+      receiver: order.client,
+      text: "Order completed.",
+      link: "orders",
+    });
+
     res.json({ success: true, message: "Order completed." }); //Done ...:)
   } catch (err) {
     // Error handling
@@ -167,7 +205,7 @@ exports.complete = async (req, res) => {
 exports.feedback = async (req, res) => {
   try {
     const orderID = req.body.id;
-    const order = await Orders.findById(orderID);
+    const order = await Orders.findById(orderID).populate("client");
     if (!order) {
       return res
         .status(404)
@@ -179,12 +217,20 @@ exports.feedback = async (req, res) => {
       },
     }); //update order
 
+    // Update ratings
     const _rating = req.body.rating;
-
     await Tailors.findByIdAndUpdate(order.tailor, {
       $push: {
         ratings: _rating,
       },
+    });
+
+    // Send notification to tailor
+    await Notifications.create({
+      sender: order.client,
+      receiver: order.tailor,
+      text: `Feedback given by client ${_rating}/5.`,
+      link: "orders",
     });
 
     res.json({ success: true, message: "Feedback saved." }); //Done ...:)
