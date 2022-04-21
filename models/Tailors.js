@@ -20,23 +20,18 @@ const tailorSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      required: true,
     },
     dob: {
       type: Date,
-      required: true,
     },
     address: {
       type: String,
-      required: true,
     },
     zip_code: {
       type: String,
-      required: true,
     },
     city: {
       type: String,
-      required: true,
     },
     experience: {
       type: String,
@@ -63,23 +58,18 @@ const tailorSchema = new mongoose.Schema(
     ], // TODO: Populate it properly and then use at search
     phone: {
       type: String,
-      required: true,
     },
     shop_name: {
       type: String,
-      required: true,
     },
     store_name: {
       type: String,
-      required: false,
     },
     hourly_rate: {
       type: Number,
-      required: false,
     },
     free_shipping_rate: {
       type: String,
-      required: false,
     },
     ratings: [
       {
@@ -89,19 +79,15 @@ const tailorSchema = new mongoose.Schema(
     ],
     last_password_changed: {
       type: Date,
-      required: false,
     },
     avatar: {
       type: String,
-      required: false,
     },
     check_in: {
       type: Date,
-      required: false,
     },
     check_out: {
       type: Date,
-      required: false,
     },
   },
   {
