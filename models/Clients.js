@@ -67,6 +67,7 @@ const clientSchema = new mongoose.Schema(
     check_out: {
       type: Date,
     },
+    active: { type: Boolean, default: true },
   },
   {
     timestamps: true,
