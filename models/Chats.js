@@ -29,10 +29,6 @@ const chatsSchema = new Schema(
       type: Number,
       default: 0,
     },
-    admin_unread_messages: {
-      type: Number,
-      default: 0,
-    },
     last_message: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "messages",
