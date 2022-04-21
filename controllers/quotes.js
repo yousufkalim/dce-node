@@ -7,6 +7,9 @@ const Quotes = require("../models/Quotes");
 const Orders = require("../models/Orders");
 const Chats = require("../models/Chats");
 const Messages = require("../models/Messages");
+const Notifications = require("../models/Notifications");
+const Tailors = require("../models/Tailors");
+const Clients = require("../models/Clients");
 
 /**
  * Create quote
@@ -24,6 +27,13 @@ exports.create = async (req, res) => {
     const quote = await Quotes.create(req.body);
     exisitingOrder.quotes.push(quote._id);
     await exisitingOrder.save();
+    const tailor = await Tailors.findById(tailorId);
+    await Notifications.create({
+      sender: tailor,
+      receiver: exisitingOrder.client,
+      text: "Sent quote on your order.",
+      link: "orders",
+    });
     return res.json({ success: true, message: "Quote sent successfully." });
   } catch (err) {
     // Error handling
@@ -96,6 +106,13 @@ exports.acceptQuote = async (req, res) => {
         });
       }
     }
+    const client = await Clients.findById(clientId);
+    await Notifications.create({
+      sender: client,
+      receiver: existingQuote.tailor,
+      text: "Accepted your quote.",
+      link: "orders",
+    });
     if (quotes && orders) {
       return res.json({
         success: true,
@@ -150,14 +167,14 @@ exports.rejectQuote = async (req, res) => {
 };
 
 /**
- * Get quotes by id
+ * Get all quotes
  * @param {object} req
  * @param {object} res
  */
 exports.getAll = async (req, res) => {
   try {
-    const quote = await Quotes.find().populate("tailor"); // Finding quotes by id
-    res.json({ success: true, quote }); // Success
+    const quotes = await Quotes.find().populate("tailor"); // Finding quotes by id
+    res.json({ success: true, quotes }); // Success
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);
@@ -166,7 +183,7 @@ exports.getAll = async (req, res) => {
 };
 
 /**
- * Get quotes by id
+ * Get quote by id
  * @param {object} req
  * @param {object} res
  */
