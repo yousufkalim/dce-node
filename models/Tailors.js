@@ -20,7 +20,6 @@ const tailorSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      required: true,
     },
     dob: {
       type: Date,
@@ -59,7 +58,6 @@ const tailorSchema = new mongoose.Schema(
     ], // TODO: Populate it properly and then use at search
     phone: {
       type: String,
-      required: true,
     },
     shop_name: {
       type: String,

@@ -17,6 +17,10 @@ const chatsSchema = new Schema(
       ref: "clients",
       required: true,
     },
+    is_admin: {
+      type: Boolean,
+      default: false,
+    },
     tailor_unread_messages: {
       type: Number,
       default: 0,

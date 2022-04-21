@@ -20,7 +20,6 @@ const clientSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      required: true,
     },
     dob: {
       type: Date,
@@ -47,7 +46,6 @@ const clientSchema = new mongoose.Schema(
     ],
     phone: {
       type: String,
-      required: false,
     },
     ratings: [
       {

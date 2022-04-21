@@ -1,3 +1,7 @@
+/**
+ * Complaints controllers
+ * @author Shuja Naqvi
+ */
 const Clients = require("../models/Clients");
 const Tailors = require("../models/Tailors");
 const Complaints = require("../models/Complaints");
@@ -25,7 +29,7 @@ exports.create = async (req, res) => {
 };
 exports.getAll = async (req, res) => {
   try {
-    const complaints = await Complaints.find().populate("complaints"); // Finding all the complaints from db
+    const complaints = await Complaints.find().populate(); // Finding all the complaints from db
     res.json({ success: true, complaints }); // Success
   } catch (err) {
     // Error handling
