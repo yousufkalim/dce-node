@@ -11,6 +11,7 @@ const Clients = require("../../models/Clients");
 const Tailors = require("../../models/Tailors");
 const Chats = require("../../models/Chats");
 const Messages = require("../../models/Messages");
+const Notifications = require("../../models/Notifications");
 
 async function connectHandler(io, socket) {
   const token = socket.handshake.query.token;
@@ -165,7 +166,31 @@ async function sendMessageHandler(io, socket, _) {
           $inc: { client_unread_messages: 1 },
         });
       }
-      chat = await Chats.findByIdAndUpdate(chat._id, body);
+      chat = await Chats.findByIdAndUpdate(chat._id, body, { new: true })
+        .populate("client")
+        .populate("tailor");
+      // Create Notification
+      if (user.role == "client") {
+        if (chat.tailor_unread_messages <= 1) {
+          // Send notification to tailor
+          await Notifications.create({
+            sender: chat.client,
+            receiver: chat.tailor._id,
+            text: "Sent you a message.",
+            link: "chat",
+          });
+        }
+      } else {
+        if (chat.client_unread_messages <= 1) {
+          // Send notification to client
+          await Notifications.create({
+            sender: chat.tailor,
+            receiver: chat.client._id,
+            text: "Sent you a message.",
+            link: "chat",
+          });
+        }
+      }
     }
   }
 

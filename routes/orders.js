@@ -24,10 +24,10 @@ router.post(
   isValidated,
   orders.create
 );
-// Acceppt - order
-router.post("/acceptRequest", checkAuth, orders.acceptRequest);
+// Accept - order request
+router.post("/accept", checkAuth, orders.accept);
 // Discard - order
-router.post("/discard", checkAuth, orders.discardRequest);
+router.post("/discard", checkAuth, orders.discard);
 // Complete - order
 router.post(
   "/complete",

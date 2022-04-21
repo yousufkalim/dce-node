@@ -16,21 +16,27 @@ const tailorSchema = new mongoose.Schema(
     password: {
       type: String,
       minlength: 8,
+      required: true,
     },
     name: {
       type: String,
+      required: true,
     },
     dob: {
       type: Date,
+      required: true,
     },
     address: {
       type: String,
+      required: true,
     },
-    country: {
+    zip_code: {
       type: String,
+      required: true,
     },
     city: {
       type: String,
+      required: true,
     },
     experience: {
       type: String,
@@ -57,9 +63,13 @@ const tailorSchema = new mongoose.Schema(
     ], // TODO: Populate it properly and then use at search
     phone: {
       type: String,
-      required: false,
+      required: true,
     },
     shop_name: {
+      type: String,
+      required: true,
+    },
+    store_name: {
       type: String,
       required: false,
     },

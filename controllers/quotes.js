@@ -167,14 +167,14 @@ exports.rejectQuote = async (req, res) => {
 };
 
 /**
- * Get quotes by id
+ * Get all quotes
  * @param {object} req
  * @param {object} res
  */
 exports.getAll = async (req, res) => {
   try {
-    const quote = await Quotes.find().populate("tailor"); // Finding quotes by id
-    res.json({ success: true, quote }); // Success
+    const quotes = await Quotes.find().populate("tailor"); // Finding quotes by id
+    res.json({ success: true, quotes }); // Success
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);
@@ -183,7 +183,7 @@ exports.getAll = async (req, res) => {
 };
 
 /**
- * Get quotes by id
+ * Get quote by id
  * @param {object} req
  * @param {object} res
  */
