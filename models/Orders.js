@@ -59,7 +59,7 @@ const orderSchema = new Schema(
         type: String,
         required: true,
       },
-      country: {
+      zipcode: {
         type: String,
         required: true,
       },
