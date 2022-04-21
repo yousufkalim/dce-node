@@ -24,19 +24,15 @@ const clientSchema = new mongoose.Schema(
     },
     dob: {
       type: Date,
-      required: true,
     },
     address: {
       type: String,
-      required: true,
     },
     zip_code: {
       type: String,
-      required: true,
     },
     city: {
       type: String,
-      required: true,
     },
     role: {
       type: String,
@@ -61,19 +57,15 @@ const clientSchema = new mongoose.Schema(
     ],
     last_password_changed: {
       type: Date,
-      required: false,
     },
     avatar: {
       type: String,
-      required: false,
     },
     check_in: {
       type: Date,
-      required: false,
     },
     check_out: {
       type: Date,
-      required: false,
     },
   },
   {
