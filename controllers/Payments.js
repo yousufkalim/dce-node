@@ -5,6 +5,8 @@
 
 const Quotes = require("../models/Quotes");
 const Orders = require("../models/Orders");
+const Chats = require("../models/Chats");
+const Messages = require("../models/Messages");
 
 const stripe = require("stripe")(process.env.SECRET_KEY);
 
@@ -13,6 +15,7 @@ exports.Checkout = async (req, res, next) => {
     let metaData = req.body.metaData;
     let lineItems = req.body.line_items; // => get the line items array from the resposne
     // => stripe api to create a checkout seesion url
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"], // => A list of the types of payment methods (e.g., card)
       line_items: lineItems, // => A list of items the customer is purchasing. For payment mode, there is a maximum of 100 line items
@@ -38,12 +41,13 @@ exports.Webhook = async (req, res) => {
     event = stripe.webhooks.constructEvent(
       req.rawBody,
       sig,
-      process.env.WEB_HOOK_KEY //////webhook scret key
+      process.env.WEB_HOOK_KEY //////webhook scret key,
     );
   } catch (error) {
     res.status(400).send(`Webhook Error: ${error.message}`);
     return;
   }
+
   switch (event.type) {
     case "checkout.session.completed":
       {
@@ -51,19 +55,74 @@ exports.Webhook = async (req, res) => {
         const metaData = session.metadata;
         const quote = metaData.id;
         const existingQuote = await Quotes.findById(quote);
+
         if (!existingQuote)
           return res.json({ success: false, message: "QuoteId is invalid" });
-        await Quotes.findByIdAndUpdate(existingQuote._id, {
+        const quotes = await Quotes.findByIdAndUpdate(existingQuote._id, {
           $set: {
             status: "accepted",
           },
         });
-        await Orders.findByIdAndUpdate(existingQuote.order, {
-          $set: {
-            status: "in_progress",
-            tailor: existingQuote.tailor,
-          },
-        });
+        if (metaData.type === "static") {
+          await Orders.findByIdAndUpdate(existingQuote.order, {
+            $set: {
+              status: "in_progress",
+              tailor: existingQuote.tailor,
+            },
+          });
+        } else if (metaData.type === "tape") {
+          const orders = await Orders.findByIdAndUpdate(existingQuote.order, {
+            $set: {
+              status: "in_progress",
+              tailor: existingQuote.tailor,
+              "measurements.value": metaData.measurements,
+            },
+          });
+        } else if (metaData.type === "call") {
+          const orders = await Orders.findByIdAndUpdate(existingQuote.order, {
+            $set: {
+              status: "in_progress",
+              tailor: existingQuote.tailor,
+            },
+          });
+          const _content = `
+      Hey! Your call schedule has been booked 
+      At: ${metaData.time}
+      `;
+          let chats = await Chats.findOne({
+            client: orders.client,
+            tailor: quotes.tailor,
+          });
+
+          if (chats) {
+            const messages = await Messages.create({
+              type: "text",
+              chat: chats._id,
+              sender: orders.client,
+              receiver: quotes.tailor,
+              content: _content,
+            });
+
+            await Chats.findOneAndUpdate({
+              client: orders.client,
+              tailor: quotes.tailor,
+              last_message: messages._id,
+            });
+          } else {
+            chats = await Chats.create({
+              client: orders.client,
+              tailor: quotes.tailor,
+            });
+
+            await Messages.create({
+              type: "text",
+              chat: chats._id,
+              sender: orders.client,
+              receiver: quotes.tailor,
+              content: _content,
+            });
+          }
+        }
       }
       break;
     default:
