@@ -74,7 +74,6 @@ const tailorSchema = new mongoose.Schema(
     ratings: [
       {
         type: Number,
-        required: true,
       },
     ],
     last_password_changed: {
