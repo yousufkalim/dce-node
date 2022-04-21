@@ -27,6 +27,14 @@ const adminSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    check_in: {
+      type: Date,
+      required: false,
+    },
+    check_out: {
+      type: Date,
+      required: false,
+    },
   },
   {
     timestamps: true,

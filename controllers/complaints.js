@@ -1,3 +1,7 @@
+/**
+ * Complaints controllers
+ * @author Shuja Naqvi
+ */
 const Clients = require("../models/Clients");
 const Tailors = require("../models/Tailors");
 const Complaints = require("../models/Complaints");

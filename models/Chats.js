@@ -17,11 +17,20 @@ const chatsSchema = new Schema(
       ref: "clients",
       required: true,
     },
+    admin: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "admins",
+      required: true,
+    },
     tailor_unread_messages: {
       type: Number,
       default: 0,
     },
     client_unread_messages: {
+      type: Number,
+      default: 0,
+    },
+    admin_unread_messages: {
       type: Number,
       default: 0,
     },
