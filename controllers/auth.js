@@ -22,6 +22,7 @@ exports.login = async (req, res) => {
     // Getting user from db
     const client = await Clients.findOne({ email }); //finding if request by client
     const tailor = await Tailors.findOne({ email }); //finding if request by tailor
+
     if (!client && !tailor) {
       //if both empty
       // If user not found
@@ -37,13 +38,17 @@ exports.login = async (req, res) => {
           return res
             .status(400)
             .json({ success: false, message: "Invalid Password" });
+        } else if (!client.active) {
+          return res
+            .status(400)
+            .json({ success: false, message: "Your account is blocked" });
         }
 
         // Creating payload with user object
         const payload = { user: client };
 
         // Generating token
-        jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
+        jwt.sign(payload, tokenSecret, { expiresIn: 1440 }, (err, token) => {
           if (err) throw err;
           // done
           return res.json({ success: true, user: client, token });
@@ -55,12 +60,17 @@ exports.login = async (req, res) => {
           return res
             .status(400)
             .json({ success: false, message: "Invalid Password" });
+        } else if (!tailor.active) {
+          return res
+            .status(400)
+            .json({ success: false, message: "Your account is blocked" });
         }
+
         // Creating payload with user object
         const payload = { user: tailor };
 
         // Generating token
-        jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
+        jwt.sign(payload, tokenSecret, { expiresIn: 1440 }, (err, token) => {
           if (err) throw err;
 
           // done
@@ -73,6 +83,7 @@ exports.login = async (req, res) => {
     console.log("Error ----> ", err);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
+  console.log("CHeck------>client.active:", client.active);
 };
 
 /**
