@@ -39,3 +39,27 @@ exports.getById = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
+/**
+ * Get all Notifications
+ * @param {object} req
+ * @param {object} res
+ */
+exports.UpdateStatus = async (req, res) => {
+  try {
+    const userID = req.user._id;
+    const notifications = await Notifications.updateMany(
+      {
+        receiver: userID,
+      },
+      {
+        is_read: true,
+      }
+    );
+    res.json({ success: true, message: "Notifications read successfully." }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
