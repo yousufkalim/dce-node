@@ -10,6 +10,8 @@ const { checkAuth } = require("../middleware/checkAuth");
 router.get("/", checkAuth, notifications.getAll);
 // Get notification by Id
 router.get("/:chatId", checkAuth, notifications.getById);
+// Read notifications
+router.get("/read", checkAuth, notifications.UpdateStatus);
 
 // Export
 module.exports = router;

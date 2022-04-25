@@ -48,7 +48,7 @@ exports.login = async (req, res) => {
         const payload = { user: client };
 
         // Generating token
-        jwt.sign(payload, tokenSecret, { expiresIn: 1440 }, (err, token) => {
+        jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
           if (err) throw err;
           // done
           return res.json({ success: true, user: client, token });
@@ -70,7 +70,7 @@ exports.login = async (req, res) => {
         const payload = { user: tailor };
 
         // Generating token
-        jwt.sign(payload, tokenSecret, { expiresIn: 1440 }, (err, token) => {
+        jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
           if (err) throw err;
 
           // done
@@ -83,7 +83,6 @@ exports.login = async (req, res) => {
     console.log("Error ----> ", err);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
-  console.log("CHeck------>client.active:", client.active);
 };
 
 /**
