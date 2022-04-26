@@ -197,7 +197,6 @@ exports.complete = async (req, res) => {
   }
 };
 
-
 /**
  * Feedback to order
  * @param {object} req
@@ -259,10 +258,10 @@ exports.getAllByQuery = async (req, res) => {
       .populate("client")
       .populate("tailor"); // Finding all the orders from db
     // TODO: Optimize it.
-    for (let i = 0; i < orders.length; i++) {
-      const quotes = orders[i].quotes.filter((_) => _.status == "pending");
-      orders[i].quotes = quotes;
-    }
+    // for (let i = 0; i < orders.length; i++) {
+    //   const quotes = orders[i].quotes.filter((_) => _.status == "pending");
+    //   orders[i].quotes = quotes;
+    // }
     res.json({ success: true, orders }); // Success
   } catch (err) {
     // Error handling
