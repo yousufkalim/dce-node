@@ -147,7 +147,6 @@ exports.getById = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const userId = req.params.userId; // Getting user id from URL parameter
-    console.log(req.file);
     if (req.file) {
       req.body.avatar = req.file.path; // Creating a new property called avatar in body object
     }

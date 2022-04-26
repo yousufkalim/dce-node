@@ -7,6 +7,7 @@ var nodemailer = require("nodemailer");
 const sender_name = process.env.MAILER_DOMAIN;
 const sender_email = process.env.MAILER_EMAIL;
 const sender_password = process.env.MAILER_PASSWORD;
+// const logo = require("../uploads/blogImages/Email_logo.png");
 
 /**
  * sendEmail
@@ -62,7 +63,7 @@ exports.sendOTP = (email, otp) => {
       from: `${sender_name} <${sender_email}>`,
       to: email,
       subject: "Your one time password is:",
-      text: `${OTP}`,
+      html: OtpTemplate(OTP),
     };
 
     // Sending email
@@ -78,4 +79,84 @@ exports.sendOTP = (email, otp) => {
       }
     });
   });
+};
+
+const OtpTemplate = (otp) => {
+  return `
+  <body style="margin: 0; padding: 0">
+  <table
+    role="presentation"
+    style="
+      width: 100%;
+      border-collapse: collapse;
+      border: 0;
+      border-spacing: 0;
+      background: #ffffff;
+    "
+  >
+    <tr>
+      <td align="center" style="padding: 0">
+        <table
+          role="presentation"
+          style="
+            width: 602px;
+            border-collapse: collapse;
+            border: 1px solid #cccccc;
+            border-spacing: 0;
+            text-align: left;
+          "
+        >
+          <tr>
+            <td
+              align="center"
+              style="padding: 20px 5px 10px 5px; "
+            >
+              <img src={../uploads/blogImages/Email_logo.png}>
+              <h4 style="font-family: Verdana; color: #CC8E9C;">
+                OTP for your request is below
+              </h4>
+            </td>
+          </tr>
+          <tr>
+            <td
+              align="center"
+              style="
+                padding: 20px 10px 20px 10px;
+                background: rgba(255, 227, 232, 1);
+              "
+            >
+            <div style="width: 50%;">
+              <h3
+                style="
+                  font-family: Verdana;
+                  font-size: 35px;
+                  background-color: #CC8E9C;
+                  padding: 2%;
+                  color: #FFFFFF;
+                  border-radius: 10px;
+                "
+              >
+                ${otp}
+              </h3>
+              </div>
+              <p align="center" style="
+                  font-family: Verdana;
+                  color: #A0A0A0;">
+                If you haven't sent this opt, please ignore this message.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p align="center" style="color: #A0A0A0; font-family: Verdana">
+                This email is generated automatically please do not reply.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+`;
 };
