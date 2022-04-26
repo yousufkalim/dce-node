@@ -39,7 +39,7 @@ router.get("/byQuery/:query", checkAuth, clients.getAll); // Get all users by qu
 
 // Update
 router.put(
-  "/",
+  "/:userId",
   upload.single("image"),
   checkAuth,
   validateClientUpdate,
