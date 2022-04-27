@@ -124,16 +124,13 @@ const orderSchema = new Schema(
       enum: ["pending", "in_progress", "completed", "discarded"],
       default: "pending",
     },
-    attachment: {
-      type: String,
-      required: true,
-    },
+    attachment: [
+      {
+        file: String,
+      },
+    ],
     tailor_submission: {
       details: {
-        type: String,
-        required: false,
-      },
-      attachment: {
         type: String,
         required: false,
       },
