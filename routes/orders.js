@@ -18,7 +18,7 @@ const { validateOrder, isValidated } = require("../middleware/validators");
 // Create - New order
 router.post(
   "/",
-  upload.single("image"),
+  upload.array("image"),
   checkAuth,
   validateOrder,
   isValidated,
