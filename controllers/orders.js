@@ -323,8 +323,8 @@ exports.getById = async (req, res) => {
       .populate("client")
       .populate("tailor"); // Finding all the orders from db
     // TODO: Optimize it.
-    const quotes = order.quotes.filter((_) => _.status == "pending");
-    order.quotes = quotes;
+    // const quotes = order.quotes.filter((_) => _.status == "pending");
+    // order.quotes = quotes;
     res.json({ success: true, order }); // Success
   } catch (err) {
     // Error handling
