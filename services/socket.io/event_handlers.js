@@ -24,7 +24,18 @@ async function connectHandler(io, socket) {
   try {
     const tokenStr = token.split(" ")[1];
     const decoded = jwt.verify(tokenStr, tokenSecret);
-    const user = decoded.user;
+
+    let user;
+
+    // Not cool
+    if (decoded.admin) {
+      // I am afraid to change it as it might explode with a gentle touch.
+      // Best wishes,
+      // Umar.
+      user = decoded.admin;
+    } else {
+      user = decoded.user;
+    }
 
     // CheckIn
     if (user.role == "client") {
