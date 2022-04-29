@@ -41,11 +41,11 @@ exports.getById = async (req, res) => {
 };
 
 /**
- * Get all Notifications
+ * Read all Notifications
  * @param {object} req
  * @param {object} res
  */
-exports.UpdateStatus = async (req, res) => {
+exports.updateStatus = async (req, res) => {
   try {
     const userID = req.user._id;
     const notifications = await Notifications.updateMany(
