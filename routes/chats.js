@@ -10,6 +10,8 @@ const { checkAuth } = require("../middleware/checkAuth");
 router.post("/byQuery", checkAuth, chats.getAllByQuery);
 // Get chat by Id
 router.get("/:chatId", checkAuth, chats.getById);
+// Delete chat
+router.delete("/:chatId", checkAuth, chats.delete);
 
 // Export
 module.exports = router;
