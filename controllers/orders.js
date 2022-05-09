@@ -19,9 +19,12 @@ exports.create = async (req, res) => {
     const clientID = req.user._id;
     req.body.client = clientID;
     const client = await Clients.findById(clientID); //get client
-    if (req.file) {
-      req.body.attachment = req.file.path; // Creating a new property called attachment in body object
+    if (req.files != undefined && req.files.length != 0) {
+      req.body.attachment = req.files.map((file) => ({
+        file: file.path,
+      }));
     }
+
     // Parse stringified Objects
     req.body.measurements = JSON.parse(req.body.measurements);
     req.body.delivery = JSON.parse(req.body.delivery);
@@ -197,7 +200,6 @@ exports.complete = async (req, res) => {
   }
 };
 
-
 /**
  * Feedback to order
  * @param {object} req
@@ -259,10 +261,10 @@ exports.getAllByQuery = async (req, res) => {
       .populate("client")
       .populate("tailor"); // Finding all the orders from db
     // TODO: Optimize it.
-    for (let i = 0; i < orders.length; i++) {
-      const quotes = orders[i].quotes.filter((_) => _.status == "pending");
-      orders[i].quotes = quotes;
-    }
+    // for (let i = 0; i < orders.length; i++) {
+    //   const quotes = orders[i].quotes.filter((_) => _.status == "pending");
+    //   orders[i].quotes = quotes;
+    // }
     res.json({ success: true, orders }); // Success
   } catch (err) {
     // Error handling
@@ -321,8 +323,8 @@ exports.getById = async (req, res) => {
       .populate("client")
       .populate("tailor"); // Finding all the orders from db
     // TODO: Optimize it.
-    const quotes = order.quotes.filter((_) => _.status == "pending");
-    order.quotes = quotes;
+    // const quotes = order.quotes.filter((_) => _.status == "pending");
+    // order.quotes = quotes;
     res.json({ success: true, order }); // Success
   } catch (err) {
     // Error handling
