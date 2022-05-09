@@ -14,14 +14,21 @@ exports.getAllByQuery = async (req, res) => {
   try {
     if (req.body.chat) {
       const body = {};
-      if (req.user.role == "client") {
+
+      if (req.admin) {
         Object.assign(body, {
-          client_unread_messages: 0,
+          admin_unread_messages: 0,
         });
       } else {
-        Object.assign(body, {
-          tailor_unread_messages: 0,
-        });
+        if (req.user.role == "client") {
+          Object.assign(body, {
+            client_unread_messages: 0,
+          });
+        } else {
+          Object.assign(body, {
+            tailor_unread_messages: 0,
+          });
+        }
       }
       await Chats.findByIdAndUpdate(req.body.chat, body);
     }

@@ -10,6 +10,7 @@ exports.upload = async (req, res) => {
         .status(400)
         .json({ success: false, message: "File must be provided" });
     }
+    console.log(JSON.stringify(req.file));
     res.json({ success: true, file: req.file.path }); // Success
   } catch (err) {
     // Error handling

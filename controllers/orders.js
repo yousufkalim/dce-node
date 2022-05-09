@@ -8,6 +8,8 @@ const Orders = require("../models/Orders");
 const Quotes = require("../models/Quotes");
 const Catalogs = require("../models/Catalogs");
 const Notifications = require("../models/Notifications");
+const Chats = require("../models/Chats");
+const Messages = require("../models/Messages");
 
 /**
  * Create order
@@ -29,6 +31,7 @@ exports.create = async (req, res) => {
     req.body.measurements = JSON.parse(req.body.measurements);
     req.body.delivery = JSON.parse(req.body.delivery);
     req.body.budget = JSON.parse(req.body.budget);
+
     const orders = await Orders.create(req.body); //create order of client
     client.orders.push(orders.id); //assign order to client too
     await client.save(); //save client
@@ -348,10 +351,109 @@ exports.update = async (req, res) => {
     req.body.measurements = JSON.parse(req.body.measurements);
     req.body.delivery = JSON.parse(req.body.delivery);
     req.body.budget = JSON.parse(req.body.budget);
+
     const order = await Orders.findByIdAndUpdate(orderId, req.body, {
       new: true,
     }); // Updating the color
     res.json({ success: true, order }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Create order
+ * @param {object} req
+ * @param {object} res
+ */
+exports.contactSupport = async (req, res) => {
+  try {
+    const userID = req.user._id;
+
+    let chat;
+
+    if (req.user.role == "client") {
+      chat = await Chats.findOne({
+        client: userID,
+        is_admin: true,
+      });
+
+      if (!chat) {
+        chat = await Chats.create({
+          client: userID,
+          is_admin: true,
+        });
+      }
+    } else {
+      chat = await Chats.findOne({
+        tailor: userID,
+        is_admin: true,
+      });
+
+      if (!chat) {
+        chat = await Chats.create({
+          tailor: userID,
+          is_admin: true,
+        });
+      }
+    }
+
+    let message;
+
+    message = await Messages.create({
+      type: "text",
+      chat: chat._id,
+      sender: userID,
+      is_admin: true,
+      content: `Support regarding Order # ${req.body.id}`,
+    });
+
+    message = await Messages.create({
+      type: "text",
+      chat: chat._id,
+      sender: userID,
+      is_admin: true,
+      content: `Reason:\n${req.body.reason}`,
+    });
+
+    await Chats.findByIdAndUpdate(chat._id, {
+      last_message: message._id,
+    });
+
+    if (req.body.details) {
+      message = await Messages.create({
+        type: "text",
+        chat: chat._id,
+        sender: userID,
+        is_admin: true,
+        content: `Details:\n${req.body.details}`,
+      });
+
+      await Chats.findByIdAndUpdate(chat._id, {
+        last_message: message._id,
+      });
+    }
+
+    if (req.file) {
+      message = await Messages.create({
+        type: "attachment",
+        chat: chat._id,
+        sender: userID,
+        is_admin: true,
+        content: req.file.path,
+      });
+
+      await Chats.findByIdAndUpdate(chat._id, {
+        last_message: message._id,
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Support request submitted successfully.",
+    });
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);

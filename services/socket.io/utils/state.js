@@ -35,6 +35,18 @@ function findUser({ userID, socketID }) {
   return null;
 }
 
+function findAdmins() {
+  const arr = [];
+  for (let i = 0; i < users.length; i++) {
+    let obj = users[i];
+    if (obj.user.role == "admin") {
+      arr.push(obj);
+    }
+  }
+
+  return arr;
+}
+
 function printUsers() {
   console.log("----------------------------");
   console.log(`THIS IS THE users.length: ${users.length}`);
@@ -56,5 +68,6 @@ module.exports = {
   addUser,
   removeUser,
   findUser,
+  findAdmins,
   printUsers,
 };

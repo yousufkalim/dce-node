@@ -22,7 +22,7 @@ exports.checkAuth = (req, res, next) => {
     // Decrypting token
     const token = header.split(" ")[1];
     const decoded = jwt.verify(token, tokenSecret);
-    req.user = decoded.user;
+    req.user = decoded.user ?? decoded.admin;
 
     // If user authenticated
     res.set(
