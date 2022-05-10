@@ -18,7 +18,7 @@ const { validateOrder, isValidated } = require("../middleware/validators");
 // Create - New order
 router.post(
   "/",
-  upload.array("image"),
+  upload.array("images"),
   checkAuth,
   validateOrder,
   isValidated,
@@ -45,7 +45,7 @@ router.get("/byName/:name", checkAuth, orders.getAllByName);
 router.get("/", checkAdminAuth, orders.getAll);
 router.get("/:orderId", checkAuth, orders.getById);
 // Update order
-router.put("/:orderId", upload.single("image"), checkAuth, orders.update);
+router.put("/:orderId", upload.array("images"), checkAuth, orders.update);
 // Contact support for order
 router.post(
   "/support",

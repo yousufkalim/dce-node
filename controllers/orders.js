@@ -20,11 +20,13 @@ exports.create = async (req, res) => {
   try {
     const clientID = req.user._id;
     req.body.client = clientID;
-    const client = await Clients.findById(clientID); //get client
-    if (req.files != undefined && req.files.length != 0) {
-      req.body.attachment = req.files.map((file) => ({
-        file: file.path,
-      }));
+    const client = await Clients.findById(clientID); // get client
+
+    // Handle attachments
+    const attachments = req.files ?? [];
+    req.body.attachments = [];
+    for (let i = 0; i < attachments.length; i++) {
+      req.body.attachments.push(attachments[i].path);
     }
 
     // Parse stringified Objects
@@ -158,7 +160,9 @@ exports.discard = async (req, res) => {
 exports.complete = async (req, res) => {
   try {
     const orderID = req.body.id;
-    const order = await Orders.findById(orderID).populate("tailor");
+    const order = await Orders.findById(orderID)
+      .populate("tailor")
+      .populate("quotes");
     if (!order) {
       return res
         .status(404)
@@ -184,6 +188,22 @@ exports.complete = async (req, res) => {
         $push: {
           ratings: _rating,
         },
+      });
+    }
+
+    // Check if creation of catalog was requested in order
+    if (order.create_catalog_after_completion) {
+      const cPrice =
+        order.quotes.filter((__) => __.status == "accepted")[0]?.price ?? 0;
+      const cAttachment = order.attachments[0];
+      await Catalogs.create({
+        name: order.name,
+        gender: order.gender,
+        category: order.category,
+        price: cPrice,
+        description: "DCE: System generated description. You may edit it.",
+        tailor: order.tailor._id,
+        attachment: cAttachment,
       });
     }
 
@@ -344,9 +364,14 @@ exports.getById = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const orderId = req.params.orderId; // Getting order id from URL parameter
-    if (req.file) {
-      req.body.attachment = req.file.path; // Creating a new property called attachment in body object
+
+    // Handle attachments
+    const attachments = req.files ?? [];
+    req.body.attachments = [];
+    for (let i = 0; i < attachments.length; i++) {
+      req.body.attachments.push(attachments[i].path);
     }
+
     // Parse stringified Objects
     req.body.measurements = JSON.parse(req.body.measurements);
     req.body.delivery = JSON.parse(req.body.delivery);
