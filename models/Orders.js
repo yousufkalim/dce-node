@@ -51,7 +51,10 @@ const orderSchema = new Schema(
     },
     includes_alteration_services: {
       type: Boolean,
-      required: true,
+      default: false,
+    },
+    create_catalog_after_completion: {
+      type: Boolean,
       default: false,
     },
     delivery: {
@@ -124,11 +127,7 @@ const orderSchema = new Schema(
       enum: ["pending", "in_progress", "completed", "discarded"],
       default: "pending",
     },
-    attachment: [
-      {
-        file: String,
-      },
-    ],
+    attachments: [String],
     tailor_submission: {
       details: {
         type: String,
