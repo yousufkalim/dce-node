@@ -10,12 +10,12 @@ const chatsSchema = new Schema(
     tailor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "tailors",
-      required: true,
+      required: false,
     },
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "clients",
-      required: true,
+      required: false,
     },
     is_admin: {
       type: Boolean,
@@ -26,6 +26,10 @@ const chatsSchema = new Schema(
       default: 0,
     },
     client_unread_messages: {
+      type: Number,
+      default: 0,
+    },
+    admin_unread_messages: {
       type: Number,
       default: 0,
     },

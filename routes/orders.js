@@ -46,6 +46,15 @@ router.get("/", checkAdminAuth, orders.getAll);
 router.get("/:orderId", checkAuth, orders.getById);
 // Update order
 router.put("/:orderId", upload.single("image"), checkAuth, orders.update);
+// Contact support for order
+router.post(
+  "/support",
+  upload.single("attachment"),
+  checkAuth,
+  orders.contactSupport
+);
+
+// contactSupport
 
 // Export
 module.exports = router;

@@ -14,14 +14,21 @@ exports.getAllByQuery = async (req, res) => {
   try {
     if (req.body.chat) {
       const body = {};
-      if (req.user.role == "client") {
+
+      if (req.admin) {
         Object.assign(body, {
-          client_unread_messages: 0,
+          admin_unread_messages: 0,
         });
       } else {
-        Object.assign(body, {
-          tailor_unread_messages: 0,
-        });
+        if (req.user.role == "client") {
+          Object.assign(body, {
+            client_unread_messages: 0,
+          });
+        } else {
+          Object.assign(body, {
+            tailor_unread_messages: 0,
+          });
+        }
       }
       await Chats.findByIdAndUpdate(req.body.chat, body);
     }
@@ -58,10 +65,10 @@ exports.getById = async (req, res) => {
  */
 exports.delete = async (req, res) => {
   try {
-    const messageID = req.body.id;
+    const messageID = req.params.messageId;
     const message = await Messages.findByIdAndDelete(messageID); // Finding the message from db
     if (!message) {
-      req.status(400).json({ success: false, message: "Message not found." });
+      res.status(400).json({ success: false, message: "Message not found." });
       return;
     }
     res.json({ success: true, message: "Message deleted" }); // Success

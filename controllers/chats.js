@@ -3,6 +3,7 @@
  * @author Shuja Naqvi
  */
 const Chats = require("../models/Chats");
+const Messages = require("../models/Messages");
 
 /**
  * Get all Chats
@@ -36,6 +37,31 @@ exports.getById = async (req, res) => {
       .populate("client")
       .populate("last_message"); // Finding the chat from db
     res.json({ success: true, chat }); // Success
+  } catch (err) {
+    // Error handling
+    console.log("Error ----> ", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+/**
+ * Delete chat by id
+ * @param {object} req
+ * @param {object} res
+ */
+exports.delete = async (req, res) => {
+  try {
+    const chatID = req.params.chatId;
+    const chat = await Chats.findByIdAndDelete(chatID); // Finding the chat from db
+    if (!chat) {
+      res.status(400).json({ success: false, message: "Chat not found." });
+      return;
+    } else {
+      await Messages.deleteMany({
+        chat: chat._id,
+      });
+      res.json({ success: true, message: "Chat deleted" }); // Success
+    }
   } catch (err) {
     // Error handling
     console.log("Error ----> ", err);

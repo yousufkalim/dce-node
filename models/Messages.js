@@ -24,7 +24,11 @@ const messagesSchema = new Schema(
     },
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: false,
+    },
+    is_admin: {
+      type: Boolean,
+      default: false,
     },
     content: {
       type: String,

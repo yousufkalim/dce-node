@@ -24,7 +24,18 @@ async function connectHandler(io, socket) {
   try {
     const tokenStr = token.split(" ")[1];
     const decoded = jwt.verify(tokenStr, tokenSecret);
-    const user = decoded.user;
+
+    let user;
+
+    // Not cool
+    if (decoded.admin) {
+      // I am afraid to change it as it might explode with a gentle touch.
+      // Best wishes,
+      // Umar.
+      user = decoded.admin;
+    } else {
+      user = decoded.user;
+    }
 
     // CheckIn
     if (user.role == "client") {
@@ -129,16 +140,29 @@ async function sendMessageHandler(io, socket, _) {
     let receiverID;
     if (user.role == "client") {
       receiverID = chat.tailor;
-    } else {
+    } else if (user.role == "tailor") {
       receiverID = chat.client;
+    } else if (user.role == "admin") {
+      receiverID = chat.tailor ?? chat.client; // As this will be only either of those.
     }
 
-    let message = await Messages.create({
-      ..._,
-      chat: chat._id,
-      sender: senderID,
-      receiver: receiverID,
-    });
+    let message;
+
+    if (_.chat.is_admin) {
+      message = await Messages.create({
+        ..._,
+        chat: chat._id,
+        sender: senderID,
+        is_admin: true,
+      });
+    } else {
+      message = await Messages.create({
+        ..._,
+        chat: chat._id,
+        sender: senderID,
+        receiver: receiverID,
+      });
+    }
 
     chat = await Chats.findByIdAndUpdate(chat._id, {
       last_message: message._id,
@@ -154,8 +178,9 @@ async function sendMessageHandler(io, socket, _) {
     if (receiver) {
       // If online then emit message to receiver
       io.to(receiver.socketID).emit(Constants.E_RECEIVE_MESSAGE, message);
-    } else {
+    } else if (!chat.is_admin) {
       // If offline then update Chat.
+      // Notifications are not supported for admins.
       const body = {};
       if (user.role == "client") {
         Object.assign(body, {
@@ -190,6 +215,15 @@ async function sendMessageHandler(io, socket, _) {
             link: "chat",
           });
         }
+      }
+    } else {
+      // Emit message to all connected admins.
+      const receivers = State.findAdmins({
+        userID: receiverID,
+      });
+
+      for (let i = 0; i < receivers.length; i++) {
+        io.to(receivers[i].socketID).emit(Constants.E_RECEIVE_MESSAGE, message);
       }
     }
   }
