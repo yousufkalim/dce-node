@@ -140,6 +140,14 @@ const orderSchema = new Schema(
         required: false,
       },
     },
+    tailor_support: {
+      type: Boolean,
+      default: false,
+    },
+    client_support: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

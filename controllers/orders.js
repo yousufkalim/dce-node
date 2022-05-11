@@ -400,6 +400,10 @@ exports.contactSupport = async (req, res) => {
     let chat;
 
     if (req.user.role == "client") {
+      await Orders.findByIdAndUpdate(req.body.id, {
+        client_support: true,
+      });
+
       chat = await Chats.findOne({
         client: userID,
         is_admin: true,
@@ -412,6 +416,12 @@ exports.contactSupport = async (req, res) => {
         });
       }
     } else {
+      await Orders.findByIdAndUpdate(req.body.id, {
+        tailor_support: true,
+      });
+
+      console.log(xyz);
+
       chat = await Chats.findOne({
         tailor: userID,
         is_admin: true,
