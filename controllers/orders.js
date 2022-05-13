@@ -160,6 +160,14 @@ exports.discard = async (req, res) => {
 exports.complete = async (req, res) => {
   try {
     const orderID = req.body.id;
+
+    // Handle attachments
+    const attachments = req.files ?? [];
+    req.body.attachments = [];
+    for (let i = 0; i < attachments.length; i++) {
+      req.body.attachments.push(attachments[i].path);
+    }
+
     const order = await Orders.findById(orderID)
       .populate("tailor")
       .populate("quotes");
@@ -172,24 +180,24 @@ exports.complete = async (req, res) => {
       status: "completed",
       tailor_submission: {
         details: req.body.details,
-        attachment: req.file.path,
+        attachments: req.body.attachments,
       },
     }); //update order
 
     // Update ratings.
-    const _rating = req.body.rating;
-    await Clients.findByIdAndUpdate(order.client, {
-      $push: {
-        ratings: _rating,
-      },
-    });
-    if (order.catalog) {
-      await Catalogs.findByIdAndUpdate(order.catalog, {
-        $push: {
-          ratings: _rating,
-        },
-      });
-    }
+    // const _rating = req.body.rating;
+    // await Clients.findByIdAndUpdate(order.client, {
+    //   $push: {
+    //     ratings: _rating,
+    //   },
+    // });
+    // if (order.catalog) {
+    //   await Catalogs.findByIdAndUpdate(order.catalog, {
+    //     $push: {
+    //       ratings: _rating,
+    //     },
+    //   });
+    // }
 
     // Check if creation of catalog was requested in order
     if (order.create_catalog_after_completion) {

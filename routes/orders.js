@@ -31,7 +31,7 @@ router.post("/discard", checkAuth, orders.discard);
 // Complete - order
 router.post(
   "/complete",
-  upload.single("attachment"),
+  upload.array("attachments"),
   checkAuth,
   orders.complete
 );

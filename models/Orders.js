@@ -129,10 +129,15 @@ const orderSchema = new Schema(
     },
     attachments: [String],
     tailor_submission: {
+      // rating: {
+      //   type: String,
+      //   required: false,
+      // },
       details: {
         type: String,
         required: false,
       },
+      attachments: [String],
     },
     client_submission: {
       details: {
