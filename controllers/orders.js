@@ -263,7 +263,8 @@ exports.feedback = async (req, res) => {
     await Notifications.create({
       sender: order.client,
       receiver: order.tailor,
-      text: `Feedback given by client ${_rating}/5.`,
+      // text: `Feedback given by client ${_rating}/5.`,
+      text: `Feedback given by client.`,
       link: "orders",
     });
 
@@ -427,8 +428,6 @@ exports.contactSupport = async (req, res) => {
       await Orders.findByIdAndUpdate(req.body.id, {
         tailor_support: true,
       });
-
-      console.log(xyz);
 
       chat = await Chats.findOne({
         tailor: userID,
