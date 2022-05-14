@@ -114,19 +114,25 @@ exports.Webhook = async (req, res) => {
               tailor: quotes.tailor,
             });
 
-            await Messages.create({
+            const messages = await Messages.create({
               type: "text",
               chat: chats._id,
               sender: orders.client,
               receiver: quotes.tailor,
               content: _content,
             });
+
+            await Chats.findOneAndUpdate({
+              client: orders.client,
+              tailor: quotes.tailor,
+              last_message: messages._id,
+            });
           }
         }
       }
       break;
     default:
-      console.log(`Unhandled event type ${event.type}`);
+      console.trace(`Unhandled event type ${event.type}`);
   }
   res.send();
 };
