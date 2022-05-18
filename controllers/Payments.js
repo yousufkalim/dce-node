@@ -15,7 +15,6 @@ exports.Checkout = async (req, res, next) => {
     let metaData = req.body.metaData;
     let lineItems = req.body.line_items; // => get the line items array from the resposne
     // => stripe api to create a checkout seesion url
-    return console.log(metaData, lineItems);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"], // => A list of the types of payment methods (e.g., card)
       line_items: lineItems, // => A list of items the customer is purchasing. For payment mode, there is a maximum of 100 line items
