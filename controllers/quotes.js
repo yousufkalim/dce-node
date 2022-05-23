@@ -32,7 +32,7 @@ exports.create = async (req, res) => {
       sender: tailor,
       receiver: exisitingOrder.client,
       text: "Sent quote on your order.",
-      link: "orders",
+      link: "my_ads",
     });
     return res.json({ success: true, message: "Quote sent successfully." });
   } catch (err) {
