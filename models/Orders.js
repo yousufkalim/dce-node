@@ -73,23 +73,12 @@ const orderSchema = new Schema(
       note: {
         type: String,
       },
-      type: {
-        type: String,
-        enum: ["urgent", "normal"],
-        required: true,
-      },
       date: {
         type: Date,
         required: true,
       },
     },
     budget: {
-      type: {
-        type: String,
-        enum: ["fixed", "hourly"],
-        default: "fixed",
-        required: true,
-      },
       min_price: {
         type: Number,
         required: true,

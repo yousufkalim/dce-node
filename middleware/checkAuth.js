@@ -25,17 +25,12 @@ exports.checkAuth = (req, res, next) => {
     req.user = decoded.user ?? decoded.admin;
 
     // If user authenticated
-    res.set(
-      "cache-control",
-      "no-cache, no-store, private, must-revalidate, post-check=0, pre-check=0"
-    );
+    res.set("cache-control", "no-cache, no-store, private, must-revalidate, post-check=0, pre-check=0");
 
     // Done
     next();
   } catch (err) {
     // If not
-    res
-      .status(403)
-      .json({ success: false, message: "Your session has been expired" });
+    res.status(403).json({ success: false, message: "Your session has been expired" });
   }
 };

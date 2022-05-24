@@ -22,8 +22,7 @@ exports.create = async (req, res) => {
     const { order } = req.body;
     req.body.tailor = tailorId;
     const exisitingOrder = await Orders.findById(order);
-    if (!exisitingOrder)
-      return res.json({ success: false, message: "OrderId is invalid" });
+    if (!exisitingOrder) return res.json({ success: false, message: "OrderId is invalid" });
     const quote = await Quotes.create(req.body);
     exisitingOrder.quotes.push(quote._id);
     await exisitingOrder.save();
@@ -32,7 +31,7 @@ exports.create = async (req, res) => {
       sender: tailor,
       receiver: exisitingOrder.client,
       text: "Sent quote on your order.",
-      link: "orders",
+      link: "my_ads",
     });
     return res.json({ success: true, message: "Quote sent successfully." });
   } catch (err) {
@@ -52,8 +51,7 @@ exports.acceptQuote = async (req, res) => {
     const clientId = req.user._id;
     const { quote } = req.body;
     const existingQuote = await Quotes.findById(quote);
-    if (!existingQuote)
-      return res.json({ success: false, message: "QuoteId is invalid" });
+    if (!existingQuote) return res.json({ success: false, message: "QuoteId is invalid" });
     const quotes = await Quotes.findByIdAndUpdate(existingQuote._id, {
       $set: {
         status: "accepted",
@@ -141,8 +139,7 @@ exports.rejectQuote = async (req, res) => {
     const clientId = req.user._id;
     const { quote } = req.body;
     const existingQuote = await Quotes.findById(quote);
-    if (!existingQuote)
-      return res.json({ success: false, message: "QuoteId is invalid" });
+    if (!existingQuote) return res.json({ success: false, message: "QuoteId is invalid" });
     const quotes = await Quotes.findByIdAndUpdate(existingQuote._id, {
       $set: {
         status: "rejected",

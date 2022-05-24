@@ -21,17 +21,13 @@ exports.create = async (req, res) => {
     // Extra Validations
     if (existingUser) {
       // If we found existing user in db
-      return res
-        .status(409)
-        .json({ success: false, message: "User already exists." });
+      return res.status(409).json({ success: false, message: "User already exists." });
     }
 
     const userOTP = await OTPs.findOne({ email });
     if (!userOTP?.is_verified) {
       // If this email has not been verified yet.
-      return res
-        .status(409)
-        .json({ success: false, message: "Email not verified." });
+      return res.status(409).json({ success: false, message: "Email not verified." });
     }
 
     req.body.password = bcrypt.hashSync(password, parseInt(bcryptSalt)); // Hashing the password with salt 8
@@ -67,9 +63,7 @@ exports.createByAdmin = async (req, res) => {
     // Extra Validations
     if (existingUser) {
       // If we found existing user in db
-      return res
-        .status(409)
-        .json({ success: false, message: "User already exists." });
+      return res.status(409).json({ success: false, message: "User already exists." });
     }
 
     // Creating User
@@ -151,10 +145,7 @@ exports.update = async (req, res) => {
       req.body.avatar = req.file.path; // Creating a new property called avatar in body object
     }
     if (req.body.password) {
-      req.body.password = bcrypt.hashSync(
-        req.body.password,
-        parseInt(bcryptSalt)
-      );
+      req.body.password = bcrypt.hashSync(req.body.password, parseInt(bcryptSalt));
       req.body.last_password_changed = Date.now();
     }
     const user = await Clients.findByIdAndUpdate(userId, req.body, {
@@ -179,10 +170,7 @@ exports.updateByAdmin = async (req, res) => {
 
     // If user want to update it's password
     if (req.body.password) {
-      req.body.password = bcrypt.hashSync(
-        req.body.password,
-        parseInt(bcryptSalt)
-      );
+      req.body.password = bcrypt.hashSync(req.body.password, parseInt(bcryptSalt));
     }
 
     const client = await Clients.findByIdAndUpdate(userId, req.body, {

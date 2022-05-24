@@ -55,13 +55,9 @@ async function connectHandler(io, socket) {
 
     State.addUser(obj);
 
-    Helpers.registerEvent(socket, Constants.E_DISCONNECT, () =>
-      disconnectHandler(io, socket)
-    );
+    Helpers.registerEvent(socket, Constants.E_DISCONNECT, () => disconnectHandler(io, socket));
 
-    Helpers.registerEvent(socket, Constants.E_SEND_MESSAGE, (_) =>
-      sendMessageHandler(io, socket, _)
-    );
+    Helpers.registerEvent(socket, Constants.E_SEND_MESSAGE, (_) => sendMessageHandler(io, socket, _));
   } catch (e) {
     console.trace(e);
     socket.disconnect();
@@ -191,9 +187,7 @@ async function sendMessageHandler(io, socket, _) {
           $inc: { client_unread_messages: 1 },
         });
       }
-      chat = await Chats.findByIdAndUpdate(chat._id, body, { new: true })
-        .populate("client")
-        .populate("tailor");
+      chat = await Chats.findByIdAndUpdate(chat._id, body, { new: true }).populate("client").populate("tailor");
       // Create Notification
       if (user.role == "client") {
         if (chat.tailor_unread_messages <= 1) {

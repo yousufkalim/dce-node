@@ -27,9 +27,6 @@ const tailorSchema = new mongoose.Schema(
     address: {
       type: String,
     },
-    country: {
-      type: String,
-    },
     zip_code: {
       type: String,
     },
