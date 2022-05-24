@@ -26,22 +26,16 @@ exports.login = async (req, res) => {
     if (!client && !tailor) {
       //if both empty
       // If user not found
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     } else {
       //if request by a client
       if (client) {
         const isMatched = bcrypt.compareSync(password, client.password);
         if (!isMatched) {
           // If password not matched
-          return res
-            .status(400)
-            .json({ success: false, message: "Invalid Password" });
+          return res.status(400).json({ success: false, message: "Invalid Password" });
         } else if (!client.active) {
-          return res
-            .status(400)
-            .json({ success: false, message: "Your account is blocked" });
+          return res.status(400).json({ success: false, message: "Your account is blocked" });
         }
 
         // Creating payload with user object
@@ -57,13 +51,9 @@ exports.login = async (req, res) => {
         const isMatched = bcrypt.compareSync(password, tailor.password);
         if (!isMatched) {
           // If password not matched
-          return res
-            .status(400)
-            .json({ success: false, message: "Invalid Password" });
+          return res.status(400).json({ success: false, message: "Invalid Password" });
         } else if (!tailor.active) {
-          return res
-            .status(400)
-            .json({ success: false, message: "Your account is blocked" });
+          return res.status(400).json({ success: false, message: "Your account is blocked" });
         }
 
         // Creating payload with user object
@@ -112,18 +102,14 @@ exports.changePassword = async (req, res) => {
     let tailor = await Tailors.findById(userId); // to check request by tailor
     //if both are empty
     if (!user && !tailor) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
     if (user) {
       //compare old password with password saved in DB
       const isMatched = bcrypt.compareSync(oldPassword, user.password);
       //If they don't match
       if (!isMatched) {
-        return res
-          .status(400)
-          .json({ success: false, message: "Invalid old Password" });
+        return res.status(400).json({ success: false, message: "Invalid old Password" });
       }
       //it will bcrypt new password and will store in db
       user.password = bcrypt.hashSync(newPassword, parseInt(bcryptSalt));
@@ -137,9 +123,7 @@ exports.changePassword = async (req, res) => {
       const isMatched = bcrypt.compareSync(oldPassword, tailor.password);
       //if no match found
       if (!isMatched) {
-        return res
-          .status(400)
-          .json({ success: false, message: "Invalid old Password" });
+        return res.status(400).json({ success: false, message: "Invalid old Password" });
       }
       //it will bcrypt new password and will store in db
       tailor.password = bcrypt.hashSync(newPassword, parseInt(bcryptSalt));

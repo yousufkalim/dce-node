@@ -56,8 +56,7 @@ exports.Webhook = async (req, res) => {
         const quote = metaData.id;
         const existingQuote = await Quotes.findById(quote);
 
-        if (!existingQuote)
-          return res.json({ success: false, message: "QuoteId is invalid" });
+        if (!existingQuote) return res.json({ success: false, message: "QuoteId is invalid" });
         const quotes = await Quotes.findByIdAndUpdate(existingQuote._id, {
           $set: {
             status: "accepted",

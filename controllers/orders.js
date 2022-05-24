@@ -63,10 +63,7 @@ exports.create = async (req, res) => {
  */
 exports.getAll = async (req, res) => {
   try {
-    const orders = await Orders.find()
-      .populate("quotes")
-      .populate("client")
-      .populate("tailor"); // Finding all the tailors from db
+    const orders = await Orders.find().populate("quotes").populate("client").populate("tailor"); // Finding all the tailors from db
     res.json({ success: true, orders }); // Success
   } catch (err) {
     // Error handling
@@ -85,9 +82,7 @@ exports.accept = async (req, res) => {
     const orderID = req.body.id;
     const order = await Orders.findById(orderID).populate("tailor");
     if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order does not exists." }); //if tailor not found
+      return res.status(404).json({ success: false, message: "Order does not exists." }); //if tailor not found
     }
     const quote = await Quotes.create({
       order: order._id,
@@ -128,9 +123,7 @@ exports.discard = async (req, res) => {
     const orderID = req.body.id;
     const order = await Orders.findById(orderID).populate("tailor");
     if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order does not exists." }); //if tailor not found
+      return res.status(404).json({ success: false, message: "Order does not exists." }); //if tailor not found
     }
     await Orders.findByIdAndUpdate(orderID, {
       status: "discarded",
@@ -168,13 +161,9 @@ exports.complete = async (req, res) => {
       req.body.attachments.push(attachments[i].path);
     }
 
-    const order = await Orders.findById(orderID)
-      .populate("tailor")
-      .populate("quotes");
+    const order = await Orders.findById(orderID).populate("tailor").populate("quotes");
     if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order does not exists." }); //if order not found
+      return res.status(404).json({ success: false, message: "Order does not exists." }); //if order not found
     }
     await Orders.findByIdAndUpdate(orderID, {
       status: "completed",
@@ -201,8 +190,7 @@ exports.complete = async (req, res) => {
 
     // Check if creation of catalog was requested in order
     if (order.create_catalog_after_completion) {
-      const cPrice =
-        order.quotes.filter((__) => __.status == "accepted")[0]?.price ?? 0;
+      const cPrice = order.quotes.filter((__) => __.status == "accepted")[0]?.price ?? 0;
       const cAttachment = order.attachments[0];
       await Catalogs.create({
         name: order.name,
@@ -241,9 +229,7 @@ exports.feedback = async (req, res) => {
     const orderID = req.body.id;
     const order = await Orders.findById(orderID).populate("client");
     if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order does not exists." }); //if order not found
+      return res.status(404).json({ success: false, message: "Order does not exists." }); //if order not found
     }
     await Orders.findByIdAndUpdate(orderID, {
       client_submission: {
