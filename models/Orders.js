@@ -87,10 +87,6 @@ const orderSchema = new Schema(
         type: Number,
         required: true,
       },
-      note: {
-        type: String,
-        required: false,
-      },
     },
     quotes: [
       {
