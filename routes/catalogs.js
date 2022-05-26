@@ -16,14 +16,14 @@ const { validateCatalog, isValidated } = require("../middleware/validators");
  * @method delete delete catalog
  */
 // Create - New catalog
-router.post("/", upload.single("image"), checkAuth, validateCatalog, isValidated, catalogs.create);
+router.post("/", upload.array("images"), checkAuth, validateCatalog, isValidated, catalogs.create);
 // Get-catalogs by query
 router.post("/byQuery", checkAuth, catalogs.getAllByQuery);
 // Get-catalog by Id
 router.get("/", checkAdminAuth, catalogs.getAll);
 router.get("/:catalogId", checkAuth, catalogs.getById);
 // Update catalog
-router.put("/:catalogId", upload.single("image"), checkAuth, catalogs.update);
+router.put("/:catalogId", upload.array("images"), checkAuth, catalogs.update);
 
 // Export
 module.exports = router;

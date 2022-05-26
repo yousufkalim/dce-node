@@ -38,10 +38,7 @@ const catalogSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "tailors",
     },
-    attachment: {
-      type: String,
-      required: true,
-    },
+    attachments: [String],
   },
   {
     timestamps: true,
