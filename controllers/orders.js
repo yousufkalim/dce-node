@@ -191,7 +191,7 @@ exports.complete = async (req, res) => {
     // Check if creation of catalog was requested in order
     if (order.create_catalog_after_completion) {
       const cPrice = order.quotes.filter((__) => __.status == "accepted")[0]?.price ?? 0;
-      const cAttachment = order.attachments[0];
+      const cAttachment = order.attachments;
       await Catalogs.create({
         name: order.name,
         gender: order.gender,
@@ -199,7 +199,7 @@ exports.complete = async (req, res) => {
         price: cPrice,
         description: "DCE: System generated description. You may edit it.",
         tailor: order.tailor._id,
-        attachment: cAttachment,
+        attachments: cAttachment,
       });
     }
 
