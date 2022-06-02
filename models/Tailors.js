@@ -59,9 +59,6 @@ const tailorSchema = new mongoose.Schema(
     phone: {
       type: String,
     },
-    shop_name: {
-      type: String,
-    },
     store_name: {
       type: String,
     },

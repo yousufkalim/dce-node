@@ -95,14 +95,32 @@ exports.update = async (req, res) => {
 
     // Handle attachments
     const attachments = req.files ?? [];
-    req.body.attachments = [];
+    const parsedAttachments = [];
     for (let i = 0; i < attachments.length; i++) {
-      req.body.attachments.push(attachments[i].path);
+      parsedAttachments.push(attachments[i].path);
     }
 
-    const catalog = await Catalogs.findByIdAndUpdate(catalogId, req.body, {
-      new: true,
-    }); // Updating the color
+    const oldCatalog = await Catalogs.findById(catalogId);
+    if (!oldCatalog) {
+      res.status(400).json({ success: false, message: "Not catalog found." }); // Success
+      return;
+    }
+
+    if (oldCatalog.attachments.length >= 5 && attachments.length > 0) {
+      res.status(400).json({ success: false, message: "Max attachments limit reached. No more attachments can be added." }); // Success
+      return;
+    }
+
+    const catalog = await Catalogs.findByIdAndUpdate(
+      catalogId,
+      {
+        ...req.body,
+        ...{ $push: { attachments: parsedAttachments } },
+      },
+      {
+        new: true,
+      }
+    ); // Updating the color
     res.json({ success: true, catalog }); // Success
   } catch (err) {
     // Error handling
