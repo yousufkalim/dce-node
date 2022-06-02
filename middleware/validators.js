@@ -25,7 +25,6 @@ exports.validateTailorUpdate = [
   check("phone", "Phone is required.").notEmpty().trim(),
   check("experience", "Experience is required.").notEmpty().trim(),
   check("diploma", "Experience is required.").notEmpty().trim(),
-  check("shop_name", "Shop Name is required").notEmpty().trim(),
   check("hourly_rate", "Hourly Rate is required").notEmpty().trim(),
   check("free_shipping_rate", "Free Shipping Rate is required").notEmpty().trim(),
 ];
