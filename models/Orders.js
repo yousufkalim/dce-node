@@ -15,7 +15,6 @@ const orderSchema = new Schema(
     },
     gender: {
       type: String,
-      required: true,
     },
     category: {
       type: String,
