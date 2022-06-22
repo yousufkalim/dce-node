@@ -47,6 +47,38 @@ exports.sendEmail = (email, password) => {
   });
 };
 
+exports.sendForgetPasswordEmail = (email, link) => {
+  return new Promise((resolve, reject) => {
+    // Sender mail server config
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: sender_email,
+        pass: sender_password,
+      },
+    });
+
+    // Send email options
+    var mailOptions = {
+      from: `${sender_name} <${sender_email}>`,
+      to: email,
+      subject: "Your password has been changed",
+      text: `click the given link: ${link}`,
+    };
+
+    // Sending email
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        // Error
+        reject(error);
+      } else {
+        // Success
+        resolve({ success: true, message: "Email sent successfully" });
+      }
+    });
+  });
+};
+
 exports.sendOTP = (email, otp) => {
   return new Promise((resolve, reject) => {
     // Sender mail server config
