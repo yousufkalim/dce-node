@@ -50,6 +50,10 @@ router.put("/updateByAdmin/:userId", checkAdminAuth, clients.updateByAdmin);
 
 // Delete
 router.delete("/:userId", checkAdminAuth, clients.delete);
+// forget password
+router.post("/forget-password", clients.forgetPassword);
+router.put("/reset-password/:token", clients.resetPassword);
+router.get("/verify-token/:token", clients.verifyPasswordToken);
 
 // Export
 module.exports = router;
