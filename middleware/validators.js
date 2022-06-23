@@ -16,9 +16,16 @@ exports.validateClient = [
   check("email", "Email is required.").notEmpty().isEmail().trim(),
   check("password", "Password is required.").notEmpty().trim(),
 ];
-exports.validatePassword = [check("password", "Password is required.").notEmpty().trim().isLength({ min: 8 })];
+exports.validatePassword = [
+  check("password", "Password is required.")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 8 }),
+];
 // User Signup Validation
-exports.validateClientUpdate = [check("phone", "Phone is required.").notEmpty().trim()];
+exports.validateClientUpdate = [
+  check("phone", "Phone is required.").notEmpty().trim(),
+];
 
 // Tailor Signup Validation
 exports.validateTailorUpdate = [
@@ -26,20 +33,34 @@ exports.validateTailorUpdate = [
   check("experience", "Experience is required.").notEmpty().trim(),
   check("diploma", "Experience is required.").notEmpty().trim(),
   check("hourly_rate", "Hourly Rate is required").notEmpty().trim(),
-  check("free_shipping_rate", "Free Shipping Rate is required").notEmpty().trim(),
+  check("free_shipping_rate", "Free Shipping Rate is required")
+    .notEmpty()
+    .trim(),
 ];
 
 // Login validation
 exports.validateLogin = [
   check("email", "Email is required").notEmpty().isEmail().trim().toLowerCase(),
-  check("password", "Password is required.").notEmpty().trim().isLength({ min: 8 }),
+  check("password", "Password is required.")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 8 }),
 ];
 
 // Change password validation
 exports.changePasswordValidate = [
-  check("oldPassword", "Old Password is required.").notEmpty().trim().isLength({ min: 8 }),
-  check("newPassword", "New password is required.").notEmpty().trim().isLength({ min: 8 }),
-  check("confirmPassword", "Confirm password is required.").notEmpty().trim().isLength({ min: 8 }),
+  check("oldPassword", "Old Password is required.")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 8 }),
+  check("newPassword", "New password is required.")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 8 }),
+  check("confirmPassword", "Confirm password is required.")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 8 }),
 ];
 //create quote validation
 exports.validateQuote = [
@@ -48,10 +69,12 @@ exports.validateQuote = [
   check("description", "Description is required").notEmpty().trim(),
 ];
 //create quote validation
-exports.validateAcceptQuote = [check("quote", "Quote Id is required").notEmpty().trim()];
+exports.validateAcceptQuote = [
+  check("quote", "Quote Id is required").notEmpty().trim(),
+];
 //create order validation
 exports.validateOrder = [
-  check("gender", "Gender is required").notEmpty().trim(),
+  // check("gender", "Gender is required").notEmpty().trim(),
   check("category", "Category is required").notEmpty().trim(),
   check("name", "Name is required").notEmpty().trim(),
   check("cut", "Cut is required").notEmpty().trim(),
@@ -74,7 +97,9 @@ exports.validateCatalog = [
   check("price", "Price is required").notEmpty().trim(),
   check("description", "Description is required").notEmpty().trim(),
 ];
-exports.validateOTPCreate = [check("email", "Email is required.").notEmpty().isEmail().trim()];
+exports.validateOTPCreate = [
+  check("email", "Email is required.").notEmpty().isEmail().trim(),
+];
 exports.validateOTPVerify = [
   check("email", "Email is required.").notEmpty().isEmail().trim(),
   check("code", "Code is required.").notEmpty().trim(),
