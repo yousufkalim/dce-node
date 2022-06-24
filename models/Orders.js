@@ -80,7 +80,6 @@ const orderSchema = new Schema(
     budget: {
       min_price: {
         type: Number,
-        required: true,
       },
       max_price: {
         type: Number,
