@@ -3,7 +3,7 @@
  * * Send email service for OTP
  * @author Shuja
  */
-var nodemailer = require("nodemailer");
+var nodemailer = require('nodemailer');
 const sender_name = process.env.MAILER_DOMAIN;
 const sender_email = process.env.MAILER_EMAIL;
 const sender_password = process.env.MAILER_PASSWORD;
@@ -19,7 +19,7 @@ exports.sendEmail = (email, password) => {
   return new Promise((resolve, reject) => {
     // Sender mail server config
     var transporter = nodemailer.createTransport({
-      service: "gmail",
+      service: 'gmail',
       auth: {
         user: sender_email,
         pass: sender_password,
@@ -30,7 +30,7 @@ exports.sendEmail = (email, password) => {
     var mailOptions = {
       from: `${sender_name} <${sender_email}>`,
       to: email,
-      subject: "Your password has been changed",
+      subject: 'Your password has been changed',
       text: password,
     };
 
@@ -41,7 +41,7 @@ exports.sendEmail = (email, password) => {
         reject(error);
       } else {
         // Success
-        resolve({ success: true, message: "Email sent successfully" });
+        resolve({ success: true, message: 'Email sent successfully' });
       }
     });
   });
@@ -51,7 +51,7 @@ exports.sendForgetPasswordEmail = (email, link) => {
   return new Promise((resolve, reject) => {
     // Sender mail server config
     var transporter = nodemailer.createTransport({
-      service: "gmail",
+      service: 'gmail',
       auth: {
         user: sender_email,
         pass: sender_password,
@@ -62,7 +62,7 @@ exports.sendForgetPasswordEmail = (email, link) => {
     var mailOptions = {
       from: `${sender_name} <${sender_email}>`,
       to: email,
-      subject: "Your password has been changed",
+      subject: 'Your password has been changed',
       text: `click the given link: ${link}`,
     };
 
@@ -73,7 +73,7 @@ exports.sendForgetPasswordEmail = (email, link) => {
         reject(error);
       } else {
         // Success
-        resolve({ success: true, message: "Email sent successfully" });
+        resolve({ success: true, message: 'Email sent successfully' });
       }
     });
   });
@@ -83,7 +83,7 @@ exports.sendOTP = (email, otp) => {
   return new Promise((resolve, reject) => {
     // Sender mail server config
     var transporter = nodemailer.createTransport({
-      service: "gmail",
+      service: 'gmail',
       auth: {
         user: sender_email,
         pass: sender_password,
@@ -94,7 +94,7 @@ exports.sendOTP = (email, otp) => {
     var mailOptions = {
       from: `${sender_name} <${sender_email}>`,
       to: email,
-      subject: "Your one time password is:",
+      subject: 'Your OTP is:',
       html: OtpTemplate(OTP),
     };
 
@@ -106,7 +106,7 @@ exports.sendOTP = (email, otp) => {
       } else {
         resolve({
           success: true,
-          message: "Email sent successfully",
+          message: 'Email sent successfully',
         });
       }
     });
