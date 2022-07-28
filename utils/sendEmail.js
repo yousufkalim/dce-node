@@ -94,7 +94,7 @@ exports.sendOTP = (email, otp) => {
     var mailOptions = {
       from: `${sender_name} <${sender_email}>`,
       to: email,
-      subject: 'Your one time password is:',
+      subject: 'Your OTP is:',
       html: OtpTemplate(OTP),
     };
 
