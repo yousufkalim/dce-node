@@ -2,8 +2,8 @@
  * Catalogs controllers
  * @author Shuja Naqvi
  */
-const Catalogs = require("../models/Catalogs");
-const Tailors = require("../models/Tailors");
+const Catalogs = require('../models/Catalogs');
+const Tailors = require('../models/Tailors');
 
 /**
  * Create catalog
@@ -24,14 +24,14 @@ exports.create = async (req, res) => {
 
     const tailor = await Tailors.findById(tailorID); //get tailor
     if (!tailor) {
-      return res.status(404).json({ success: false, message: "Client do not exists" }); //if tailor not found
+      return res.status(404).json({ success: false, message: 'Client do not exists' }); //if tailor not found
     }
     const catalog = await Catalogs.create(req.body); //create catalog of tailor
     res.json({ success: true, catalog }); //Done ...:)
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -42,12 +42,12 @@ exports.create = async (req, res) => {
  */
 exports.getAll = async (req, res) => {
   try {
-    const catalogs = await Catalogs.find().populate("tailor"); // Finding all the tailors from db
+    const catalogs = await Catalogs.find().populate('tailor'); // Finding all the tailors from db
     res.json({ success: true, catalogs }); // Success
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -58,12 +58,12 @@ exports.getAll = async (req, res) => {
  */
 exports.getAllByQuery = async (req, res) => {
   try {
-    const catalogs = await Catalogs.find(req.body).populate("tailor"); // Finding all the catalogs from db
+    const catalogs = await Catalogs.find(req.body).populate('tailor'); // Finding all the catalogs from db
     res.json({ success: true, catalogs }); // Success
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -75,12 +75,12 @@ exports.getAllByQuery = async (req, res) => {
 exports.getById = async (req, res) => {
   try {
     const catalogId = req.params.catalogId; // Getting catalog id from URL parameter
-    const catalog = await Catalogs.findById(catalogId).populate("tailor"); // Finding all the catalogs from db
+    const catalog = await Catalogs.findById(catalogId).populate('tailor'); // Finding all the catalogs from db
     res.json({ success: true, catalog }); // Success
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -102,12 +102,12 @@ exports.update = async (req, res) => {
 
     const oldCatalog = await Catalogs.findById(catalogId);
     if (!oldCatalog) {
-      res.status(400).json({ success: false, message: "Not catalog found." }); // Success
+      res.status(400).json({ success: false, message: 'Not catalog found.' }); // Success
       return;
     }
 
     if (oldCatalog.attachments.length >= 5 && attachments.length > 0) {
-      res.status(400).json({ success: false, message: "Max attachments limit reached. No more attachments can be added." }); // Success
+      res.status(400).json({ success: false, message: 'Max attachments limit reached. No more attachments can be added.' }); // Success
       return;
     }
 
@@ -124,7 +124,7 @@ exports.update = async (req, res) => {
     res.json({ success: true, catalog }); // Success
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
