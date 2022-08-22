@@ -2,15 +2,15 @@
  * Orders schema
  * @author Shuja Naqvi
  */
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema(
   {
     type: {
       type: String,
-      enum: ["ad", "direct"],
-      default: "ad",
+      enum: ['ad', 'direct'],
+      default: 'ad',
       required: true,
     },
     gender: {
@@ -31,13 +31,13 @@ const orderSchema = new Schema(
     measurements: {
       type: {
         type: String,
-        enum: ["static", "tape", "call"],
-        default: "static",
+        enum: ['static', 'tape', 'call'],
+        default: 'static',
         required: true,
       },
       value: {
         type: String,
-        default: "",
+        default: '',
       },
     },
     color: {
@@ -89,26 +89,26 @@ const orderSchema = new Schema(
     quotes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "quotes",
+        ref: 'quotes',
       },
     ],
     catalog: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "catalogs",
+      ref: 'catalogs',
       required: false, // It is optional and is used to sync ratings only.
     },
     client: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "clients",
+      ref: 'clients',
     },
     tailor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "tailors",
+      ref: 'tailors',
     },
     status: {
       type: String,
-      enum: ["pending", "in_progress", "completed", "discarded"],
-      default: "pending",
+      enum: ['pending', 'in_progress', 'completed', 'discarded'],
+      default: 'pending',
     },
     attachments: [String],
     tailor_submission: {
@@ -142,4 +142,4 @@ const orderSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("orders", orderSchema);
+module.exports = mongoose.model('orders', orderSchema);
