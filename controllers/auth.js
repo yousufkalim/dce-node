@@ -2,76 +2,96 @@
  * User auth controllers
  * @author Shuja Naqvi
  */
-const Clients = require("../models/Clients");
-const Tailors = require("../models/Tailors");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const Clients = require('../models/Clients');
+const Tailors = require('../models/Tailors');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const bcryptSalt = process.env.BCRYPT_SALT || 10;
 const tokenSecret = process.env.JWT_SECRET;
 
 /**
- * Login
+ * Client Login
  * @param {object} req
  * @param {object} res
  */
 //Same login module for both users
-exports.login = async (req, res) => {
+exports.clientLogin = async (req, res) => {
   try {
     // Getting email and password
     const { email, password } = req.body;
     // Getting user from db
-    const client = await Clients.findOne({ email }); //finding if request by client
-    const tailor = await Tailors.findOne({ email }); //finding if request by tailor
+    const client = await Clients.findOne({ email });
 
-    if (!client && !tailor) {
+    if (!client) {
       //if both empty
       // If user not found
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res.status(404).json({ success: false, message: 'User not found' });
     } else {
-      //if request by a client
-      if (client) {
-        const isMatched = bcrypt.compareSync(password, client.password);
-        if (!isMatched) {
-          // If password not matched
-          return res.status(400).json({ success: false, message: "Invalid Password" });
-        } else if (!client.active) {
-          return res.status(400).json({ success: false, message: "Your account is blocked" });
-        }
-
-        // Creating payload with user object
-        const payload = { user: client };
-
-        // Generating token
-        jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
-          if (err) throw err;
-          // done
-          return res.json({ success: true, user: client, token });
-        });
-      } else {
-        const isMatched = bcrypt.compareSync(password, tailor.password);
-        if (!isMatched) {
-          // If password not matched
-          return res.status(400).json({ success: false, message: "Invalid Password" });
-        } else if (!tailor.active) {
-          return res.status(400).json({ success: false, message: "Your account is blocked" });
-        }
-
-        // Creating payload with user object
-        const payload = { user: tailor };
-
-        // Generating token
-        jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
-          if (err) throw err;
-
-          // done
-          return res.json({ success: true, user: tailor, token });
-        });
+      const isMatched = bcrypt.compareSync(password, client.password);
+      if (!isMatched) {
+        // If password not matched
+        return res.status(400).json({ success: false, message: 'Invalid Password' });
+      } else if (!client.active) {
+        return res.status(400).json({ success: false, message: 'Your account is blocked' });
       }
+
+      // Creating payload with user object
+      const payload = { user: client };
+
+      // Generating token
+      jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
+        if (err) throw err;
+        // done
+        return res.json({ success: true, user: client, token });
+      });
     }
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+
+/**
+ * Tailor Login
+ * @param {object} req
+ * @param {object} res
+ */
+//Same login module for both users
+exports.tailorLogin = async (req, res) => {
+  try {
+    // Getting email and password
+    const { email, password } = req.body;
+    // Getting user from db
+    const tailor = await Tailors.findOne({ email }); //finding if request by tailor
+
+    if (!tailor) {
+      //if both empty
+      // If user not found
+      return res.status(404).json({ success: false, message: 'User not found' });
+    } else {
+      const isMatched = bcrypt.compareSync(password, tailor.password);
+      if (!isMatched) {
+        // If password not matched
+        return res.status(400).json({ success: false, message: 'Invalid Password' });
+      } else if (!tailor.active) {
+        return res.status(400).json({ success: false, message: 'Your account is blocked' });
+      }
+
+      // Creating payload with user object
+      const payload = { user: tailor };
+
+      // Generating token
+      jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
+        if (err) throw err;
+        // done
+        return res.json({ success: true, user: tailor, token });
+      });
+    }
+  } catch (err) {
+    // Error handling
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -88,28 +108,28 @@ exports.changePassword = async (req, res) => {
     if (newPassword !== confirmPassword) {
       return res.status(400).json({
         success: false,
-        message: "New password and confirm password are not same",
+        message: 'New password and confirm password are not same',
       });
     }
     //if new and old password are  same
     if (oldPassword == newPassword) {
       return res.status(400).json({
         success: false,
-        message: "Old and new password are same",
+        message: 'Old and new password are same',
       });
     }
     let user = await Clients.findById(userId); // to check request by client
     let tailor = await Tailors.findById(userId); // to check request by tailor
     //if both are empty
     if (!user && !tailor) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res.status(404).json({ success: false, message: 'User not found' });
     }
     if (user) {
       //compare old password with password saved in DB
       const isMatched = bcrypt.compareSync(oldPassword, user.password);
       //If they don't match
       if (!isMatched) {
-        return res.status(400).json({ success: false, message: "Invalid old Password" });
+        return res.status(400).json({ success: false, message: 'Invalid old Password' });
       }
       //it will bcrypt new password and will store in db
       user.password = bcrypt.hashSync(newPassword, parseInt(bcryptSalt));
@@ -123,7 +143,7 @@ exports.changePassword = async (req, res) => {
       const isMatched = bcrypt.compareSync(oldPassword, tailor.password);
       //if no match found
       if (!isMatched) {
-        return res.status(400).json({ success: false, message: "Invalid old Password" });
+        return res.status(400).json({ success: false, message: 'Invalid old Password' });
       }
       //it will bcrypt new password and will store in db
       tailor.password = bcrypt.hashSync(newPassword, parseInt(bcryptSalt));
@@ -134,8 +154,8 @@ exports.changePassword = async (req, res) => {
     }
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 /**
