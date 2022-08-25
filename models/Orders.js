@@ -16,6 +16,19 @@ const orderSchema = new Schema(
     gender: {
       type: String,
     },
+    height: {
+      type: String,
+    },
+    fabric_type: {
+      type: String,
+      enum: ['Plain Fabric', 'Patterned Fabric'],
+    },
+    fabric_description: {
+      type: String,
+    },
+    observation: {
+      type: String,
+    },
     category: {
       type: String,
       required: true,
@@ -76,6 +89,12 @@ const orderSchema = new Schema(
         type: Date,
         required: true,
       },
+      client_first_name: {
+        type: String,
+      },
+      client_last_name: {
+        type: String,
+      },
     },
     budget: {
       min_price: {
@@ -112,7 +131,7 @@ const orderSchema = new Schema(
     },
     attachments: [String],
     tailor_submission: {
-      // rating: {
+      // rating: {-
       //   type: String,
       //   required: false,
       // },
