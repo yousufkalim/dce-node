@@ -1,28 +1,28 @@
 // Author: Umar Bin Ayaz
 
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 const tokenSecret = process.env.JWT_SECRET;
 
-const Constants = require("./utils/constants");
-const State = require("./utils/state");
-const Helpers = require("./utils/helpers");
+const Constants = require('./utils/constants');
+const State = require('./utils/state');
+const Helpers = require('./utils/helpers');
 
-const Clients = require("../../models/Clients");
-const Tailors = require("../../models/Tailors");
-const Chats = require("../../models/Chats");
-const Messages = require("../../models/Messages");
-const Notifications = require("../../models/Notifications");
+const Clients = require('../../models/Clients');
+const Tailors = require('../../models/Tailors');
+const Chats = require('../../models/Chats');
+const Messages = require('../../models/Messages');
+const Notifications = require('../../models/Notifications');
 
 async function connectHandler(io, socket) {
   const token = socket.handshake.query.token;
 
-  if (!token || !token?.startsWith("Bearer")) {
+  if (!token || !token?.startsWith('Bearer')) {
     socket.disconnect();
     return;
   }
 
   try {
-    const tokenStr = token.split(" ")[1];
+    const tokenStr = token.split(' ')[1];
     const decoded = jwt.verify(tokenStr, tokenSecret);
 
     let user;
@@ -38,7 +38,7 @@ async function connectHandler(io, socket) {
     }
 
     // CheckIn
-    if (user.role == "client") {
+    if (user.role == 'client') {
       await Clients.findByIdAndUpdate(user._id, {
         check_in: Date.now(),
       });
@@ -54,7 +54,6 @@ async function connectHandler(io, socket) {
     };
 
     State.addUser(obj);
-
     Helpers.registerEvent(socket, Constants.E_DISCONNECT, () => disconnectHandler(io, socket));
 
     Helpers.registerEvent(socket, Constants.E_SEND_MESSAGE, (_) => sendMessageHandler(io, socket, _));
@@ -72,7 +71,7 @@ async function disconnectHandler(io, socket) {
   }).user;
 
   // CheckOut
-  if (user.role == "client") {
+  if (user.role == 'client') {
     await Clients.findByIdAndUpdate(user._id, {
       check_out: Date.now(),
     });
@@ -94,7 +93,7 @@ async function sendMessageHandler(io, socket, _) {
 
     let clientID;
     let trailorID;
-    if (user.role == "client") {
+    if (user.role == 'client') {
       clientID = user._id;
       trailorID = directUser._id;
     } else {
@@ -124,9 +123,9 @@ async function sendMessageHandler(io, socket, _) {
         new: true,
       }
     )
-      .populate("client")
-      .populate("tailor")
-      .populate("last_message");
+      .populate('client')
+      .populate('tailor')
+      .populate('last_message');
 
     socket.emit(Constants.E_RECEIVE_CHAT, chat);
   } else {
@@ -134,11 +133,11 @@ async function sendMessageHandler(io, socket, _) {
 
     let senderID = user._id;
     let receiverID;
-    if (user.role == "client") {
+    if (user.role == 'client') {
       receiverID = chat.tailor;
-    } else if (user.role == "tailor") {
+    } else if (user.role == 'tailor') {
       receiverID = chat.client;
-    } else if (user.role == "admin") {
+    } else if (user.role == 'admin') {
       receiverID = chat.tailor ?? chat.client; // As this will be only either of those.
     }
 
@@ -178,7 +177,7 @@ async function sendMessageHandler(io, socket, _) {
       // If offline then update Chat.
       // Notifications are not supported for admins.
       const body = {};
-      if (user.role == "client") {
+      if (user.role == 'client') {
         Object.assign(body, {
           $inc: { tailor_unread_messages: 1 },
         });
@@ -187,16 +186,16 @@ async function sendMessageHandler(io, socket, _) {
           $inc: { client_unread_messages: 1 },
         });
       }
-      chat = await Chats.findByIdAndUpdate(chat._id, body, { new: true }).populate("client").populate("tailor");
+      chat = await Chats.findByIdAndUpdate(chat._id, body, { new: true }).populate('client').populate('tailor');
       // Create Notification
-      if (user.role == "client") {
+      if (user.role == 'client') {
         if (chat.tailor_unread_messages <= 1) {
           // Send notification to tailor
           await Notifications.create({
             sender: chat.client,
             receiver: chat.tailor._id,
-            text: "Sent you a message.",
-            link: "chat",
+            text: 'Sent you a message.',
+            link: 'chat',
           });
         }
       } else {
@@ -205,8 +204,8 @@ async function sendMessageHandler(io, socket, _) {
           await Notifications.create({
             sender: chat.tailor,
             receiver: chat.client._id,
-            text: "Sent you a message.",
-            link: "chat",
+            text: 'Sent you a message.',
+            link: 'chat',
           });
         }
       }
