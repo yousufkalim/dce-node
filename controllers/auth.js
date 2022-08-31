@@ -25,7 +25,11 @@ exports.clientLogin = async (req, res) => {
     if (!client) {
       //if both empty
       // If user not found
-      return res.status(404).json({ success: false, message: 'User not found' });
+      const tailor = await Tailors.findOne({ email }); //finding if request by tailor
+      if (tailor) {
+        return res.status(404).json({ success: false, message: 'Please Login with tailor role', role: 'tailor' });
+      }
+      return res.status(404).json({ success: false, message: 'User not found Please Register Yourself', role: 'register' });
     } else {
       const isMatched = bcrypt.compareSync(password, client.password);
       if (!isMatched) {
@@ -68,7 +72,11 @@ exports.tailorLogin = async (req, res) => {
     if (!tailor) {
       //if both empty
       // If user not found
-      return res.status(404).json({ success: false, message: 'User not found' });
+      const client = await Clients.findOne({ email });
+      if (client) {
+        return res.status(404).json({ success: false, message: 'Please Login with client role', role: 'client' });
+      }
+      return res.status(404).json({ success: false, message: 'User not found Please Register Yourself', role: 'register' });
     } else {
       const isMatched = bcrypt.compareSync(password, tailor.password);
       if (!isMatched) {
