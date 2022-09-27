@@ -25,12 +25,8 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
     "nodemailer": "^6.7.2",
-<<<<<<< HEAD
     "nodemon": "^2.0.15",
-    "socket.io": "^4.4.1"
-=======
     "socket.io": "^4.4.1",
     "stripe": "^8.216.0"
->>>>>>> e265182ddc0b507beb07c7d31e17386db7493eee
   }
 }
