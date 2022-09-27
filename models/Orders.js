@@ -2,25 +2,35 @@
  * Orders schema
  * @author Shuja Naqvi
  */
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema(
   {
     type: {
       type: String,
-      enum: ["ad", "direct"],
-      default: "ad",
+      enum: ['ad', 'direct'],
+      default: 'ad',
       required: true,
     },
     gender: {
       type: String,
-      enum: ["male", "female"],
-      required: true,
+    },
+    height: {
+      type: String,
+    },
+    fabric_type: {
+      type: String,
+      enum: ['Plain Fabric', 'Patterned Fabric'],
+    },
+    fabric_description: {
+      type: String,
+    },
+    observation: {
+      type: String,
     },
     category: {
       type: String,
-      enum: ["category_1", "category_2"],
       required: true,
     },
     name: {
@@ -29,29 +39,42 @@ const orderSchema = new Schema(
     },
     cut: {
       type: String,
-      enum: ["5", "10"],
       required: true,
     },
     measurements: {
-      type: String,
-      required: true,
+      type: {
+        type: String,
+        enum: ['static', 'tape', 'call'],
+        default: 'static',
+        required: true,
+      },
+      value: {
+        type: String,
+        default: '',
+      },
     },
     color: {
       type: String,
-      enum: ["colour_1", "colour_2"],
       required: true,
     },
     fabric: {
       type: String,
-      enum: ["fabric_1", "fabric_2"],
       required: true,
+    },
+    includes_alteration_services: {
+      type: Boolean,
+      default: false,
+    },
+    create_catalog_after_completion: {
+      type: Boolean,
+      default: false,
     },
     delivery: {
       address: {
         type: String,
         required: true,
       },
-      country: {
+      zipcode: {
         type: String,
         required: true,
       },
@@ -62,66 +85,75 @@ const orderSchema = new Schema(
       note: {
         type: String,
       },
-      type: {
-        type: String,
-        enum: ["urgent", "normal"],
-        required: true,
-      },
       date: {
         type: Date,
         required: true,
       },
+      client_first_name: {
+        type: String,
+      },
+      client_last_name: {
+        type: String,
+      },
     },
     budget: {
-      type: {
-        type: String,
-        enum: ["fixed", "hourly"],
-        default: "fixed",
-        required: true,
-      },
       min_price: {
         type: Number,
-        required: true,
       },
       max_price: {
         type: Number,
         required: true,
       },
-      note: {
-        type: String,
-        required: false,
-      },
     },
     quotes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "quotes",
+        ref: 'quotes',
       },
     ],
+    catalog: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'catalogs',
+      required: false, // It is optional and is used to sync ratings only.
+    },
     client: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "clients",
+      ref: 'clients',
     },
     tailor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "tailors",
-    },
-    rating: {
-      count: {
-        type: Number,
-        required: true,
-        default: 10
-      },
-      value: {
-        type: Number,
-        required: true,
-        default: 5
-      },
+      ref: 'tailors',
     },
     status: {
       type: String,
-      enum: ["pending", "in_progress", "completed", "discarded"],
-      default: "pending",
+      enum: ['pending', 'in_progress', 'completed', 'discarded'],
+      default: 'pending',
+    },
+    attachments: [String],
+    tailor_submission: {
+      // rating: {-
+      //   type: String,
+      //   required: false,
+      // },
+      details: {
+        type: String,
+        required: false,
+      },
+      attachments: [String],
+    },
+    client_submission: {
+      details: {
+        type: String,
+        required: false,
+      },
+    },
+    tailor_support: {
+      type: Boolean,
+      default: false,
+    },
+    client_support: {
+      type: Boolean,
+      default: false,
     },
   },
   {
@@ -129,4 +161,4 @@ const orderSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("orders", orderSchema);
+module.exports = mongoose.model('orders', orderSchema);

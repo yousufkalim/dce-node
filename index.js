@@ -11,7 +11,7 @@ const io = require("socket.io")(server, {
     origin: "*",
   },
 });
-require("./services/socket-io")(io);
+require("./services/socket.io")(io);
 require("./database");
 
 // Middleware

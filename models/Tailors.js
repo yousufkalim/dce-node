@@ -16,67 +16,76 @@ const tailorSchema = new mongoose.Schema(
     password: {
       type: String,
       minlength: 8,
+      required: true,
     },
     name: {
       type: String,
     },
     dob: {
       type: Date,
-      required: true,
     },
     address: {
       type: String,
-      required: true,
     },
-    country: {
+    zip_code: {
       type: String,
-      required: true,
     },
     city: {
       type: String,
-      required: true,
     },
     experience: {
       type: String,
-      required: true,
     },
     area_of_experience: {
       type: String,
-      required: true,
     },
     diploma: {
       type: String,
-      required: true,
     },
     speciality: {
       type: String,
-      required: true,
     },
     role: {
       type: String,
       enum: ["tailor"],
       default: "tailor",
     },
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "orders",
+      },
+    ], // TODO: Populate it properly and then use at search
     phone: {
       type: String,
-      required: false
     },
-    shop_name: {
+    store_name: {
       type: String,
-      required: false
     },
     hourly_rate: {
       type: Number,
-      required: false
     },
     free_shipping_rate: {
       type: String,
-      required: false
     },
+    ratings: [
+      {
+        type: Number,
+      },
+    ],
     last_password_changed: {
       type: Date,
-      required: false
-    }
+    },
+    avatar: {
+      type: String,
+    },
+    check_in: {
+      type: Date,
+    },
+    check_out: {
+      type: Date,
+    },
+    active: { type: Boolean, default: true },
   },
   {
     timestamps: true,

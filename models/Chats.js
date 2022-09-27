@@ -1,5 +1,5 @@
 /**
- * Chat schema
+ * Chats schema
  * @author Shuja Naqvi
  */
 const mongoose = require("mongoose");
@@ -10,33 +10,33 @@ const chatsSchema = new Schema(
     tailor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "tailors",
+      required: false,
     },
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "clients",
+      required: false,
     },
-    messages: [
-      {
-        Text: {
-          type: String,
-        },
-        sender: {
-          type: String,
-        },
-        receiver: {
-          type: String,
-        },
-        date: {
-          type: Date,
-        },
-      },
-    ],
-    quotes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "quotes",
-      },
-    ],
+    is_admin: {
+      type: Boolean,
+      default: false,
+    },
+    tailor_unread_messages: {
+      type: Number,
+      default: 0,
+    },
+    client_unread_messages: {
+      type: Number,
+      default: 0,
+    },
+    admin_unread_messages: {
+      type: Number,
+      default: 0,
+    },
+    last_message: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "messages",
+    },
   },
   {
     timestamps: true,

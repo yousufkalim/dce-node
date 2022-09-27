@@ -4,7 +4,9 @@
  */
 const router = require("express").Router();
 const orders = require("../controllers/orders");
-const { checkAuth }  = require("../middleware/checkAuth");
+const { checkAuth } = require("../middleware/checkAuth");
+const { checkAdminAuth } = require("../middleware/adminAuth");
+const { upload } = require("../middleware/multer");
 const { validateOrder, isValidated } = require("../middleware/validators");
 /**
  * ////////////////////////// Routes /////////////////////////
@@ -14,17 +16,45 @@ const { validateOrder, isValidated } = require("../middleware/validators");
  * @method delete delete order
  */
 // Create - New order
-router.post("/", checkAuth, validateOrder, isValidated, orders.create);
-// Acceppt - order
-router.post("/acceptRequest", checkAuth, orders.acceptRequest);
+router.post(
+  "/",
+  upload.array("images"),
+  checkAuth,
+  validateOrder,
+  isValidated,
+  orders.create
+);
+// Accept - order request
+router.post("/accept", checkAuth, orders.accept);
 // Discard - order
 router.post("/discard", checkAuth, orders.discard);
-//Get-orders by query
+// Complete - order
+router.post(
+  "/complete",
+  upload.array("attachments"),
+  checkAuth,
+  orders.complete
+);
+// Feedback - order
+router.post("/feedback", checkAuth, orders.feedback);
+// Get-orders by query
 router.post("/byQuery", checkAuth, orders.getAllByQuery);
-//Get-order by Id
+// Get-orders by name
+router.get("/byName/:name", checkAuth, orders.getAllByName);
+// Get-order by Id
+router.get("/", checkAdminAuth, orders.getAll);
 router.get("/:orderId", checkAuth, orders.getById);
-//update order
-router.put("/:orderId", checkAuth, orders.update);
+// Update order
+router.put("/:orderId", upload.array("images"), checkAuth, orders.update);
+// Contact support for order
+router.post(
+  "/support",
+  upload.single("attachment"),
+  checkAuth,
+  orders.contactSupport
+);
+
+// contactSupport
 
 // Export
 module.exports = router;
