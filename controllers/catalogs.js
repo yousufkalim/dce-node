@@ -96,6 +96,17 @@ exports.update = async (req, res) => {
     // Handle attachments
     const attachments = req.files ?? [];
     const parsedAttachments = [];
+
+    // check if existing images
+    if (req.body.images) {
+      if (typeof req.body.images === 'string') {
+        parsedAttachments.push(req.body.images);
+      } else {
+        for (let i = 0; i < req.body.images.length; i++) {
+          parsedAttachments.push(req.body.images[i]);
+        }
+      }
+    }
     for (let i = 0; i < attachments.length; i++) {
       parsedAttachments.push(attachments[i].path);
     }
@@ -107,7 +118,10 @@ exports.update = async (req, res) => {
     }
 
     if (oldCatalog.attachments.length >= 5 && attachments.length > 0) {
-      res.status(400).json({ success: false, message: 'Max attachments limit reached. No more attachments can be added.' }); // Success
+      res.status(400).json({
+        success: false,
+        message: 'Max attachments limit reached. No more attachments can be added.'
+      }); // Success
       return;
     }
 
@@ -115,10 +129,11 @@ exports.update = async (req, res) => {
       catalogId,
       {
         ...req.body,
-        ...{ $push: { attachments: parsedAttachments } },
+        attachments: parsedAttachments
+        // ...{ $push: { attachments: parsedAttachments } }
       },
       {
-        new: true,
+        new: true
       }
     ); // Updating the color
     res.json({ success: true, catalog }); // Success
