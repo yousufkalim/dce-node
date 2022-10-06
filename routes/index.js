@@ -22,6 +22,7 @@ router.use('/blogs', require('./blogs'));
 router.use('/images', require('./images'));
 router.use('/statistics', require('./statistics')); //All the statistics routes
 router.use('/notifications', require('./notifications'));
+router.use('/contact', require('./contact'));
 
 // Export
 module.exports = router;
