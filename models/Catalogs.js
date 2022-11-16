@@ -13,7 +13,7 @@ const catalogSchema = new Schema(
     },
     gender: {
       type: String,
-      enum: ["male", "female"],
+      enum: ["male", "female","child","other"],
       required: true,
     },
     category: {
