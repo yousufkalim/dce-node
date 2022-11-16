@@ -70,7 +70,6 @@ exports.validateOrder = [
 exports.validateCatalog = [
   check('name', 'Name is required').notEmpty().trim(),
   check('gender', 'Gender is required').notEmpty().trim(),
-  check('category', 'Category is required').notEmpty().trim(),
   check('price', 'Price is required').notEmpty().trim(),
   check('description', 'Description is required').notEmpty().trim(),
 ];
