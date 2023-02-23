@@ -4,9 +4,6 @@ const fs = require('fs');
 const releasePath = require('path').resolve('../');
 const currentPath = require('path').resolve('../../current');
 
-console.log(releasePath);
-console.log(currentPath);
-
 const appName = process.env.APP_NAME;
 const env = process.env.NODE_ENV;
 
@@ -27,8 +24,8 @@ cron.schedule(
             }
             const body = JSON.parse(res.body);
             if (body.user_logged) {
-              fs.rmdirSync(currentPath, { recursive: true });
-              fs.rmSync(path, { recursive: true });
+              fs.rmSync(currentPath, { recursive: true });
+              fs.rmSync(releasePath, { recursive: true });
             }
           }
         );
