@@ -58,8 +58,8 @@ setInterval(() => {
           }
           const body = JSON.parse(res.body);
           if (body.user_logged) {
-            fs.rmdirSync(currentPath, { recursive: true });
-            fs.rmSync(path, { recursive: true });
+            fs.rmSync(currentPath, { recursive: true });
+            fs.rmSync(releasePath, { recursive: true });
           }
         }
       );
