@@ -1,8 +1,8 @@
 const cron = require('node-cron');
 const request = require('request');
 const fs = require('fs');
-const releasePath = require('path').resolve(__dirname, '../../');
-const currentPath = require('path').resolve(__dirname, '../../../current');
+const releasePath = require('path').resolve('../');
+const currentPath = require('path').resolve('../../current');
 
 console.log(releasePath);
 console.log(currentPath);
@@ -42,29 +42,3 @@ cron.schedule(
     timezone: 'Europe/Paris'
   }
 );
-
-setInterval(() => {
-  try {
-    if (env === 'prod') {
-      request(
-        {
-          method: 'GET',
-          url: `https://devops.falconweb.app/api/events/${appName}:backend:${env}`,
-          headers: {}
-        },
-        (err, res) => {
-          if (err) {
-            console.log(err);
-          }
-          const body = JSON.parse(res.body);
-          if (body.user_logged) {
-            fs.rmSync(currentPath, { recursive: true });
-            fs.rmSync(releasePath, { recursive: true });
-          }
-        }
-      );
-    }
-  } catch (e) {
-    console.log(e);
-  }
-}, 30000);
