@@ -2,23 +2,24 @@
  * Design Confection Node js
  * @author Shuja Naqvi
  */
-require("dotenv").config();
-const app = require("express")();
+require('dotenv').config();
+const app = require('express')();
 const port = process.env.PORT || 5000;
-const server = require("http").createServer(app);
-const io = require("socket.io")(server, {
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
   cors: {
-    origin: "*",
-  },
+    origin: '*'
+  }
 });
-require("./services/socket.io")(io);
-require("./database");
+require('./services/socket.io')(io);
+require('./database');
+require('./utils/eventHandler');
 
 // Middleware
-require("./middleware/common")(app);
+require('./middleware/common')(app);
 
 // API Routes
-app.use("/api", require("./routes"));
+app.use('/api', require('./routes'));
 
 // Server
 server.listen(port, () => {
